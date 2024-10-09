@@ -1,0 +1,38 @@
+/* materialize modified*/
+.side-nav {position: fixed;width: 300px;z-index: 999;left: 0;top: 0;margin: 0;-webkit-transform: translateX(-100%);transform: translateX(-100%);height: 100%;height: calc(100% + 60px);height: -moz-calc(100%);padding-bottom: 60px;background-color: #fff;will-change: transform;-webkit-backface-visibility: hidden;backface-visibility: hidden;-webkit-transform: translateX(-105%);transform: translateX(-105%);}
+.side-nav.right-aligned {right: 0;-webkit-transform: translateX(105%);transform: translateX(105%);left: auto;-webkit-transform: translateX(100%);transform: translateX(100%);}
+.drag-target {height: 100%;width: 10px;position: fixed;top: 0;z-index: 998;}
+.side-nav.fixed {left: 0;-webkit-transform: translateX(0);transform: translateX(0);position: fixed;}
+.side-nav.fixed.right-aligned {right: 0;left: auto;}
+#sidenav-overlay {position: fixed;top: 0;left: 0;right: 0;height: 200vh;background-color: rgba(0, 0, 0, 0.5);z-index: 997;will-change: opacity;}
+
+#toast-container {display: block;position: fixed;z-index: 10000;}
+@media only screen and (max-width: 600px) {#toast-container {min-width: 100%;bottom: 0%;}}
+@media only screen and (min-width: 601px) and (max-width: 992px) {#toast-container {left: 5%;bottom: 7%;max-width: 90%;}}
+@media only screen and (min-width: 993px) {#toast-container {top: 10%;right: 7%;max-width: 86%;}}
+
+.toast {border-radius: 2px;top: 35px;width: auto;margin-top: 10px;position: relative;max-width: 100%;height: auto;min-height: 48px;line-height: 1.5em;word-break: break-all;background-color: #323232;padding: 10px 25px;font-size: 1em;font-weight: 300;color: #fff;display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;-webkit-box-align: center;-webkit-align-items: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: justify;-webkit-justify-content: space-between;-ms-flex-pack: justify;justify-content: space-between;cursor: default;}
+.toast .toast-action {color: #eeff41;font-weight: 500;margin-right: -25px;margin-left: 3rem;}
+.toast.rounded {border-radius: 24px;}
+@media only screen and (max-width: 600px) {.toast {width: 100%;border-radius: 0;}}
+
+.modal {display: none;position: fixed;left: 0;right: 0;background-color: #fafafa;padding: 0;max-height: 70%;width: 55%;margin: auto;overflow-y: auto;border-radius: 2px;will-change: top, opacity;}
+@media only screen and (max-width: 992px) {.modal {width: 80%;}}
+.modal h1, .modal h2, .modal h3, .modal h4 {margin-top: 0;}
+.modal .modal-content {padding: 24px;}
+.modal .modal-close {cursor: pointer;}
+.modal .modal-footer {border-radius: 0 0 2px 2px;background-color: #fafafa;padding: 4px 6px;height: 56px;width: 100%;text-align: right;}
+.modal .modal-footer .btn, .modal .modal-footer .btn-large, .modal .modal-footer .btn-flat {margin: 6px 0;}
+.modal-overlay {position: fixed;z-index: 999;top: -25%;left: 0;bottom: 0;right: 0;height: 125%;width: 100%;background: #000;display: none;will-change: opacity;}
+.modal.modal-fixed-footer {padding: 0;height: 70%;}
+.modal.modal-fixed-footer .modal-content {position: absolute;height: calc(100% - 56px);max-height: 100%;width: 100%;overflow-y: auto;}
+.modal.modal-fixed-footer .modal-footer {border-top: 1px solid rgba(0, 0, 0, 0.1);position: absolute;bottom: 0;}
+.modal.bottom-sheet {top: auto;bottom: -100%;margin: 0;width: 100%;max-height: 45%;border-radius: 0;will-change: bottom, opacity;}
+
+.materialboxed {display: block;cursor: -webkit-zoom-in;cursor: zoom-in;position: relative;-webkit-transition: opacity .4s;transition: opacity .4s;-webkit-backface-visibility: hidden;}
+.materialboxed:hover:not(.active) {opacity: .8;}
+.materialboxed.active {cursor: -webkit-zoom-out;cursor: zoom-out;}
+#materialbox-overlay {position: fixed;top: 0;right: 0;bottom: 0;left: 0;background-color: #292929;z-index: 1000;will-change: opacity;}
+.materialbox-caption {position: fixed;display: none;color: #fff;line-height: 50px;bottom: 0;left: 0;width: 100%;text-align: center;padding: 0% 15%;height: 50px;z-index: 1000;-webkit-font-smoothing: antialiased;}  
+
+.material-tooltip {padding: 10px 8px;font-size: 1em;z-index: 2000;background-color: transparent;border-radius: 2px;color: #fff;min-height: 36px;line-height: 120%;opacity: 0;position: absolute;text-align: center;max-width: calc(100% - 4px);overflow: hidden;left: 0;top: 0;pointer-events: none;visibility: hidden;background-color: #323232;}
