@@ -13,10 +13,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
 
-    <link href="/assets/css/style.view-transition.ty2.css" rel="stylesheet" />
+    <link href="/assets/css/style.view-transition.css" rel="stylesheet" />
     <!-- <link href="//unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
     <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/css/style.common.css" rel="stylesheet" />    
+    <link href="/assets/css/style.common.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
 
     <!-- fancyBox -->
@@ -29,19 +29,17 @@
 </head>
 <body>
 
-    <div class="container bg-primary vh100 flex center">
+    <div class="container bg-second vh100 flex center">
 
         <div>
-            <h1 class="white">계획표</h1>
-            
-            <a href="bible">성경 링크</a>
+            <h1 class="primary">성경</h1>
+            <a href="/">계획표 링크</a>
         </div>
-        
     </div>
 
     <script>
-        document.body.classList.remove('reverse'); // 페이지 A에서는 reverse 클래스 제거
-    </script>
+        document.body.classList.add('reverse'); // 페이지 B에서는 reverse 클래스 추가
+    </script>    
 
     <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
     <script src="/assets/lib/materializecss/materialize.min.js"></script>
