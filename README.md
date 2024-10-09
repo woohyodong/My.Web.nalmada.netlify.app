@@ -1,2 +1,2 @@
-# My.Web.nalmada.netlify.app
-nalmada.netlify.app
+# 날마다성경
+https://nalmada.netlify.app
