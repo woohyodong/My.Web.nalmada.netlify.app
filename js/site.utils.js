@@ -228,3 +228,10 @@ function fnZoomChange(){
     const zoom = Math.min((window.innerHeight / window.innerWidth) * 1.25 , 1);
     document.documentElement.style.zoom = `${zoom}`;
 }
+
+//toast ------------------------------
+function toast(msg, sec) {
+    sec = sec || 3000;
+    try { Materialize.toast(msg, sec);} 
+    catch {alert(msg);}
+}

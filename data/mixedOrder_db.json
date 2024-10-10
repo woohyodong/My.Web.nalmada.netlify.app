@@ -1,0 +1,892 @@
+{
+    "readingOrder": [
+        {
+            "book": 58,
+            "chapter": 1,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 2,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 3,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 4,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 5,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 6,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 7,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 8,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 9,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 10,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 11,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 12,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 58,
+            "chapter": 13,
+            "long_label": "히브리서",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 12,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 13,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 14,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 15,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 16,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 17,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 18,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 19,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 20,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 21,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 22,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 23,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 1,
+            "chapter": 24,
+            "long_label": "창세기",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 1,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 2,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 3,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 4,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 5,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 6,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 7,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 8,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 6,
+            "chapter": 9,
+            "long_label": "여호수아",
+            "category": "믿음"
+        },
+        {
+            "book": 46,
+            "chapter": 13,
+            "long_label": "고린도전서",
+            "category": "사랑"
+        },
+        {
+            "book": 62,
+            "chapter": 1,
+            "long_label": "요한일서",
+            "category": "사랑"
+        },
+        {
+            "book": 62,
+            "chapter": 2,
+            "long_label": "요한일서",
+            "category": "사랑"
+        },
+        {
+            "book": 62,
+            "chapter": 3,
+            "long_label": "요한일서",
+            "category": "사랑"
+        },
+        {
+            "book": 62,
+            "chapter": 4,
+            "long_label": "요한일서",
+            "category": "사랑"
+        },
+        {
+            "book": 62,
+            "chapter": 5,
+            "long_label": "요한일서",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 120,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 121,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 122,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 123,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 124,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 125,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 126,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 127,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 128,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 129,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 130,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 131,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 132,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 133,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 134,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 135,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 136,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 137,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 138,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 139,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 140,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 141,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 142,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 143,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 144,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 145,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 146,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 147,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 148,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 19,
+            "chapter": 149,
+            "long_label": "시편",
+            "category": "사랑"
+        },
+        {
+            "book": 45,
+            "chapter": 1,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 2,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 3,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 4,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 5,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 6,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 7,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 8,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 9,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 10,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 11,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 12,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 13,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 14,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 45,
+            "chapter": 15,
+            "long_label": "로마서",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 1,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 2,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 3,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 4,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 5,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 6,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 7,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 8,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 9,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 10,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 11,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 12,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 13,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 14,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 15,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 16,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 17,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 18,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 19,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 20,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 21,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 22,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 23,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 24,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 25,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 26,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 27,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 28,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 29,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 30,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 31,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 32,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 33,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 34,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 35,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 36,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 37,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 38,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 2,
+            "chapter": 39,
+            "long_label": "출애굽기",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 1,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 2,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 3,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 4,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 5,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 6,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 7,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 8,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 9,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 10,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 11,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 12,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 13,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 14,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 15,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 16,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 17,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 18,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 19,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 20,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 21,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 22,
+            "long_label": "여호수아",
+            "category": "구원"
+        },
+        {
+            "book": 6,
+            "chapter": 23,
+            "long_label": "여호수아",
+            "category": "구원"
+        }
+    ]
+}

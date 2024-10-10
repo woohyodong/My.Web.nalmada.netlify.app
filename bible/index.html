@@ -9,27 +9,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     
     <style>
-        @view-transition {navigation: auto;}
-
-        /* 좌에서 우로 전환 */
+        /* @view-transition {navigation: auto;} */
         @keyframes move-out-left {
             from { transform: translateX(0%) scale(1); opacity: 1; box-shadow: none; }
             to { transform: translateX(-100%) scale(0.95); opacity: 0.8; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
         }
-
         @keyframes move-in-right {
             from { transform: translateX(100%) scale(0.95); opacity: 0.8; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
             to { transform: translateX(0%) scale(1); opacity: 1; box-shadow: none; }
         }
-
-        /* 애니메이션 적용 */
-        ::view-transition-old(root) {
-            animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-out-left;
-        }
-
-        ::view-transition-new(root) {
-            animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-in-right;
-        }     
+        ::view-transition-old(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-out-left;}
+        ::view-transition-new(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-in-right;}     
     </style>    
 
     <link rel="shortcut icon" href="/images/favicon/favicon.ico"/>
@@ -37,7 +27,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
 
-    <!-- <link href="/assets/css/style.view-transition.css" rel="stylesheet" /> -->
     <!-- <link href="//unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
     <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/style.common.css" rel="stylesheet" />

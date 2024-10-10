@@ -1,0 +1,2932 @@
+{
+    "readingOrder": [
+        {
+            "book": 40,
+            "chapter": 1,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 2,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 3,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 4,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 5,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 6,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 7,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 8,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 9,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 10,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 11,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 12,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 13,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 14,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 15,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 16,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 17,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 18,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 19,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 20,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 21,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 22,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 23,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 24,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 25,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 26,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 27,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 40,
+            "chapter": 28,
+            "long_label": "마태복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 1,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 2,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 3,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 4,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 5,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 6,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 7,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 8,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 9,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 10,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 11,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 12,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 13,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 14,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 15,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 41,
+            "chapter": 16,
+            "long_label": "마가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 1,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 2,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 3,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 4,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 5,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 6,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 7,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 8,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 9,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 10,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 11,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 12,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 13,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 14,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 15,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 16,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 17,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 18,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 19,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 20,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 21,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 22,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 23,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 42,
+            "chapter": 24,
+            "long_label": "누가복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 1,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 2,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 3,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 4,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 5,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 6,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 7,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 8,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 9,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 10,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 11,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 12,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 13,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 14,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 15,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 16,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 17,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 18,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 19,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 20,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 43,
+            "chapter": 21,
+            "long_label": "요한복음",
+            "category": "예수님의 생애"
+        },
+        {
+            "book": 19,
+            "chapter": 1,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 2,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 3,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 4,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 5,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 6,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 7,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 8,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 9,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 10,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 11,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 12,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 13,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 14,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 15,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 16,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 17,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 18,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 19,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 20,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 21,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 22,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 23,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 24,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 25,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 26,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 27,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 28,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 29,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 30,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 31,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 32,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 33,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 34,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 35,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 36,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 37,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 38,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 39,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 40,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 41,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 42,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 43,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 44,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 45,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 46,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 47,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 48,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 49,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 50,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 51,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 52,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 53,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 54,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 55,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 56,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 57,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 58,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 59,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 60,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 61,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 62,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 63,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 64,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 65,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 66,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 67,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 68,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 69,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 70,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 71,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 72,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 73,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 74,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 75,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 76,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 77,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 78,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 79,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 80,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 81,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 82,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 83,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 84,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 85,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 86,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 87,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 88,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 89,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 90,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 91,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 92,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 93,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 94,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 95,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 96,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 97,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 98,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 99,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 100,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 101,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 102,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 103,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 104,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 105,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 106,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 107,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 108,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 109,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 110,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 111,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 112,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 113,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 114,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 115,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 116,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 117,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 118,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 119,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 120,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 121,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 122,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 123,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 124,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 125,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 126,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 127,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 128,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 129,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 130,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 131,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 132,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 133,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 134,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 135,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 136,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 137,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 138,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 139,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 140,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 141,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 142,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 143,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 144,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 145,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 146,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 147,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 148,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 149,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 19,
+            "chapter": 150,
+            "long_label": "시편",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 1,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 2,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 3,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 4,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 5,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 6,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 7,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 8,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 9,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 10,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 11,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 12,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 13,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 14,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 15,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 16,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 17,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 18,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 19,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 20,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 21,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 22,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 23,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 24,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 25,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 26,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 27,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 28,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 29,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 30,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 20,
+            "chapter": 31,
+            "long_label": "잠언",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 1,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 2,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 3,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 4,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 5,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 6,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 7,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 8,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 9,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 10,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 11,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 21,
+            "chapter": 12,
+            "long_label": "전도서",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 1,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 2,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 3,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 4,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 5,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 6,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 7,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 22,
+            "chapter": 8,
+            "long_label": "아가",
+            "category": "지혜서"
+        },
+        {
+            "book": 23,
+            "chapter": 1,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 2,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 3,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 4,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 5,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 6,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 7,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 8,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 9,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 10,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 11,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 12,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 13,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 14,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 15,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 16,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 17,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 18,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 19,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 20,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 21,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 22,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 23,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 24,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 25,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 26,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 27,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 28,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 29,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 30,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 31,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 32,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 33,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 34,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 35,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 36,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 37,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 38,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 39,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 40,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 41,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 42,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 43,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 44,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 45,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 46,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 47,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 48,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 49,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 50,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 51,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 52,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 53,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 54,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 55,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 56,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 57,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 58,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 59,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 60,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 61,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 62,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 63,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 64,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 65,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 23,
+            "chapter": 66,
+            "long_label": "이사야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 1,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 2,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 3,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 4,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 5,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 6,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 7,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 8,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 9,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 10,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 11,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 12,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 13,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 14,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 15,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 16,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 17,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 18,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 19,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 20,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 21,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 22,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 23,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 24,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 25,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 26,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 27,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 28,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 29,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 30,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 31,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 32,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 33,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 34,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 35,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 36,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 37,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 38,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 39,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 40,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 41,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 42,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 43,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 44,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 45,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 46,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 47,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 48,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 49,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 50,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 51,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 24,
+            "chapter": 52,
+            "long_label": "예레미야",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 1,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 2,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 3,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 4,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 5,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 6,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 7,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 8,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 9,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 10,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 11,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 12,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 13,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 14,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 15,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 16,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 17,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 18,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 19,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 20,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 21,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 22,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 23,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 24,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 25,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 26,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 27,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 28,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 29,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 30,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 31,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 32,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 33,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 34,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 35,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 36,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 37,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 38,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 39,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 40,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 41,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 42,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 43,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 44,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 45,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 46,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 47,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 26,
+            "chapter": 48,
+            "long_label": "에스겔",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 1,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 2,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 3,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 4,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 5,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 6,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 7,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 8,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 9,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 10,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 11,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 27,
+            "chapter": 12,
+            "long_label": "다니엘",
+            "category": "예언서"
+        },
+        {
+            "book": 37,
+            "chapter": 1,
+            "long_label": "학개",
+            "category": "예언서"
+        },
+        {
+            "book": 37,
+            "chapter": 2,
+            "long_label": "학개",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 1,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 2,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 3,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 4,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 5,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 6,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 7,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 8,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 9,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 10,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 11,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 12,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 13,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 38,
+            "chapter": 14,
+            "long_label": "스가랴",
+            "category": "예언서"
+        },
+        {
+            "book": 39,
+            "chapter": 1,
+            "long_label": "말라기",
+            "category": "예언서"
+        },
+        {
+            "book": 39,
+            "chapter": 2,
+            "long_label": "말라기",
+            "category": "예언서"
+        },
+        {
+            "book": 39,
+            "chapter": 3,
+            "long_label": "말라기",
+            "category": "예언서"
+        },
+        {
+            "book": 39,
+            "chapter": 4,
+            "long_label": "말라기",
+            "category": "예언서"
+        }
+    ]
+}

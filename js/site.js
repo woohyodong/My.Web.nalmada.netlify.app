@@ -1,95 +1,106 @@
-﻿document.addEventListener('DOMContentLoaded', initPage);
+﻿//site.js
+//상수정의
+const _APP_VERSION = "2024.1.0";
+const _KEY_IS_INTRO = "#_KEY_IS_INTRO";
+const _DB_NAME = "BibleDB";
+const _DB_VERSION = 1;
+const _DB_STORE = "bible";
 
-function initPage() {
-    // 공통 초기화 코드
-    fnResizeHeight();
-    window.addEventListener("resize", fnResizeHeight);
+//변수정의
+const progressBar = document.getElementById('progressBar');
 
-    //materializecss init
-    $('.modal').modal();
-    $('.tooltipped').tooltip();
-    $(".btn-side").sideNav();//$(".btn-side").sideNav({edge: 'right'});
-    
-    //simplebar init
-    //$(".simplebar").each(function () { new SimpleBar(this); });        
+//이벤트 등록
+document.addEventListener('DOMContentLoaded', InitPage);
 
-    // Controls
-    //Tab Control
-    $(document).on("click", "ul.tab li", function () {
-        $(this).siblings().removeClass("active");
-        $(this).addClass("active");
-        var idx = $(this).index();
+// 공통 초기화
+function InitPage() {
 
-        $(this).parent().next(".tab-body").children().hide();
-        $(this).parent().next(".tab-body").children().eq(idx).show();
-    });
+    //IsCheckIntro();
+
+    //InitDB();
+
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+      });
+      
+      document.addEventListener('keydown', function(event) {
+        console.log(event.key);
+        if (event.key === 'PrintScreen' || (event.ctrlKey && event.key === 'p')) {
+          event.preventDefault();
+          alert('스크린샷이 차단되었습니다.');
+        }
+      });
+          
 
 } //function initPage() {
 
 
-// 높이는 제한해서 딱 맞출때 (앱모드 pwa 사이트활용)
-function fnResizeHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
+function IsCheckIntro() {
+    const isIntro = localStorage.getItem(_KEY_IS_INTRO);    
+    if (!isIntro) $("#popup-intro").addClass("active");
 }
 
-// 기능 및 이벤트 관련 -------------------------------------------------------------------------
+//계획표 팝업 열기
+function OpenPlanPopup() {$("#popup-plan").addClass("active");}
+//팝업 닫기 (공용)
+function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
 
-////// dialog ----------------------------
-let _dialog = document.getElementById("_dialog");
-let _dialog_close_function;
-function OnEventDialogClose(ev) {
-    var res = ev.target;
-    if (_dialog_close_function) _dialog_close_function(res.returnValue);
+
+async function InitDB(){
+    try {
+        // DB 존재 여부 체크
+        const dbExists = await DBHelper.fnCheckDBExists('myDatabase');
+        
+        if (dbExists) {
+            console.log('DB가 이미 존재합니다.');
+        } else {
+            console.log('DB가 존재하지 않으므로 초기화 및 데이터 로드를 시작합니다.');
+            
+            // DB 스키마 정의 후 초기화
+            await DBHelper.fnInitDB([
+                { 
+                    name: 'Bible', 
+                    keyPath: 'idx', // 고유 인덱스 필드를 키로 사용
+                    indices: [
+                        { name: 'cate', keyPath: 'cate', unique: false }, // 성경 구분 (구약/신약)
+                        { name: 'book', keyPath: 'book', unique: false }, // 성경책 번호
+                        { name: 'chapter', keyPath: 'chapter', unique: false }, // 장 번호
+                        { name: 'paragraph', keyPath: 'paragraph', unique: false }, // 절 번호
+                        { name: 'long_label', keyPath: 'long_label', unique: false }, // 성경책의 전체 이름
+                        { name: 'short_label', keyPath: 'short_label', unique: false } // 성경책의 짧은 이름
+                    ]
+                }
+            ]);
+            console.log('DB 초기화 완료. 이제 JSON 데이터를 로드합니다.');
+
+            // JSON 데이터를 로드하여 IndexedDB에 저장 (프로세스 바 업데이트)
+            //await DBHelper.fnLoadAndSaveJSON('/data/bible_db.json', 'bible', updateProgressBar);
+            //console.log('DB에 데이터 저장 완료.');
+        }
+    } catch (err) {
+        console.error('DB 처리 중 오류 발생:', err);
+    }
 }
-// dialog open
-function fnOpenDialog(msg, btnTexts, callback = null) {
-    if (!_dialog) _dialog = document.getElementById("_dialog");
-    $(_dialog).find("button").hide();
-    btnTexts.forEach((btnText, idx) => {
-        $(_dialog).find("button").eq(idx).show().text(btnText);
+
+
+// 진행 상태 업데이트 함수
+function updateProgressBar(progress) {
+    if (progressBar) {
+        progressBar.style.width = progress + '%';
+        progressBar.innerText = progress + '% 완료';
+    }
+}
+
+
+// 테스트 ----------------------------------------------------------------
+
+function TestDeleteDB(){
+    DBHelper.fnDeleteDB().then(() => {
+        console.log('DB 삭제 완료');
+    }).catch(err => {
+        console.error('DB 삭제 실패:', err);
     });
-    _dialog_close_function = null;
-    if (_dialog.open) return;
-    if (msg) _dialog.firstElementChild.innerHTML = msg;
-    _dialog.showModal();
-    _dialog.removeEventListener("close", OnEventDialogClose);
-    _dialog.addEventListener("close", OnEventDialogClose);
-    if (callback) _dialog_close_function = callback;
-    $("body").addClass("no-scroll");
-}
-// dialog close
-function fnCloseDialog(choice) {
-    if (!_dialog.open) return;
-    _dialog.close(choice);
-    $("body").removeClass("no-scroll");
 }
 
-////// toast ------------------------------
-function toast(msg, sec) {
-    sec = sec || 3000;
-    try {
-        Materialize.toast(msg, sec);
-    } catch { alert(msg); }
-}
 
-////// Notifications ------------------------------
-function noti(msg, sec) {
-    sec = sec || 4000;
-    try {
-        notifier.show('Notifications!', msg, 'info', '', sec);
-    } catch { alert(msg); }
-}
 
-/// Screen Lock ------------------------------
-function fnOpenScreenLock(msg) {
-    const screenLock = document.getElementById('_screen-lock');
-    if (msg) { screenLock.querySelector('.message-box').innerHTML = msg; }
-    screenLock.classList.add('active');
-    document.body.classList.add('no-scroll');
-}
-function fnCloseScreenLock() {
-    const screenLock = document.getElementById('_screen-lock');
-    screenLock.classList.remove('active');
-    document.body.classList.remove('no-scroll');
-}
