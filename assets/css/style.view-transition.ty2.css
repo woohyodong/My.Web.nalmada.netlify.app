@@ -1,6 +1,4 @@
-@view-transition {
-    navigation: auto;
-}
+@view-transition {navigation: auto;}
 
 /* 기본 애니메이션 설정 */
 ::view-transition-group(root) {

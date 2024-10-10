@@ -9,11 +9,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
+    <meta name="view-transition" content="same-origin" />
+    <style>
+        @view-transition {navigation: auto;} 
+        @keyframes fromRight {from{opacity: 0;transform: translateX(30px);}}
+        ::view-transition-old(root), ::view-transition-new(root) {animation-duration: .5s fromRight linear;}
+    </style>
+
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
 
-    <link href="/assets/css/style.view-transition.ty2.css" rel="stylesheet" />
+    <!-- <link href="/assets/css/style.view-transition.css" rel="stylesheet" /> -->
     <!-- <link href="//unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
     <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/style.common.css" rel="stylesheet" />    

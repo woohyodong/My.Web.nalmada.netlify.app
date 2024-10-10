@@ -1,11 +1,5 @@
-@view-transition {
-    navigation: auto;
-}
-
-/* 기본 애니메이션 설정 */
-::view-transition-group(root) {
-    animation-duration: 0.6s;
-}
+@view-transition {navigation: auto;}
+::view-transition-group(root) {animation-duration: 0.6s;}
 
 /* 좌에서 우로 전환 */
 @keyframes move-out-left {
