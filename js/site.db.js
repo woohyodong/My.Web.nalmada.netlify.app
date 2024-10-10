@@ -1,19 +1,19 @@
 ﻿const DBHelper = (function () {
-    const dbName = 'myDatabase'; // 데이터베이스 이름
-    const dbVersion = 1; // 데이터베이스 버전
+    const _dbName = 'myDatabase'; // 데이터베이스 이름
+    const _dbVersion = 1; // 데이터베이스 버전
     let db = null; // IndexedDB 참조 변수
 
     // DB 초기화 및 생성
     function fnInitDB(storeSchemas) {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(dbName, dbVersion);
+            const request = indexedDB.open(_dbName, _dbVersion);
 
             request.onupgradeneeded = function (event) {
                 db = event.target.result;
                 // 오브젝트 스토어가 없으면 생성
                 storeSchemas.forEach(schema => {
                     if (!db.objectStoreNames.contains(schema.name)) {
-                        const objectStore = db.createObjectStore(schema.name, { keyPath: schema.keyPath });
+                        const objectStore = db.createObjectStore(schema.name, { keyPath: schema.keyPath || null, autoIncrement: schema.autoIncrement || false });
                         // 인덱스 추가
                         if (schema.indices) {
                             schema.indices.forEach(index => {
@@ -35,8 +35,10 @@
         });
     }
 
+
     // DB 존재 여부 체크 (DB가 존재하는지만 확인)
     function fnCheckDBExists(dbName) {
+        dbName = dbName || _dbName;
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(dbName);
 
@@ -97,28 +99,56 @@
     }
 
     // JSON 파일을 비동기적으로 로드하여 IndexedDB에 저장
-    function fnLoadAndSaveJSON(filePath, storeName, progressCallback) {
+    function fnLoadAndSaveJSON(filePath, storeName, keyPath, progressCallback) {
         return fetch(filePath)
             .then(response => response.json())
             .then(jsonData => {
-                return fnSaveLargeJSONToDB(storeName, jsonData, progressCallback);
+                // 'keyPath'를 통해 해당 배열을 추출
+                const extractedData = jsonData[keyPath];
+                if (Array.isArray(extractedData)) {
+                    return fnSaveLargeJSONToDB(storeName, extractedData, progressCallback);
+                } else {
+                    throw new Error(`Loaded JSON does not contain valid array at keyPath: ${keyPath}`);
+                }
             })
             .catch(error => {
                 console.error('Error loading JSON file:', error);
                 throw error;
             });
     }
+    
+    // 객체 내에서 동적으로 배열을 찾는 함수
+    function findArrayInObject(obj, keyPath) {
+        const keys = keyPath.split('.'); // 점(.)으로 구분된 경로를 분할
+        let current = obj;
+        
+        // 키 경로를 따라 객체 내부를 탐색
+        for (const key of keys) {
+            if (current[key] !== undefined) {
+                current = current[key];
+            } else {
+                return null;
+            }
+        }
+        // 최종적으로 배열인지 확인
+        return Array.isArray(current) ? current : null;
+    }
+    
+    
+    
+    
 
     // 큰 JSON 데이터를 IndexedDB에 저장하는 함수 (진행 상태 포함)
     function fnSaveLargeJSONToDB(storeName, jsonData, progressCallback) {
         return new Promise((resolve, reject) => {
             const transaction = db.transaction([storeName], 'readwrite');
             const objectStore = transaction.objectStore(storeName);
-
+    
             const totalItems = jsonData.length;
             let processedItems = 0;
-
+    
             jsonData.forEach((data, index) => {
+                // 키가 없는 데이터를 추가할 때 자동 키 생성
                 const request = objectStore.add(data);
                 request.onsuccess = function () {
                     processedItems++;
@@ -127,21 +157,25 @@
                         progressCallback(progress); // 진행 상태 업데이트
                     }
                 };
-
+    
                 request.onerror = function (event) {
                     reject('Error saving data: ' + event.target.errorCode);
                 };
             });
-
+    
             transaction.oncomplete = function () {
                 resolve('All data saved successfully');
             };
-
+    
             transaction.onerror = function (event) {
                 reject('Transaction failed: ' + event.target.errorCode);
             };
         });
     }
+    
+    
+    
+    
 
     // 특정 키로 데이터 조회
     function fnGetDataByKey(storeName, key) {
@@ -178,7 +212,8 @@
     }
 
     // DB 삭제
-    function fnDeleteDB() {
+    function fnDeleteDB(dbName) {
+        dbName = dbName || _dbName;
         return new Promise((resolve, reject) => {
             const deleteRequest = indexedDB.deleteDatabase(dbName);
 
@@ -192,6 +227,51 @@
         });
     }
 
+    // 특정 스토어 내에 데이터가 존재하는지 체크하는 함수
+    function fnCheckStoreHasData(storeName) {
+        return new Promise((resolve, reject) => {
+            // 이미 DB가 초기화되어 있으면 바로 접근
+            if (db) {
+                checkStoreData(db, storeName, resolve, reject);
+            } else {
+                // DB가 초기화되지 않은 경우 새로 열기
+                const request = indexedDB.open(_dbName, _dbVersion);
+    
+                request.onsuccess = function (event) {
+                    db = event.target.result;
+                    checkStoreData(db, storeName, resolve, reject);
+                };
+    
+                request.onerror = function (event) {
+                    reject('Database open error: ' + event.target.errorCode);
+                };
+            }
+        });
+    }
+    
+    // 스토어 내 데이터가 존재하는지 체크하는 함수 (별도 함수로 분리)
+    function checkStoreData(db, storeName, resolve, reject) {
+        if (!db.objectStoreNames.contains(storeName)) {
+            reject(`Store ${storeName} does not exist in the database.`);
+            return;
+        }
+    
+        const transaction = db.transaction([storeName], 'readonly');
+        const objectStore = transaction.objectStore(storeName);
+        const countRequest = objectStore.count(); // 데이터 개수 확인
+    
+        countRequest.onsuccess = function () {
+            const count = countRequest.result;
+            resolve(count > 0); // 데이터가 존재하면 true 반환
+        };
+    
+        countRequest.onerror = function (event) {
+            reject('Error checking store data: ' + event.target.errorCode);
+        };
+    }
+    
+    
+
     return {
         fnInitDB,
         fnCheckDBExists,
@@ -201,6 +281,7 @@
         fnSaveLargeJSONToDB,
         fnGetDataByKey,
         fnGetAllData,
-        fnDeleteDB
+        fnDeleteDB,
+        fnCheckStoreHasData
     };
 })();

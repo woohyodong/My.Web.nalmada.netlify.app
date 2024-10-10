@@ -35,12 +35,6 @@
 </head>
 <body>
 
-    <!-- <div id="progressContainer" style="width: 100%; background-color: #ddd;">
-        <div id="progressBar" style="width: 0%; height: 30px; background-color: #4caf50; text-align: center; color: white;">
-            0% 완료
-        </div>
-    </div> -->
-
     <!-- 인트로 팝업 -->
     <aside id="popup-intro" class="container popup">
         <h2>인트로 팝업</h2>
@@ -48,8 +42,6 @@
         <p>안내 설명2</p>
         <hr>
         <button class="btn" onclick="OpenPlanPopup()">계획표 생성</button>
-        
-        <button class="btn block m-t bg-red white" onclick="TestDeleteDB()">성경DB 삭제</button>
     </aside>
 
     <!-- 계획표 설정 팝업 -->
@@ -72,11 +64,6 @@
         도움말 모달
     </aside>
 
-    <!-- 성경DB 다운로드 -->
-    <aside id="downloader" class="container popup">
-        다운로더
-    </aside>
-
     <!-- 메인 컨텐츠 -->
     <div class="container bo">
 
@@ -84,12 +71,17 @@
 
         <main id="main">
             내용  
+            <hr>
+            <button class="btn block m-t bg-red white" onclick="TestDeleteDB()">성경DB 삭제</button>
         </main>
 
         <footer id="footer">footer</footer>
         
     </div>
 
+    <!-- 성경DB 다운로드 -->
+    <!-- <aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside> -->
+     
     <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
     <script src="/assets/lib/materializecss/materialize.min.js"></script>
     <script src="/js/site.utils.js"></script>
