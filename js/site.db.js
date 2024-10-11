@@ -1,7 +1,7 @@
 ﻿const DBHelper = (function () {
     const _dbName = 'myDatabase'; // 데이터베이스 이름
     const _dbVersion = 1; // 데이터베이스 버전
-    let db = null; // IndexedDB 참조 변수
+    let _db = null; // IndexedDB 참조 변수
 
     // DB 초기화 및 생성
     function fnInitDB(storeSchemas) {
@@ -9,11 +9,11 @@
             const request = indexedDB.open(_dbName, _dbVersion);
 
             request.onupgradeneeded = function (event) {
-                db = event.target.result;
+                _db = event.target.result;
                 // 오브젝트 스토어가 없으면 생성
                 storeSchemas.forEach(schema => {
-                    if (!db.objectStoreNames.contains(schema.name)) {
-                        const objectStore = db.createObjectStore(schema.name, { keyPath: schema.keyPath || null, autoIncrement: schema.autoIncrement || false });
+                    if (!_db.objectStoreNames.contains(schema.name)) {
+                        const objectStore = _db.createObjectStore(schema.name, { keyPath: schema.keyPath || null, autoIncrement: schema.autoIncrement || false });
                         // 인덱스 추가
                         if (schema.indices) {
                             schema.indices.forEach(index => {
@@ -25,8 +25,8 @@
             };
 
             request.onsuccess = function (event) {
-                db = event.target.result;
-                resolve(db); // DB 참조 반환
+                _db = event.target.result;
+                resolve(_db); // DB 참조 반환
             };
 
             request.onerror = function (event) {
@@ -44,8 +44,8 @@
 
             request.onsuccess = function (event) {
                 // DB가 이미 존재하는 경우
-                const db = event.target.result;
-                db.close();
+                // const db = event.target.result;
+                // db.close();
                 resolve(true); // 존재함
             };
 
@@ -64,9 +64,10 @@
     // 단일 데이터 저장
     function fnSaveData(storeName, data) {
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], 'readwrite');
+            const transaction = _db.transaction([storeName], 'readwrite');
             const objectStore = transaction.objectStore(storeName);
-            const request = objectStore.add(data);
+            // put() 메서드는 동일한 키가 있으면 덮어쓰고, 없으면 새로 저장합니다.
+            const request = objectStore.put(data);
 
             request.onsuccess = function () {
                 resolve('Data saved successfully');
@@ -81,11 +82,12 @@
     // 여러 데이터를 한번에 저장 (대량 데이터 처리)
     function fnBulkSaveData(storeName, dataArray) {
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], 'readwrite');
+            const transaction = _db.transaction([storeName], 'readwrite');
             const objectStore = transaction.objectStore(storeName);
 
             dataArray.forEach(data => {
-                objectStore.add(data);
+                //objectStore.add(data);
+                objectStore.put(data);
             });
 
             transaction.oncomplete = function () {
@@ -103,45 +105,38 @@
         return fetch(filePath)
             .then(response => response.json())
             .then(jsonData => {
-                // 'keyPath'를 통해 해당 배열을 추출
-                const extractedData = jsonData[keyPath];
-                if (Array.isArray(extractedData)) {
-                    return fnSaveLargeJSONToDB(storeName, extractedData, progressCallback);
+                let extractedData;
+
+                // keyPath가 있으면 해당 데이터를 추출
+                if (keyPath) {
+                    extractedData = jsonData[keyPath];
+                    if (!Array.isArray(extractedData)) {
+                        throw new Error(`Loaded JSON does not contain valid array at keyPath: ${keyPath}`);
+                    }
                 } else {
-                    throw new Error(`Loaded JSON does not contain valid array at keyPath: ${keyPath}`);
+                    // keyPath가 없으면 jsonData가 배열인지 확인 후 처리
+                    if (Array.isArray(jsonData)) {
+                        extractedData = jsonData;
+                    } else {
+                        throw new Error("Loaded JSON is not a valid array or does not contain an array at the root.");
+                    }
                 }
+
+                return fnSaveLargeJSONToDB(storeName, extractedData, progressCallback);
             })
             .catch(error => {
                 console.error('Error loading JSON file:', error);
                 throw error;
             });
     }
-    
-    // 객체 내에서 동적으로 배열을 찾는 함수
-    function findArrayInObject(obj, keyPath) {
-        const keys = keyPath.split('.'); // 점(.)으로 구분된 경로를 분할
-        let current = obj;
-        
-        // 키 경로를 따라 객체 내부를 탐색
-        for (const key of keys) {
-            if (current[key] !== undefined) {
-                current = current[key];
-            } else {
-                return null;
-            }
-        }
-        // 최종적으로 배열인지 확인
-        return Array.isArray(current) ? current : null;
-    }
-    
-    
+
     
     
 
     // 큰 JSON 데이터를 IndexedDB에 저장하는 함수 (진행 상태 포함)
     function fnSaveLargeJSONToDB(storeName, jsonData, progressCallback) {
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], 'readwrite');
+            const transaction = _db.transaction([storeName], 'readwrite');
             const objectStore = transaction.objectStore(storeName);
     
             const totalItems = jsonData.length;
@@ -180,7 +175,7 @@
     // 특정 키로 데이터 조회
     function fnGetDataByKey(storeName, key) {
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], 'readonly');
+            const transaction = _db.transaction([storeName], 'readonly');
             const objectStore = transaction.objectStore(storeName);
             const request = objectStore.get(key);
 
@@ -197,20 +192,24 @@
     // 오브젝트 스토어에서 모든 데이터 조회
     function fnGetAllData(storeName) {
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], 'readonly');
-            const objectStore = transaction.objectStore(storeName);
-            const request = objectStore.getAll();
+            // 이미 DB가 초기화되어 있으면 바로 접근
+            if (_db) {
+                getAllStoreData(_db, storeName, resolve, reject);
+            } else {
+                // DB가 초기화되지 않은 경우 새로 열기
+                const request = indexedDB.open(_dbName, _dbVersion);
 
-            request.onsuccess = function (event) {
-                resolve(event.target.result);
-            };
+                request.onsuccess = function (event) {
+                    _db = event.target.result;
+                    getAllStoreData(_db, storeName, resolve, reject);
+                };
 
-            request.onerror = function (event) {
-                reject('Data fetch failed: ' + event.target.errorCode);
-            };
+                request.onerror = function (event) {
+                    reject('Database open error: ' + event.target.errorCode);
+                };
+            }
         });
     }
-
     // DB 삭제
     function fnDeleteDB(dbName) {
         dbName = dbName || _dbName;
@@ -231,15 +230,15 @@
     function fnCheckStoreHasData(storeName) {
         return new Promise((resolve, reject) => {
             // 이미 DB가 초기화되어 있으면 바로 접근
-            if (db) {
-                checkStoreData(db, storeName, resolve, reject);
+            if (_db) {
+                checkStoreData(_db, storeName, resolve, reject);
             } else {
                 // DB가 초기화되지 않은 경우 새로 열기
                 const request = indexedDB.open(_dbName, _dbVersion);
     
                 request.onsuccess = function (event) {
-                    db = event.target.result;
-                    checkStoreData(db, storeName, resolve, reject);
+                    _db = event.target.result;
+                    checkStoreData(_db, storeName, resolve, reject);
                 };
     
                 request.onerror = function (event) {
@@ -248,6 +247,9 @@
             }
         });
     }
+
+
+    // 내부 함수 --------------------------------------------------------------------------------------------
     
     // 스토어 내 데이터가 존재하는지 체크하는 함수 (별도 함수로 분리)
     function checkStoreData(db, storeName, resolve, reject) {
@@ -268,6 +270,27 @@
         countRequest.onerror = function (event) {
             reject('Error checking store data: ' + event.target.errorCode);
         };
+    }
+
+
+
+    // 특정 스토어에서 모든 데이터를 가져오는 내부 함수
+    function getAllStoreData(database, storeName, resolve, reject) {
+        try {
+            const transaction = database.transaction([storeName], 'readonly');
+            const objectStore = transaction.objectStore(storeName);
+            const request = objectStore.getAll();
+
+            request.onsuccess = function (event) {
+                resolve(event.target.result);
+            };
+
+            request.onerror = function (event) {
+                reject('Data fetch failed: ' + event.target.errorCode);
+            };
+        } catch (error) {
+            reject('Transaction failed: ' + error);
+        }
     }
     
     

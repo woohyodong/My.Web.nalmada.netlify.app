@@ -43,7 +43,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin: var(--gap)
 
 .popup{display: none; position: absolute;top: 0;left:50%;transform: translateX(-50%); z-index: var(--z-index-popup);background-color: #fff;}
 .popup.active{display: block;}
-body:has(.popup.active){overflow: hidden;}
+/* body:has(.popup.active){overflow: hidden;} */
 
 #_download{min-height: 100vh;width:100%;display: flex;top: 0;left: 0; justify-content: center;align-items: center; position: fixed;background-color: rgba(0, 0, 0, 0.65);backdrop-filter: blur(5px);transition: opacity 0.2s;visibility: hidden;opacity: 0;z-index: var(--z-index-setup);}
 #_download section{background-color: #fff;padding: 20px;border-radius: 5px;box-shadow: 0 0 10px rgba(0,0,0,0.1);width: 300px;text-align: center;}
