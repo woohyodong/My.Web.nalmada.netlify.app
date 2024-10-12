@@ -150,10 +150,83 @@
         <header id="header">header</header>
 
         <main id="main">
-            내용  
-            <hr>
-            <button class="btn block m-t bg-red white" onclick="TestDDB()">성경DB 삭제</button>
-            <button class="btn block m-t bg-second white" onclick="OpenPlanPopup()">계획표 다시</button>
+            <div id="bibles" class="bible-list">
+                <h4>구약 성경</h4>
+                <ul>
+                    <li data-book="1">창세기</li>
+                    <li data-book="2">출애굽기</li>
+                    <li data-book="3">레위기</li>
+                    <li data-book="4">민수기</li>
+                    <li data-book="5">신명기</li>
+                    <li data-book="6">여호수아</li>
+                    <li data-book="7">사사기</li>
+                    <li data-book="8">룻기</li>
+                    <li data-book="9">사무엘상</li>
+                    <li data-book="10">사무엘하</li>
+                    <li data-book="11">열왕기상</li>
+                    <li data-book="12">열왕기하</li>
+                    <li data-book="13">역대상</li>
+                    <li data-book="14">역대하</li>
+                    <li data-book="15">에스라</li>
+                    <li data-book="16">느헤미야</li>
+                    <li data-book="17">에스더</li>
+                    <li data-book="18">욥기</li>
+                    <li data-book="19">시편</li>
+                    <li data-book="20">잠언</li>
+                    <li data-book="21">전도서</li>
+                    <li data-book="22">아가</li>
+                    <li data-book="23">이사야</li>
+                    <li data-book="24">예레미야</li>
+                    <li data-book="25">예레미야 애가</li>
+                    <li data-book="26">에스겔</li>
+                    <li data-book="27">다니엘</li>
+                    <li data-book="28">호세아</li>
+                    <li data-book="29">요엘</li>
+                    <li data-book="30">아모스</li>
+                    <li data-book="31">오바댜</li>
+                    <li data-book="32">요나</li>
+                    <li data-book="33">미가</li>
+                    <li data-book="34">나훔</li>
+                    <li data-book="35">하박국</li>
+                    <li data-book="36">스바냐</li>
+                    <li data-book="37">학개</li>
+                    <li data-book="38">스가랴</li>
+                    <li data-book="39">말라기</li>
+                </ul>
+            
+                <h4>신약 성경</h4>
+                <ul>
+                    <li data-book="40">마태복음</li>
+                    <li data-book="41">마가복음</li>
+                    <li data-book="42">누가복음</li>
+                    <li data-book="43">요한복음</li>
+                    <li data-book="44">사도행전</li>
+                    <li data-book="45">로마서</li>
+                    <li data-book="46">고린도전서</li>
+                    <li data-book="47">고린도후서</li>
+                    <li data-book="48">갈라디아서</li>
+                    <li data-book="49">에베소서</li>
+                    <li data-book="50">빌립보서</li>
+                    <li data-book="51">골로새서</li>
+                    <li data-book="52">데살로니가전서</li>
+                    <li data-book="53">데살로니가후서</li>
+                    <li data-book="54">디모데전서</li>
+                    <li data-book="55">디모데후서</li>
+                    <li data-book="56">디도서</li>
+                    <li data-book="57">빌레몬서</li>
+                    <li data-book="58">히브리서</li>
+                    <li data-book="59">야고보서</li>
+                    <li data-book="60">베드로전서</li>
+                    <li data-book="61">베드로후서</li>
+                    <li data-book="62">요한일서</li>
+                    <li data-book="63">요한이서</li>
+                    <li data-book="64">요한삼서</li>
+                    <li data-book="65">유다서</li>
+                    <li data-book="66">요한계시록</li>
+                </ul>
+            </div>
+
+            <div id="bible-list" class="bible-list"></div>
         </main>
 
         <footer id="footer" class="grid col-2">
@@ -163,8 +236,7 @@
         
     </div>
 
-    <!-- 성경DB 다운로드 -->
-    <!-- <aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside> -->
+    
 
     <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
     <script src="/assets/lib/materializecss/materialize.min.js"></script>

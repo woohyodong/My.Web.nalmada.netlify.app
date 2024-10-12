@@ -31,6 +31,9 @@ function InitPage() {
     fnResizeHeight();
     window.addEventListener("resize", fnResizeHeight);
 
+    //성경 선택 이벤트
+    $("#bibles li").on("click", function(){ OnSelectBibleBook($(this).data("book"), $(this).text()); });
+
 } // function initPage() end ----------------------------------------------------------------//
 
 // DB 초기화
@@ -58,10 +61,8 @@ async function InitDB(){
                     indices: [
                         { name: 'cate', keyPath: 'cate', unique: false }, // 성경 구분 (구약/신약)
                         { name: 'book', keyPath: 'book', unique: false }, // 성경책 번호
-                        { name: 'chapter', keyPath: 'chapter', unique: false }, // 장 번호
-                        { name: 'paragraph', keyPath: 'paragraph', unique: false }, // 절 번호
-                        { name: 'long_label', keyPath: 'long_label', unique: false }, // 성경책의 전체 이름
-                        { name: 'short_label', keyPath: 'short_label', unique: false } // 성경책의 짧은 이름
+                        { name: 'chapter', keyPath: 'chapter', unique: false },
+                        { name: 'book_chapter', keyPath: ['book', 'chapter'], unique: false } // 복합 인덱스 추가
                     ]
                 },
                 {
@@ -175,7 +176,6 @@ async function InitDB(){
 function OnResetPlan() {
     // 계획표 초기화
     _currentStep = 1;
-    PlanHelper.fnInitPlanData();
 
     // 모든 선택 해제/선택
     $('input[type="radio"]').prop('checked', false);
@@ -280,6 +280,13 @@ function OnSavePlan() {
 
 // 성경 책 화면 표시/숨김
 function OnDisplayBibleBook(isShowBook){
+    if(isShowBook) {
+        $("#bibles").show();
+        $("#bible-list").hide();
+    }else{
+        $("#bibles").hide();
+        $("#bible-list").show();
+    } 
 
 }
 
@@ -289,17 +296,91 @@ function OnChangeBibleNavState(step = 0, book = null, chapter = null) {
 }
 
 // 성경 > 책 선택 -> 장 목록 표시
-function OnSelectBibleBook(book, bookName) {
+async function OnSelectBibleBook(book, bookName) {
+    try {
+        console.log('선택한 성경책:', book, bookName);
+        
+        // 성경 요약 데이터에서 장 정보 가져오기
+        var chapters = await DBHelper.fnGetDataByKey(_STORE_NAME_BIBLE_SUMMARY, book);
+        if (!chapters) {
+            console.log('해당 책에 대한 정보가 없습니다.');
+            return;
+        }
 
+        OnDisplayBibleBook(false);  // 책 선택 화면 업데이트
+        console.log('장 목록:', chapters.chapter_count);
+
+        // 장 목록을 화면에 표시
+        $("#bible-list").empty();
+        $("#bible-list").append(`<h4>${bookName}</h4>`).append('<ul>');
+        for (let i = 1; i <= chapters.chapter_count; i++) {
+            $("#bible-list ul").append(`<li onclick="OnSelectBibleChapter(${book}, ${i})">${i}</li>`);
+        }
+
+        //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
+    } catch (error) {
+        console.error('Error selecting Bible book:', error);
+    }
 }
+
 // 성경 > 책 > 장 선택 -> 절 목록 표시
-function OnSelectBibleChapter(book, chapter) {
+async function OnSelectBibleChapter(book, chapter) {
+    try {
+        // 복합 인덱스를 사용하여 book과 chapter를 기반으로 데이터를 조회
+        const verses = await DBHelper.fnGetDataByIndex(_STORE_NAME_BIBLE, 'book_chapter', [book, chapter]);
+        if (!verses || verses.length === 0) {
+            console.log('해당 장에 대한 정보가 없습니다.');
+            return;
+        }
+        
+        // 절 목록을 화면에 표시
+        console.log('절 목록:', verses);
+        $("#bible-list").empty();
+        verses.forEach(verse => {
+            $("#bible-list").append(`<p data-idx="${verse.idx}"><sup>${verse.paragraph}</sup>${verse.sentence}</p>`);
+        });
 
+        //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
+    } catch (error) {
+        console.error('Error fetching chapter data:', error);
+    }
 }
+
 
 
 
 // 공용 이벤트 함수 -------------------------------------------------------------------------
+
+function initRouter() {
+    const path = window.location.pathname;
+    handleRoute(path); // 현재 경로에 맞게 초기 화면 로드
+
+    window.addEventListener('popstate', (event) => {
+        const path = window.location.pathname;
+        handleRoute(path); // 뒤로가기 버튼 클릭 시 경로 처리
+    });
+}
+
+// TODO:경로에 따라 화면 표시 
+// 참고: https://chatgpt.com/c/67076ad3-a0b4-8003-9e51-371a165ea674
+function handleRoute(path) {
+    const segments = path.split('/').filter(Boolean);
+
+    // if (segments.length === 1) {
+    //     // /bible -> 성경 목록 표시
+    //     displayBibleList();
+    // } else if (segments.length === 2) {
+    //     // /bible/1 -> 장 목록 표시
+    //     const book = parseInt(segments[1]);
+    //     displayChapters(book);
+    // } else if (segments.length === 3) {
+    //     // /bible/1/1 -> 절 목록 표시
+    //     const book = parseInt(segments[1]);
+    //     const chapter = parseInt(segments[2]);
+    //     displayVerses(book, chapter);
+    // }
+}
+
 // 높이는 제한해서 딱 맞출때 (앱모드 pwa 사이트활용)
 function fnResizeHeight() {
     let vh = window.innerHeight * 0.01;

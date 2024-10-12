@@ -189,6 +189,25 @@
         });
     }
 
+    // 인덱스 기반으로 데이터 조회
+    function fnGetDataByIndex(storeName, indexName, value) {
+        return new Promise((resolve, reject) => {
+            const transaction = _db.transaction([storeName], 'readonly');
+            const objectStore = transaction.objectStore(storeName);
+            const index = objectStore.index(indexName);
+            const request = index.getAll(value); // 인덱스 값으로 여러 데이터를 가져오기 위해 getAll 사용
+
+            request.onsuccess = function (event) {
+                resolve(event.target.result); // 결과 반환
+            };
+
+            request.onerror = function (event) {
+                reject('Data fetch by index failed: ' + event.target.errorCode);
+            };
+        });
+    }
+
+
     // 오브젝트 스토어에서 모든 데이터 조회
     function fnGetAllData(storeName) {
         return new Promise((resolve, reject) => {
@@ -303,6 +322,7 @@
         fnLoadAndSaveJSON,
         fnSaveLargeJSONToDB,
         fnGetDataByKey,
+        fnGetDataByIndex,
         fnGetAllData,
         fnDeleteDB,
         fnCheckStoreHasData

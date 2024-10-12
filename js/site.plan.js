@@ -11,23 +11,12 @@ const PlanHelper = (function() {
         plan: []          // 최종 계획 데이터  ex)샘플구조 { "date": "24.10.01", "day": "월", "bible": "창세기 1:1 ~ 2:25", "completed": false, "newweek": true }
     };
 
-    // 계획 데이터 초기화
-    function fnInitPlanData() {
-        _planData.readingMethod = null;
-        _planData.readingMethodName = null;
-        _planData.readingDays = [];
-        _planData.readingDuration = null;
-        _planData.startDate = null;
-        _planData.endDate = null;
-        _planData.plan = [];
-    }
-
     // 계획 데이터 생성
     async function fnCreatePlanData(method, weekDays, duration) {
 
         try{
 
-            fnInitPlanData();
+            initPlanData();
             
             _planData.readingMethod = method;        
             _planData.readingDays = weekDays;
@@ -73,12 +62,12 @@ const PlanHelper = (function() {
             }
 
             if(method === '00') {
-                _planData.startDate = fnFormatDate(_planData.startDate, "yy.MM.dd");
+                _planData.startDate = formatDate(_planData.startDate);
                 await DBHelper.fnSaveData(_STORE_NAME_PLAN, {key: _planDBKey, data: _planData});
             }
             else if(_planData.plan.length > 0) {
                 _planData.endDate = _planData.plan[_planData.plan.length - 1].date;
-                _planData.startDate = fnFormatDate(_planData.startDate, "yy.MM.dd");
+                _planData.startDate = formatDate(_planData.startDate);
                 //DB 저장 (Key값이 같으면 덮어쓰기 Update)
                 await DBHelper.fnSaveData(_STORE_NAME_PLAN, {key: _planDBKey, data: _planData});
 
@@ -136,6 +125,17 @@ const PlanHelper = (function() {
     
     // 내부 함수 --------------------------------------------------------------------------------------------
 
+    // 계획 데이터 초기화
+    function initPlanData() {
+        _planData.readingMethod = null;
+        _planData.readingMethodName = null;
+        _planData.readingDays = [];
+        _planData.readingDuration = null;
+        _planData.startDate = null;
+        _planData.endDate = null;
+        _planData.plan = [];
+    }
+
     // 실제 읽을 수 있는 날을 계산하는 함수 (선택된 요일만 고려)
     function calculateActualReadingDays(totalPlannedDays) {
         return new Promise((resolve) => {
@@ -176,6 +176,8 @@ const PlanHelper = (function() {
         
             // 구약과 신약 배열 합침
             let bookArray = data;
+
+            console.log("bookArray", bookArray);
         
             // 전체 절 수 계산 (각 장별 절 수를 모두 더함)
             let totalVerses = bookArray.reduce((sum, book) => {
@@ -265,7 +267,7 @@ const PlanHelper = (function() {
         });
     }
 
-    // 2. 역사,테마,주제,구약/신약 순서로 읽기 계획 생성 함수
+    // 2. 역사,테마,주제,구약/신약 나머지 순서로 읽기 통합 계획 생성 함수
     function generateReadingPlan(data, totalDays) {
         return new Promise((resolve, reject) => {
             let result = [];
@@ -280,7 +282,7 @@ const PlanHelper = (function() {
                 let isNewWeek = false;
     
                 let dayOfWeek = currentDate.getDay();
-                let dateString = fnFormatDate(currentDate, "yy.MM.dd");
+                let dateString = formatDate(currentDate);
                 let currentWeek = getWeek(currentDate);
     
                 // 주의 첫 날인지 여부 확인
@@ -456,28 +458,6 @@ const PlanHelper = (function() {
         const firstThursday = new Date(target.getFullYear(), 0, 4);
         const diff = target - firstThursday;
         return 1 + Math.round(diff / (7 * 24 * 60 * 60 * 1000)); // 주 계산
-    }
-
-    // yy.MM.dd -> YYYY-MM-DD 변환 함수 (공용 함수로 외부로 이동)
-    function convertToFullDate(shortDate) {
-        const parts = shortDate.split('.');
-        if (parts.length === 3) {
-            const year = parseInt(parts[0], 10);
-            const fullYear = year < 50 ? 2000 + year : 1900 + year;  // 50 이하이면 20XX, 그 이상이면 19XX로 변환
-            return `${fullYear}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
-        }
-        return null;
-    }
-
-    // yy.MM.dd -> YYYY-MM-DD 변환 함수 (공용 함수로 외부로 이동)
-    function convertToFullDate(shortDate) {
-        const parts = shortDate.split('.');
-        if (parts.length === 3) {
-            const year = parseInt(parts[0], 10);
-            const fullYear = year < 50 ? 2000 + year : 1900 + year;  // 50 이하이면 20XX, 그 이상이면 19XX로 변환
-            return `${fullYear}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
-        }
-        return null;
     }
 
     return {
