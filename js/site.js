@@ -20,6 +20,10 @@ function InitPage() {
 
     InitDB();
 
+    //materializecss init
+    $('.modal').modal();
+    $(".btn-side").sideNav();//$(".btn-side").sideNav({edge: 'right'});    
+
     //simplebar init
     $(".simplebar").each(function () { new SimpleBar(this); });
 
@@ -232,9 +236,17 @@ async function OnCreatePlan() {
     
         await PlanHelper.fnCreatePlanData(method, weekDays, totalDays);
     
-        // 남은 일수 계산
-        // const remainingDays = PlanHelper.fnCalculateRemainingDays("24.12.31");
-        // console.log(`남은 일수: ${remainingDays}일`);
+        return;
+        
+        // 계획 생성 후 계획표 화면 바인딩
+        await OnLoadAndBindingPlan();
+
+        // 계획 생성 후 팝업 닫기
+        CloseAllPopup();
+
+        // 축폭 효과
+        ShowEffect();
+        
     }catch(error){
         console.error('계획 생성 중 오류 발생:', error);
         toast('계획 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -246,8 +258,12 @@ async function OnCreatePlan() {
 
 async function OnLoadAndBindingPlan() {
     try{
-        const planData = await DBHelper.fnGetAllData(_STORE_NAME_PLAN);
+        const planData = await DBHelper.fnGetAllData(_STORE_NAME_PLAN);        
         console.log('계획 데이터:', planData);
+        if(planData.length === 0) return;
+        //TODO: 계획 데이터 바인딩
+        console.log(planData[0].data.readingMethod);
+        
     }catch(error){
         console.error('계획 조회 중 오류 발생:', error);
         toast('계획 조회 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -291,6 +307,8 @@ function fnResizeHeight() {
 }
 // 계획표 팝업 열기
 function OpenPlanPopup() {$("#popup-plan").addClass("active");}
+// 계획표 팝업 닫기
+function CloseAllPopup() {$(".popup").removeClass("active");}
 // 팝업 닫기 (공용)
 function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
 // 옵션 > 폰트크기 변경
@@ -307,7 +325,7 @@ function OpenHelpPopup() {$("#popup-help").addClass("active");}
 
 // 화면효과 > 종이 꽃가루 효과
 function ShowEffect() {
-    
+    console.log('효과 표시');
 }
 
 
@@ -330,7 +348,7 @@ function TestDDB(){
         console.error('DB 삭제 실패:', err);
     });
 
-    setTimeout(() => { alert("새로고침 합니다."); location.reload(); }, 2000);
+    setTimeout(() => { alert("새로고침 합니다."); location.reload(); }, 1500);
 }
 
 

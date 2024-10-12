@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    
+
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    
+
     <style>
         /* @view-transition {navigation: auto;} */
         @keyframes move-out-left {
@@ -20,50 +20,158 @@
         }
         ::view-transition-old(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-out-left;}
         ::view-transition-new(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-in-right;}     
-    </style>    
+    </style> 
 
     <link rel="shortcut icon" href="/images/favicon/favicon.ico"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
 
-    <!-- <link href="//unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
-    <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/css/style.common.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <!-- SimpleBar JS -->
+    <link href="/assets/lib/simplebar/simplebar.min.css" rel="stylesheet" />
+    <script src="/assets/lib/simplebar/simplebar.min.js"></script>    
 
-    <!-- fancyBox -->
-    <link href="/assets/lib/fancyBox/jquery.fancybox.css" rel="stylesheet" />
+    <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/style.common.css" rel="stylesheet" />    
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
     
-    <!-- Notifier -->
-    <link href="/assets/lib/notifier/notifier.css" rel="stylesheet" />
-    
-    <title>Empty</title>
+    <title>날마다성경</title>
 </head>
 <body>
 
-    <div class="container bg-second vh100 flex center">
+    <!-- 인트로 팝업 -->
+    <aside id="popup-intro" class="container popup">
+        <h2>인트로 팝업</h2>
+        <hr>
+        <p>안내 설명2</p>
+        <hr>
+        <button class="btn" onclick="OpenPlanPopup()">계획표 생성</button>
+    </aside>
 
-        <div>
-            <h1 class="primary">성경</h1>
-            <a href="/">계획표 링크</a>
-        </div>
+    <!-- 계획표 설정 팝업 -->
+    <aside id="popup-plan" class="container popup">
+        <header>
+            <h4><span id="stepCount">1</span>/<small>3 단계</small></h4>
+            <a href="javascript:;" class="btn btn-text" onclick="ClosePopup(this)" title="닫기">✕</a>
+        </header>
+        <main class="simplebar">
+            <!-- 읽기 방식 선택 -->
+            <article class="step s1">
+                <h4>읽기 방식 선택</h4>
+                <ul>
+                    <li><label><h5>성경 순서로 읽기 <small>성경의 책 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="01" checked></label></li>
+                    <li><label><h5>역사 순서로 읽기 <small>성경의 사건이 발생한 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="02"></label></li>
+                    <li><label><h5>테마 순서로 읽기 <small>예수님의 생애, 지혜서 등 특정 테마에 집중하여 읽는 방식</small></h5><input type="radio" name="chk1" value="03"></label></li>
+                    <li><label><h5>주제 순서로 읽기 <small>믿음, 사랑, 구원 등의 주제에 따라 관련된 구절을 모아 읽는 방식</small></h5><input type="radio" name="chk1" value="04"></label></li>
+                    <li><label><h5>구약/신약 혼합해서 읽기 <small>1년 계획으로 오전(구약), 오후(신약)으로 읽는 방식</small></h5><input type="radio" name="chk1" value="05"></label></li>
+                    <li><label><h5>내가 읽은 성경만 기록 <small>계획 없이 읽었던 성경 구절을 기록하는 방식</small></h5><input type="radio" name="chk1" value="00"></label></li>
+                </ul>
+            </article>
+            
+            <!-- 읽기 요일 선택 -->
+            <article class="step s2">
+                <h4>읽기 요일 선택</h4>
+                <ul class="grid col-2">
+                    <li><label><h5>월요일</h5><input type="checkbox" name="chk2-1" value="월" checked></label></li>
+                    <li><label><h5>화요일</h5><input type="checkbox" name="chk2-1" value="화" checked></label></li>
+                    <li><label><h5>수요일</h5><input type="checkbox" name="chk2-1" value="수" checked></label></li>
+                    <li><label><h5>목요일</h5><input type="checkbox" name="chk2-1" value="목" checked></label></li>
+                    <li><label><h5>금요일</h5><input type="checkbox" name="chk2-1" value="금" checked></label></li>
+                    <li><label><h5>토요일</h5><input type="checkbox" name="chk2-1" value="토" checked></label></li>
+                    <li><label><h5>일요일</h5><input type="checkbox" name="chk2-1" value="일" checked></label></li>                    
+                </ul>
+            </article>
+            
+            <!-- 읽기 기간 설정 -->
+            <article class="step s3">
+                <h4>읽기 기간 설정</h4>
+                <ul>
+                    <li>
+                        <label>
+                            <h5>3개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
+                            <input type="radio" name="chk3" value="90">
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <h5>6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
+                            <input type="radio" name="chk3" value="180">
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <h5>1년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
+                            <input type="radio" name="chk3" value="360" checked>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <h5>1년 6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
+                            <input type="radio" name="chk3" value="540">
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <h5>2년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
+                            <input type="radio" name="chk3" value="720">
+                        </label>
+                    </li>
+                </ul>
+            </article>            
+        </main>
+        <footer>
+            <button id="prevStep" class="btn none" onclick="OnPrevPlanStep()" title="이전단계">이전 단계</button>
+            <button id="nextStep" class="btn active none" onclick="OnNextPlanStep()">다음 단계</button>
+            <button id="btnGenerate" class="btn active" onclick="OnCreatePlan()">계획표 생성</button>
+        </footer>
+
+
+        <!-- <h2>계획표 설정 팝업</h2>
+        <a href="javascript:;" onclick="ClosePopup(this)">닫기</a>
+        <hr>
+        <p>계획표 설정</p>
+        <hr>
+        <button class="btn" onclick="OnCreatePlan()">계획표 생성</button> -->
+    </aside>    
+
+    <!-- 설정 슬라이드 -->
+    <aside id="slide-settings" class="side-nav">
+        설정 슬라이드
+    </aside>
+
+    <!-- 도움말 모달 -->
+    <aside id="popup-help" class="modal">
+        도움말 모달
+    </aside>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="container bo">
+
+        <header id="header">header</header>
+
+        <main id="main">
+            내용  
+            <hr>
+            <button class="btn block m-t bg-red white" onclick="TestDDB()">성경DB 삭제</button>
+            <button class="btn block m-t bg-second white" onclick="OpenPlanPopup()">계획표 다시</button>
+        </main>
+
+        <footer id="footer" class="grid col-2">
+            <a class="btn" href="/">계획표</a>
+            <a class="btn bg-second" href="/bible">성경</a>
+        </footer>
+        
     </div>
 
-    <script>
-        document.body.classList.add('reverse'); // 페이지 B에서는 reverse 클래스 추가
-    </script>    
+    <!-- 성경DB 다운로드 -->
+    <!-- <aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside> -->
 
     <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
     <script src="/assets/lib/materializecss/materialize.min.js"></script>
-    <script src="/js/site.utils.js"></script>
+    <script src="/assets/js/utils.js"></script>
     <script src="/js/site.js"></script>
-
-    <!-- fancyBox -->
-    <script src="/assets/lib/fancyBox/jquery.fancybox.pack.js"></script>
-    <script src="/assets/lib/fancyBox/fancybox.custom.js"></script>
-
-    <!-- Notifier -->
-    <script src="/assets/lib/notifier/notifier.js"></script>
+    <script src="/js/site.db.js"></script>
+    <script src="/js/site.plan.js"></script>
+    
 </body>
 </html>

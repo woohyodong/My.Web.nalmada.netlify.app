@@ -49,10 +49,10 @@
     </aside>
 
     <!-- 계획표 설정 팝업 -->
-    <aside id="popup-plan" class="container popup">
+    <aside id="popup-plan" class="container popup active">
         <header>
             <h4><span id="stepCount">1</span>/<small>3 단계</small></h4>
-            <a href="javascript:;" class="btn btn-text" onclick="OnClosePlanPopup()" title="닫기">✕</a>
+            <a href="javascript:;" class="btn btn-text" onclick="ClosePopup(this)" title="닫기">✕</a>
         </header>
         <main class="simplebar">
             <!-- 읽기 방식 선택 -->
@@ -153,15 +153,19 @@
             내용  
             <hr>
             <button class="btn block m-t bg-red white" onclick="TestDDB()">성경DB 삭제</button>
+            <button class="btn block m-t bg-second white" onclick="OpenPlanPopup()">계획표 다시</button>
         </main>
 
-        <footer id="footer">footer</footer>
+        <footer id="footer" class="grid col-2">
+            <a class="btn bg-second" href="/">계획표</a>
+            <a class="btn" href="/bible">성경</a>
+        </footer>
         
     </div>
 
     <!-- 성경DB 다운로드 -->
     <!-- <aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside> -->
-     
+
     <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
     <script src="/assets/lib/materializecss/materialize.min.js"></script>
     <script src="/assets/js/utils.js"></script>

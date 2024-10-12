@@ -26,6 +26,8 @@ const PlanHelper = (function() {
     async function fnCreatePlanData(method, weekDays, duration) {
 
         try{
+
+            fnInitPlanData();
             
             _planData.readingMethod = method;        
             _planData.readingDays = weekDays;
@@ -45,22 +47,22 @@ const PlanHelper = (function() {
                 case '02':
                     _planData.readingMethodName = '역사 순서로 읽기';
                     dbData = await DBHelper.fnGetAllData(_STORE_NAME_READING_HISTORICAL);
-                    _planData.plan = await generateHistoricalPlan(dbData, actualDays);
+                    _planData.plan = await generateReadingPlan(dbData, actualDays);
                     break;
                 case '03':
                     _planData.readingMethodName = '테마 순서로 읽기';
                     dbData = await DBHelper.fnGetAllData(_STORE_NAME_READING_THEME);
-                    _planData.plan = await generateThemePlan(dbData, actualDays);
+                    _planData.plan = await generateReadingPlan(dbData, actualDays);
                     break;
                 case '04':
                     _planData.readingMethodName = '주제 순서로 읽기';
                     dbData = await DBHelper.fnGetAllData(_STORE_NAME_READING_TOPIC);
-                    _planData.plan = await generateTopicPlan(dbData, actualDays);
+                    _planData.plan = await generateReadingPlan(dbData, actualDays);//
                     break;
                 case '05':
                     _planData.readingMethodName = '구약/신약 혼합해서 읽기';
                     dbData = await DBHelper.fnGetAllData(_STORE_NAME_READING_MIXED);
-                    _planData.plan = await generateMixPlan(dbData, actualDays);
+                    _planData.plan = await generateReadingPlan(dbData, actualDays);
                     break;
                 case '00':
                     _planData.readingMethodName = '내가 읽은 성경만 기록';                    
@@ -70,14 +72,23 @@ const PlanHelper = (function() {
                     break;
             }
 
-            if(_planData.plan.length > 0) {
+            if(method === '00') {
+                _planData.startDate = fnFormatDate(_planData.startDate, "yy.MM.dd");
+                await DBHelper.fnSaveData(_STORE_NAME_PLAN, {key: _planDBKey, data: _planData});
+            }
+            else if(_planData.plan.length > 0) {
                 _planData.endDate = _planData.plan[_planData.plan.length - 1].date;
                 _planData.startDate = fnFormatDate(_planData.startDate, "yy.MM.dd");
                 //DB 저장 (Key값이 같으면 덮어쓰기 Update)
                 await DBHelper.fnSaveData(_STORE_NAME_PLAN, {key: _planDBKey, data: _planData});
+
+                //DB에서 읽기 계획 데이터 가져오기
+                console.log("plan 1일 샘플 ->  ", `${_planData.plan[0].bible} (구분 : ${_planData.plan[0].category})`);
+                console.log("plan 2일 샘플 ->  ", `${_planData.plan[1].bible} (구분 : ${_planData.plan[1].category})`);
             }
 
             console.log("_planData", _planData);
+            
         } catch (error) {
             throw error;
         }
@@ -124,6 +135,33 @@ const PlanHelper = (function() {
 
     
     // 내부 함수 --------------------------------------------------------------------------------------------
+
+    // 실제 읽을 수 있는 날을 계산하는 함수 (선택된 요일만 고려)
+    function calculateActualReadingDays(totalPlannedDays) {
+        return new Promise((resolve) => {
+            let currentDate = new Date();  // 시작 날짜 설정
+            let actualDays = 0;  // 실제 읽을 수 있는 날 카운트
+
+            // 총 계획 일수가 0이 될 때까지 반복
+            while (totalPlannedDays > 0) {
+                let currentDayOfWeek = currentDate.getDay();  // 현재 날짜의 요일 확인 (0: 일요일, 1: 월요일, ...)
+                let currentDayString = getDayString(currentDayOfWeek);  // 숫자를 한글 요일로 변환
+
+                // 선택한 요일인지 확인
+                if (_planData.readingDays.includes(currentDayString)) {
+                    actualDays++;  // 실제 읽을 수 있는 날 증가
+                }
+
+                // 날짜를 다음 날로 이동
+                currentDate.setDate(currentDate.getDate() + 1);
+
+                // 남은 총 계획 일수 감소
+                totalPlannedDays--;
+            }
+
+            resolve(actualDays);  // 실제 읽기 가능한 날 수 반환
+        });
+    }    
 
     // 1. 성경 순서로 읽기 계획 생성 함수
     function generateBiblePlan(data, totalDays) {
@@ -208,7 +246,8 @@ const PlanHelper = (function() {
                             day: currentDayString,
                             bible: mergedBibleEntries,
                             completed: false,
-                            newweek: isNewWeek
+                            newweek: isNewWeek,
+                            category: ""
                         });
                         totalPlanDays++;
                     }
@@ -225,117 +264,66 @@ const PlanHelper = (function() {
             }
         });
     }
-    // 2. 역사 순서로 읽기 계획 생성 함수
-    function generateHistoricalPlan(bibleEntries, totalDays) {
-        //TODO: 로직은 최대 720일 (2년)까지만 계획을 생성 -> historicalOrder_db.json
-        // totalDays 기준으로 720일 분량을 일일 단위로 분배
+
+    // 2. 역사,테마,주제,구약/신약 순서로 읽기 계획 생성 함수
+    function generateReadingPlan(data, totalDays) {
         return new Promise((resolve, reject) => {
-        
-            let totalChapters = bibleEntries.length;
             let result = [];
-            let currentDay = 1;
+            let currentDate = new Date();  // 현재 날짜를 시작일로 설정
+            let totalChapters = data.length;
             let currentEntryIndex = 0;
-        
-            while (currentDay <= totalDays && currentEntryIndex < totalChapters) {
+            let lastWeek = getWeek(currentDate); // 주 번호 확인
+            
+            for (let currentDay = 1; currentDay <= totalDays; currentDay++) {
                 let dailyBible = [];
-                let dayCategory = bibleEntries[currentEntryIndex].category;
-        
+                let dayCategory = data[currentEntryIndex].category;
+                let isNewWeek = false;
+    
+                let dayOfWeek = currentDate.getDay();
+                let dateString = fnFormatDate(currentDate, "yy.MM.dd");
+                let currentWeek = getWeek(currentDate);
+    
+                // 주의 첫 날인지 여부 확인
+                if (currentWeek !== lastWeek) {
+                    isNewWeek = true;
+                    lastWeek = currentWeek;
+                }
+    
+                // 필요한 구절을 일별로 분배
                 while (dailyBible.length < Math.ceil(totalChapters / totalDays) && currentEntryIndex < totalChapters) {
-                    let currentEntry = bibleEntries[currentEntryIndex];
-                    let bibleText = `${currentEntry.long_label} ${currentEntry.chapter}장`;
+                    let currentEntry = data[currentEntryIndex];
+                    let bibleText = `${currentEntry.bible}`;
+                    dayCategory = currentEntry.category;
                     dailyBible.push(bibleText);
                     currentEntryIndex++;
                 }
-        
+    
+                // 병합된 구절을 적용
+                //const mergedBibleEntries = dailyBible;
+                const mergedBibleEntries = mergeBibleEntries(dailyBible);
+    
+                // 결과에 추가
                 result.push({
-                    "days": currentDay,
-                    "bible": dailyBible.join(', '),
+                    "date": dateString,
+                    "day": getDayString(dayOfWeek),
+                    "bible": mergedBibleEntries,  // bible 속성을 문자열로 처리
+                    "completed": false,
+                    "newweek": isNewWeek,
                     "category": dayCategory
                 });
-                currentDay++;
-            }         
-
+    
+                // 날짜 하루 증가
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+    
             if (result.length > 0) {
                 resolve(result);
             } else {
-                console.warn("No plan data was generated.");
-                resolve([]);
-            }
-        });
-    }    
-    // 3. 테마 순서로 읽기 계획 생성 함수
-    function generateThemePlan(data, totalDays) {
-        //TODO: 역사 순서와 동일한 로직
-
-        return new Promise((resolve, reject) => {
-            const plan = [];
-
-            if (plan.length > 0) {
-                resolve(plan);
-            } else {
-                console.warn("No plan data was generated.");
-                resolve([]);
+                reject("No plan data was generated.");
             }
         });
     }
-    // 4. 주제 순서로 읽기 계획 생성 함수
-    function generateTopicPlan(data, totalDays) {
-        //TODO: 역사 순서와 동일한 로직
-
-        return new Promise((resolve, reject) => {
-            const plan = [];
-
-            if (plan.length > 0) {
-                resolve(plan);
-            } else {
-                console.warn("No plan data was generated.");
-                resolve([]);
-            }
-        });
-    }
-    // 5. 구약/신약 혼합해서 읽기 계획 생성 함수
-    function generateMixPlan(data, totalDays) {
-        //TODO: 역사 순서와 동일한 로직
-
-        return new Promise((resolve, reject) => {
-            const plan = [];
-
-            if (plan.length > 0) {
-                resolve(plan);
-            } else {
-                console.warn("No plan data was generated.");
-                resolve([]);
-            }
-        });
-    }
-
-
-    // 실제 읽을 수 있는 날을 계산하는 함수 (선택된 요일만 고려)
-    function calculateActualReadingDays(totalPlannedDays) {
-        return new Promise((resolve) => {
-            let currentDate = new Date();  // 시작 날짜 설정
-            let actualDays = 0;  // 실제 읽을 수 있는 날 카운트
-
-            // 총 계획 일수가 0이 될 때까지 반복
-            while (totalPlannedDays > 0) {
-                let currentDayOfWeek = currentDate.getDay();  // 현재 날짜의 요일 확인 (0: 일요일, 1: 월요일, ...)
-                let currentDayString = getDayString(currentDayOfWeek);  // 숫자를 한글 요일로 변환
-
-                // 선택한 요일인지 확인
-                if (_planData.readingDays.includes(currentDayString)) {
-                    actualDays++;  // 실제 읽을 수 있는 날 증가
-                }
-
-                // 날짜를 다음 날로 이동
-                currentDate.setDate(currentDate.getDate() + 1);
-
-                // 남은 총 계획 일수 감소
-                totalPlannedDays--;
-            }
-
-            resolve(actualDays);  // 실제 읽기 가능한 날 수 반환
-        });
-    }
+    
 
     // 연속된 성경 구절을 병합하는 함수 (공용 함수로 외부로 이동)
     function mergeBibleEntries(bibleEntries) {
@@ -348,65 +336,109 @@ const PlanHelper = (function() {
         let endChapter = null;
         let endVerse = null;
 
-        bibleEntries.forEach((entry, index) => {
-            if (!entry || typeof entry !== 'string') {
-                console.warn("Invalid entry found, skipping:", entry);
-                return;
-            }
+        if(_planData.readingMethod === '01') {
 
-            const parts = entry.split(" "); // "창세기 1:1 ~ 1:31" 같은 형식일 경우 분리
-            if (parts.length < 4 || parts[2] !== "~") {
-                console.warn("Invalid format, skipping:", entry);
-                return;
-            }
+            bibleEntries.forEach((entry, index) => {
+                if (!entry || typeof entry !== 'string') {
+                    console.warn("Invalid entry found, skipping:", entry);
+                    return;
+                }
 
-            const bookLabel = parts[0]; // 책 이름 (창세기)
-            const start = parts[1]; // 시작 구절 (1:1)
-            const end = parts[3]; // 끝 구절 (1:31)
+                const parts = entry.split(" "); // "창세기 1:1 ~ 1:31" 같은 형식일 경우 분리
+                if (parts.length < 4 || parts[2] !== "~") {
+                    console.warn("Invalid format, skipping:", entry);
+                    return;
+                }
 
-            // 시작 장:절과 끝 장:절을 분리하여 숫자로 변환
-            const [startCh, startVs] = start.split(":").map(Number); // 시작 장과 절
-            let endCh = startCh, endVs = startVs; // 기본적으로 시작 구절로 초기화
+                const bookLabel = parts[0]; // 책 이름 (창세기)
+                const start = parts[1]; // 시작 구절 (1:1)
+                const end = parts[3]; // 끝 구절 (1:31)
 
-            // 끝 구절이 존재하고, 제대로된 포맷이라면 처리
-            if (end && end.includes(":")) {
-                [endCh, endVs] = end.split(":").map(Number);
-            }
+                // 시작 장:절과 끝 장:절을 분리하여 숫자로 변환
+                const [startCh, startVs] = start.split(":").map(Number); // 시작 장과 절
+                let endCh = startCh, endVs = startVs; // 기본적으로 시작 구절로 초기화
 
-            if (isNaN(startCh) || isNaN(startVs) || isNaN(endCh) || isNaN(endVs)) {
-                console.warn("Invalid chapter/verse format, skipping:", start, end);
-                return;
-            }
+                // 끝 구절이 존재하고, 제대로된 포맷이라면 처리
+                if (end && end.includes(":")) {
+                    [endCh, endVs] = end.split(":").map(Number);
+                }
 
-            if (!currentBook) {
-                // 첫 번째 구절 시작
-                currentBook = bookLabel;
-                startChapter = startCh;
-                startVerse = startVs;
-                endChapter = endCh;
-                endVerse = endVs;
-            } else if (currentBook === bookLabel && ((startCh === endChapter && startVs === endVerse + 1) || (startCh === endChapter + 1 && startVs === 1))) {
-                // 같은 책이고, 장과 절이 연속되면 범위 확장
-                endChapter = endCh;
-                endVerse = endVs;
-            } else {
-                // 연속되지 않는 경우 병합된 범위를 저장하고 새 범위 시작
-                mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
-                currentBook = bookLabel;
-                startChapter = startCh;
-                startVerse = startVs;
-                endChapter = endCh;
-                endVerse = endVs;
-            }
+                if (isNaN(startCh) || isNaN(startVs) || isNaN(endCh) || isNaN(endVs)) {
+                    console.warn("Invalid chapter/verse format, skipping:", start, end);
+                    return;
+                }
 
-            // 마지막 entry는 병합하여 추가
-            if (index === bibleEntries.length - 1) {
-                mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
-            }
-        });
+                if (!currentBook) {
+                    // 첫 번째 구절 시작
+                    currentBook = bookLabel;
+                    startChapter = startCh;
+                    startVerse = startVs;
+                    endChapter = endCh;
+                    endVerse = endVs;
+                } else if (currentBook === bookLabel && ((startCh === endChapter && startVs === endVerse + 1) || (startCh === endChapter + 1 && startVs === 1))) {
+                    // 같은 책이고, 장과 절이 연속되면 범위 확장
+                    endChapter = endCh;
+                    endVerse = endVs;
+                } else {
+                    // 연속되지 않는 경우 병합된 범위를 저장하고 새 범위 시작
+                    mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
+                    currentBook = bookLabel;
+                    startChapter = startCh;
+                    startVerse = startVs;
+                    endChapter = endCh;
+                    endVerse = endVs;
+                }
+
+                // 마지막 entry는 병합하여 추가
+                if (index === bibleEntries.length - 1) {
+                    mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
+                }
+            });
+
+        }else{
+
+            bibleEntries.forEach((entry, index) => {
+                if (!entry || typeof entry !== 'string') return;
+        
+                const [bookLabel, chapterRange] = entry.split(" ");
+                let [startCh, endCh] = chapterRange.split("장 ~ ").map(ch => parseInt(ch.replace("장", ""), 10));
+        
+                // startCh와 endCh가 undefined인 경우 기본값 설정
+                if (!endCh) endCh = startCh;
+        
+                if (!currentBook) {
+                    // 최초의 책과 장 정보 설정
+                    currentBook = bookLabel;
+                    startChapter = startCh;
+                    endChapter = endCh;
+                } else if (currentBook === bookLabel && endChapter + 1 === startCh) {
+                    // 같은 책이고 연속된 장이면 병합
+                    endChapter = endCh;
+                } else {
+                    // 연속되지 않으면 기존 항목 병합 후 새 항목 시작
+                    mergedEntries.push(startChapter === endChapter ?
+                        `${currentBook} ${startChapter}장` :
+                        `${currentBook} ${startChapter}장 ~ ${endChapter}장`
+                    );
+                    currentBook = bookLabel;
+                    startChapter = startCh;
+                    endChapter = endCh;
+                }
+        
+                // 마지막 항목 병합
+                if (index === bibleEntries.length - 1) {
+                    mergedEntries.push(startChapter === endChapter ?
+                        `${currentBook} ${startChapter}장` :
+                        `${currentBook} ${startChapter}장 ~ ${endChapter}장`
+                    );
+                }
+            });
+        }
 
         return mergedEntries.join(", ");
     }
+
+
 
     function formatDate(date) { return fnFormatDate(date, "yy.MM.dd"); }
 
