@@ -444,5 +444,10 @@ function TestDDB(){
     setTimeout(() => { alert("새로고침 합니다."); location.reload(); }, 1500);
 }
 
+function TestPlan(){
+    PlanHelper.fnSaveReadingRecords(1, 1, [1, 3, 5]);
+    //PlanHelper.fnSaveReadingPlan("24.10.18");
+
+}
 
 

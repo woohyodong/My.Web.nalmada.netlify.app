@@ -55,6 +55,8 @@ const PlanHelper = (function() {
                     break;
                 case '00':
                     _planData.readingMethodName = '내가 읽은 성경만 기록';                    
+                    dbData = await DBHelper.fnGetAllData(_STORE_NAME_BIBLE_SUMMARY);
+                    _planData.plan = await generateReadingRecords(dbData);
                     break;                
                 default:
                     _planData.readingMethodName = '날마다 성경 읽기';
@@ -126,6 +128,88 @@ const PlanHelper = (function() {
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // 남은 날짜 계산
     }
 
+    // 읽은 구절을 기록하는 함수
+    async function fnSaveReadingRecords(book, chapter, verses) {
+        try {
+            // PlanStore에서 계획 데이터 가져오기
+            const planData = await DBHelper.fnGetDataByKey(_STORE_NAME_PLAN, _planDBKey);
+    
+            //console.log("planData", planData.data.plan);
+        
+            // 해당 성경책과 장을 찾기
+            const bookEntry = planData.data.plan.find(plan => plan.book === book);
+            if (!bookEntry) {
+                console.error('해당 책을 찾을 수 없습니다.');
+                return;
+            }
+        
+            const chapterEntry = bookEntry.chaptersRead.find(chap => chap.chapter === chapter);
+            if (!chapterEntry) {
+                console.error('해당 장을 찾을 수 없습니다.');
+                return;
+            }
+        
+            // 읽은 절을 추가 (중복 추가 방지)
+            verses.forEach(verse => {
+                if (!chapterEntry.versesRead.includes(verse)) {
+                    chapterEntry.versesRead.push(verse);
+                }
+            });
+        
+            // 완료 여부 확인 (모든 절을 읽었는지)
+            if (chapterEntry.versesRead.length === chapterEntry.totalVerses) {
+                chapterEntry.completed = true;
+            }
+        
+            // 읽은 절 수 업데이트
+            bookEntry.versesReadCount = bookEntry.chaptersRead.reduce((acc, chap) => acc + chap.versesRead.length, 0);
+        
+            // 책 완료 여부 확인
+            if (bookEntry.versesReadCount === bookEntry.totalVerses) {
+                bookEntry.completed = true;
+            }
+    
+            console.log("bookEntry", bookEntry);
+        
+            // 업데이트된 데이터를 PlanStore에 저장 (planData 전체를 저장해야 함)
+            await DBHelper.fnSaveData(_STORE_NAME_PLAN, planData);
+        
+            console.log('성공적으로 읽은 구절을 기록했습니다.');
+        } catch (error) {
+            console.error('오류가 발생했습니다:', error);
+        }
+    }
+    
+    // 체크리스트 달성 저장 ==> 토글 방식으로 완료/미완료 상태를 전환
+    async function fnSaveReadingPlan(targetDate) {
+        try {
+            // PlanStore에서 계획 데이터 가져오기
+            const planData = await DBHelper.fnGetDataByKey(_STORE_NAME_PLAN, _planDBKey);
+    
+            if (!planData || !planData.data.plan) {
+                console.error('계획 데이터를 찾을 수 없습니다.');
+                return;
+            }
+    
+            // 주어진 날짜의 읽기 계획을 찾기
+            const dayEntry = planData.data.plan.find(day => day.date === targetDate);
+            if (!dayEntry) {
+                console.error(`${targetDate}에 해당하는 읽기 계획을 찾을 수 없습니다.`);
+                return;
+            }
+    
+            // 읽기 완료 상태 토글 (true -> false 또는 false -> true)
+            dayEntry.completed = !dayEntry.completed;
+    
+            // PlanStore에 업데이트된 데이터를 다시 저장
+            await DBHelper.fnSaveData(_STORE_NAME_PLAN, planData);
+    
+            console.log(`${targetDate} 읽기 계획의 완료 상태가 ${dayEntry.completed ? '완료' : '미완료'}로 업데이트되었습니다.`);
+        } catch (error) {
+            console.error('오류가 발생했습니다:', error);
+        }
+    }
+    
     
     // 내부 함수 --------------------------------------------------------------------------------------------
 
@@ -339,6 +423,50 @@ const PlanHelper = (function() {
             }
         });
     }
+
+    // 3. 내가 읽은 성경만 기록하는 계획 생성 함수
+    function generateReadingRecords(data) {
+        return new Promise((resolve, reject) => {
+            let result = [];
+
+            data.forEach((entry) => {
+                let chaptersRead = [];
+                let versesReadCount = 0;
+
+                // 모든 장에 대해 versesRead는 비우고, completed는 false로 설정
+                for (let i = 1; i <= entry.chapter_count; i++) {
+                    chaptersRead.push({
+                        chapter: i,
+                        versesRead: [], // 아직 읽지 않은 상태로 비워둠
+                        totalVerses: entry.verses[i - 1], // 해당 장의 총 절 수
+                        completed: false // 아직 완료되지 않음
+                    });
+                }
+
+                result.push({
+                    book: entry.book,
+                    long_label: entry.long_label,
+                    short_label: entry.short_label,
+                    category: entry.category, // category 속성 추가
+                    totalChapters: entry.chapter_count,
+                    chaptersRead: chaptersRead,
+                    totalVerses: entry.verses.reduce((acc, cur) => acc + cur, 0), // 전체 절 수
+                    versesReadCount: versesReadCount, // 초기 값으로 0 설정 (아직 읽지 않음)
+                    verses: entry.verses, // verses 배열 추가
+                    completed: false // 전체 책을 아직 읽지 않았음
+                });
+            });
+
+            if (result.length > 0) {
+                resolve(result);
+            } else {
+                reject("No plan data was generated.");
+            }
+        });
+    }
+
+
+
     
     // 연속된 성경 구절을 병합하는 함수 (공용 함수로 외부로 이동)
     function mergeBibleEntries(bibleEntries) {
@@ -622,6 +750,8 @@ const PlanHelper = (function() {
 
     return {
         fnCreatePlanData,
+        fnSaveReadingRecords,
+        fnSaveReadingPlan,
         fnCalculateAverageTime,
         fnCalculateRemainingDays
     };

@@ -2,6 +2,7 @@
     "oldTestament": [
         {
             "book": 1,
+            "category": "모세오경 (5권)",
             "long_label": "창세기",
             "short_label": "창",
             "chapter_count": 50,
@@ -12,6 +13,7 @@
         },
         {
             "book": 2,
+            "category": "모세오경 (5권)",
             "long_label": "출애굽기",
             "short_label": "출",
             "chapter_count": 40,
@@ -22,6 +24,7 @@
         },
         {
             "book": 3,
+            "category": "모세오경 (5권)",
             "long_label": "레위기",
             "short_label": "레",
             "chapter_count": 27,
@@ -32,6 +35,7 @@
         },
         {
             "book": 4,
+            "category": "모세오경 (5권)",
             "long_label": "민수기",
             "short_label": "민",
             "chapter_count": 36,
@@ -42,6 +46,7 @@
         },
         {
             "book": 5,
+            "category": "모세오경 (5권)",
             "long_label": "신명기",
             "short_label": "신",
             "chapter_count": 34,
@@ -52,6 +57,7 @@
         },
         {
             "book": 6,
+            "category": "역사서 (12권)",
             "long_label": "여호수아",
             "short_label": "수",
             "chapter_count": 24,
@@ -62,6 +68,7 @@
         },
         {
             "book": 7,
+            "category": "역사서 (12권)",
             "long_label": "사사기",
             "short_label": "삿",
             "chapter_count": 21,
@@ -72,6 +79,7 @@
         },
         {
             "book": 8,
+            "category": "역사서 (12권)",
             "long_label": "룻기",
             "short_label": "룻",
             "chapter_count": 4,
@@ -82,6 +90,7 @@
         },
         {
             "book": 9,
+            "category": "역사서 (12권)",
             "long_label": "사무엘상",
             "short_label": "삼상",
             "chapter_count": 31,
@@ -92,6 +101,7 @@
         },
         {
             "book": 10,
+            "category": "역사서 (12권)",
             "long_label": "사무엘하",
             "short_label": "삼하",
             "chapter_count": 24,
@@ -102,6 +112,7 @@
         },
         {
             "book": 11,
+            "category": "역사서 (12권)",
             "long_label": "열왕기상",
             "short_label": "왕상",
             "chapter_count": 22,
@@ -112,6 +123,7 @@
         },
         {
             "book": 12,
+            "category": "역사서 (12권)",
             "long_label": "열왕기하",
             "short_label": "왕하",
             "chapter_count": 25,
@@ -122,6 +134,7 @@
         },
         {
             "book": 13,
+            "category": "역사서 (12권)",
             "long_label": "역대상",
             "short_label": "대상",
             "chapter_count": 29,
@@ -132,6 +145,7 @@
         },
         {
             "book": 14,
+            "category": "역사서 (12권)",
             "long_label": "역대하",
             "short_label": "대하",
             "chapter_count": 36,
@@ -142,6 +156,7 @@
         },
         {
             "book": 15,
+            "category": "역사서 (12권)",
             "long_label": "에스라",
             "short_label": "스",
             "chapter_count": 10,
@@ -152,6 +167,7 @@
         },
         {
             "book": 16,
+            "category": "역사서 (12권)",
             "long_label": "느헤미야",
             "short_label": "느",
             "chapter_count": 13,
@@ -162,6 +178,7 @@
         },
         {
             "book": 17,
+            "category": "역사서 (12권)",
             "long_label": "에스더",
             "short_label": "에",
             "chapter_count": 10,
@@ -172,6 +189,7 @@
         },
         {
             "book": 18,
+            "category": "시가서 (5권)",
             "long_label": "욥기",
             "short_label": "욥",
             "chapter_count": 42,
@@ -182,6 +200,7 @@
         },
         {
             "book": 19,
+            "category": "시가서 (5권)",
             "long_label": "시편",
             "short_label": "시",
             "chapter_count": 150,
@@ -192,6 +211,7 @@
         },
         {
             "book": 20,
+            "category": "시가서 (5권)",
             "long_label": "잠언",
             "short_label": "잠",
             "chapter_count": 31,
@@ -202,6 +222,7 @@
         },
         {
             "book": 21,
+            "category": "시가서 (5권)",
             "long_label": "전도서",
             "short_label": "전",
             "chapter_count": 12,
@@ -212,6 +233,7 @@
         },
         {
             "book": 22,
+            "category": "시가서 (5권)",
             "long_label": "아가",
             "short_label": "아",
             "chapter_count": 8,
@@ -222,6 +244,7 @@
         },
         {
             "book": 23,
+            "category": "대선지서 (5권)",
             "long_label": "이사야",
             "short_label": "사",
             "chapter_count": 66,
@@ -232,6 +255,7 @@
         },
         {
             "book": 24,
+            "category": "대선지서 (5권)",
             "long_label": "예레미야",
             "short_label": "렘",
             "chapter_count": 52,
@@ -242,6 +266,7 @@
         },
         {
             "book": 25,
+            "category": "대선지서 (5권)",
             "long_label": "예레미야애가",
             "short_label": "애",
             "chapter_count": 5,
@@ -252,6 +277,7 @@
         },
         {
             "book": 26,
+            "category": "대선지서 (5권)",
             "long_label": "에스겔",
             "short_label": "겔",
             "chapter_count": 48,
@@ -262,6 +288,7 @@
         },
         {
             "book": 27,
+            "category": "대선지서 (5권)",
             "long_label": "다니엘",
             "short_label": "단",
             "chapter_count": 12,
@@ -272,6 +299,7 @@
         },
         {
             "book": 28,
+            "category": "소선지서 (12권)",
             "long_label": "호세아",
             "short_label": "호",
             "chapter_count": 14,
@@ -282,6 +310,7 @@
         },
         {
             "book": 29,
+            "category": "소선지서 (12권)",
             "long_label": "요엘",
             "short_label": "욜",
             "chapter_count": 3,
@@ -292,6 +321,7 @@
         },
         {
             "book": 30,
+            "category": "소선지서 (12권)",
             "long_label": "아모스",
             "short_label": "암",
             "chapter_count": 9,
@@ -302,6 +332,7 @@
         },
         {
             "book": 31,
+            "category": "소선지서 (12권)",
             "long_label": "오바댜",
             "short_label": "옵",
             "chapter_count": 1,
@@ -312,6 +343,7 @@
         },
         {
             "book": 32,
+            "category": "소선지서 (12권)",
             "long_label": "요나",
             "short_label": "욘",
             "chapter_count": 4,
@@ -322,6 +354,7 @@
         },
         {
             "book": 33,
+            "category": "소선지서 (12권)",
             "long_label": "미가",
             "short_label": "미",
             "chapter_count": 7,
@@ -332,6 +365,7 @@
         },
         {
             "book": 34,
+            "category": "소선지서 (12권)",
             "long_label": "나훔",
             "short_label": "나",
             "chapter_count": 3,
@@ -342,6 +376,7 @@
         },
         {
             "book": 35,
+            "category": "소선지서 (12권)",
             "long_label": "하박국",
             "short_label": "합",
             "chapter_count": 3,
@@ -352,6 +387,7 @@
         },
         {
             "book": 36,
+            "category": "소선지서 (12권)",
             "long_label": "스바냐",
             "short_label": "습",
             "chapter_count": 3,
@@ -362,6 +398,7 @@
         },
         {
             "book": 37,
+            "category": "소선지서 (12권)",
             "long_label": "학개",
             "short_label": "학",
             "chapter_count": 2,
@@ -372,6 +409,7 @@
         },
         {
             "book": 38,
+            "category": "소선지서 (12권)",
             "long_label": "스가랴",
             "short_label": "슥",
             "chapter_count": 14,
@@ -382,6 +420,7 @@
         },
         {
             "book": 39,
+            "category": "소선지서 (12권)",
             "long_label": "말라기",
             "short_label": "말",
             "chapter_count": 4,
@@ -394,6 +433,7 @@
     "newTestament": [
         {
             "book": 40,
+            "category": "복음서 (4권)",
             "long_label": "마태복음",
             "short_label": "마",
             "chapter_count": 28,
@@ -404,6 +444,7 @@
         },
         {
             "book": 41,
+            "category": "복음서 (4권)",
             "long_label": "마가복음",
             "short_label": "막",
             "chapter_count": 16,
@@ -414,6 +455,7 @@
         },
         {
             "book": 42,
+            "category": "복음서 (4권)",
             "long_label": "누가복음",
             "short_label": "눅",
             "chapter_count": 24,
@@ -424,6 +466,7 @@
         },
         {
             "book": 43,
+            "category": "복음서 (4권)",
             "long_label": "요한복음",
             "short_label": "요",
             "chapter_count": 21,
@@ -434,6 +477,7 @@
         },
         {
             "book": 44,
+            "category": "역사서 (1권)",
             "long_label": "사도행전",
             "short_label": "행",
             "chapter_count": 28,
@@ -444,6 +488,7 @@
         },
         {
             "book": 45,
+            "category": "바울서신 (13권)",
             "long_label": "로마서",
             "short_label": "롬",
             "chapter_count": 16,
@@ -454,6 +499,7 @@
         },
         {
             "book": 46,
+            "category": "바울서신 (13권)",
             "long_label": "고린도전서",
             "short_label": "고전",
             "chapter_count": 16,
@@ -464,6 +510,7 @@
         },
         {
             "book": 47,
+            "category": "바울서신 (13권)",
             "long_label": "고린도후서",
             "short_label": "고후",
             "chapter_count": 13,
@@ -474,6 +521,7 @@
         },
         {
             "book": 48,
+            "category": "바울서신 (13권)",
             "long_label": "갈라디아서",
             "short_label": "갈",
             "chapter_count": 6,
@@ -484,6 +532,7 @@
         },
         {
             "book": 49,
+            "category": "바울서신 (13권)",
             "long_label": "에베소서",
             "short_label": "엡",
             "chapter_count": 6,
@@ -494,6 +543,7 @@
         },        
         {
             "book": 50,
+            "category": "바울서신 (13권)",
             "long_label": "빌립보서",
             "short_label": "빌",
             "chapter_count": 4,
@@ -504,6 +554,7 @@
         },
         {
             "book": 51,
+            "category": "바울서신 (13권)",
             "long_label": "골로새서",
             "short_label": "골",
             "chapter_count": 4,
@@ -514,6 +565,7 @@
         },
         {
             "book": 52,
+            "category": "바울서신 (13권)",
             "long_label": "데살로니가전서",
             "short_label": "살전",
             "chapter_count": 5,
@@ -524,6 +576,7 @@
         },
         {
             "book": 53,
+            "category": "바울서신 (13권)",
             "long_label": "데살로니가후서",
             "short_label": "살후",
             "chapter_count": 3,
@@ -534,6 +587,7 @@
         },
         {
             "book": 54,
+            "category": "바울서신 (13권)",
             "long_label": "디모데전서",
             "short_label": "딤전",
             "chapter_count": 6,
@@ -544,6 +598,7 @@
         },
         {
             "book": 55,
+            "category": "바울서신 (13권)",
             "long_label": "디모데후서",
             "short_label": "딤후",
             "chapter_count": 4,
@@ -554,6 +609,7 @@
         },
         {
             "book": 56,
+            "category": "바울서신 (13권)",
             "long_label": "디도서",
             "short_label": "딛",
             "chapter_count": 3,
@@ -564,6 +620,7 @@
         },
         {
             "book": 57,
+            "category": "바울서신 (13권)",
             "long_label": "빌레몬서",
             "short_label": "몬",
             "chapter_count": 1,
@@ -574,6 +631,7 @@
         },
         {
             "book": 58,
+            "category": "공동서신 (8권)",
             "long_label": "히브리서",
             "short_label": "히",
             "chapter_count": 13,
@@ -584,6 +642,7 @@
         },
         {
             "book": 59,
+            "category": "공동서신 (8권)",
             "long_label": "야고보서",
             "short_label": "약",
             "chapter_count": 5,
@@ -594,6 +653,7 @@
         },
         {
             "book": 60,
+            "category": "공동서신 (8권)",
             "long_label": "베드로전서",
             "short_label": "벧전",
             "chapter_count": 5,
@@ -604,6 +664,7 @@
         },
         {
             "book": 61,
+            "category": "공동서신 (8권)",
             "long_label": "베드로후서",
             "short_label": "벧후",
             "chapter_count": 3,
@@ -614,6 +675,7 @@
         },
         {
             "book": 62,
+            "category": "공동서신 (8권)",
             "long_label": "요한1서",
             "short_label": "요일",
             "chapter_count": 5,
@@ -624,6 +686,7 @@
         },
         {
             "book": 63,
+            "category": "공동서신 (8권)",
             "long_label": "요한2서",
             "short_label": "요이",
             "chapter_count": 1,
@@ -634,6 +697,7 @@
         },
         {
             "book": 64,
+            "category": "공동서신 (8권)",
             "long_label": "요한3서",
             "short_label": "요삼",
             "chapter_count": 1,
@@ -644,6 +708,7 @@
         },
         {
             "book": 65,
+            "category": "공동서신 (8권)",
             "long_label": "유다서",
             "short_label": "유",
             "chapter_count": 1,
@@ -654,6 +719,7 @@
         },
         {
             "book": 66,
+            "category": "예언서 (1권)",
             "long_label": "요한계시록",
             "short_label": "계",
             "chapter_count": 22,
