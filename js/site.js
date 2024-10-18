@@ -12,11 +12,23 @@ const _STORE_NAME_READING_RECORD = "ReadingRecordStore";
 
 let _currentStep = 1; // 현재 진행 중인 단계
 
+///테스트 데이터 ///////////////////////////////////////////////////////////////////////////////////////
+
+//const testData = "창세기 1:1 ~ 2:2, 마태복음 1:1 ~ 1:12, 창세기 2:3 ~ 3:10, 마태복음 1:13 ~ 1:24";
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 // 이벤트 등록 (초기화)
 document.addEventListener('DOMContentLoaded', InitPage);
 
 // 공통 초기화
 function InitPage() {
+
+    //테스트
+    // console.log("원본:", testData);
+    // console.log("수정:", groupAndMergeBibleEntries(testData));
 
     InitDB();
 

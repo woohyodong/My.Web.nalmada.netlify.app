@@ -71,9 +71,13 @@ const PlanHelper = (function() {
                 //DB 저장 (Key값이 같으면 덮어쓰기 Update)
                 await DBHelper.fnSaveData(_STORE_NAME_PLAN, {key: _planDBKey, data: _planData});
 
-                //DB에서 읽기 계획 데이터 가져오기
-                console.log("plan 1일 샘플 ->  ", `${_planData.plan[0].bible} (구분 : ${_planData.plan[0].category})`);
-                console.log("plan 2일 샘플 ->  ", `${_planData.plan[1].bible} (구분 : ${_planData.plan[1].category})`);
+                // //DB에서 읽기 계획 데이터 가져오기
+                // console.log("plan 1일 샘플 ->  ", `${_planData.plan[0].bible} (구분 : ${_planData.plan[0].category})`);
+                // console.log("plan 1일 오진 ->  ", `${_planData.plan[0].bible_origin}`);
+                // console.log("plan 2일 샘플 ->  ", `${_planData.plan[1].bible} (구분 : ${_planData.plan[1].category})`);
+                // console.log("plan 2일 오진 ->  ", `${_planData.plan[1].bible_origin}`);
+                // console.log("plan 60일 샘플 ->  ", `${_planData.plan[59].bible} (구분 : ${_planData.plan[1].category})`);
+                // console.log("plan 60일 오진 ->  ", `${_planData.plan[59].bible_origin}`);
             }
 
             console.log("_planData", _planData);
@@ -177,7 +181,7 @@ const PlanHelper = (function() {
             // 구약과 신약 배열 합침
             let bookArray = data;
 
-            console.log("bookArray", bookArray);
+            //console.log("bookArray", bookArray);
         
             // 전체 절 수 계산 (각 장별 절 수를 모두 더함)
             let totalVerses = bookArray.reduce((sum, book) => {
@@ -247,6 +251,7 @@ const PlanHelper = (function() {
                             date: currentDateString,
                             day: currentDayString,
                             bible: mergedBibleEntries,
+                            //bible_origin: bibleEntries,
                             completed: false,
                             newweek: isNewWeek,
                             category: ""
@@ -275,7 +280,9 @@ const PlanHelper = (function() {
             let totalChapters = data.length;
             let currentEntryIndex = 0;
             let lastWeek = getWeek(currentDate); // 주 번호 확인
-            
+            let minChaptersPerDay = Math.floor(totalChapters / totalDays);  // 각 날에 최소한 할당해야 하는 장 수
+            let extraChapters = totalChapters % totalDays;  // 남은 구절 수
+        
             for (let currentDay = 1; currentDay <= totalDays; currentDay++) {
                 let dailyBible = [];
                 let dayCategory = data[currentEntryIndex].category;
@@ -291,8 +298,15 @@ const PlanHelper = (function() {
                     lastWeek = currentWeek;
                 }
     
+                // 각 날에 최소 장을 할당하고 남은 구절을 분배
+                let chaptersForToday = minChaptersPerDay;
+                if (extraChapters > 0) {
+                    chaptersForToday++;  // 남은 구절을 하루씩 추가
+                    extraChapters--;
+                }
+    
                 // 필요한 구절을 일별로 분배
-                while (dailyBible.length < Math.ceil(totalChapters / totalDays) && currentEntryIndex < totalChapters) {
+                while (dailyBible.length < chaptersForToday && currentEntryIndex < totalChapters) {
                     let currentEntry = data[currentEntryIndex];
                     let bibleText = `${currentEntry.bible}`;
                     dayCategory = currentEntry.category;
@@ -301,7 +315,6 @@ const PlanHelper = (function() {
                 }
     
                 // 병합된 구절을 적용
-                //const mergedBibleEntries = dailyBible;
                 const mergedBibleEntries = mergeBibleEntries(dailyBible);
     
                 // 결과에 추가
@@ -309,6 +322,7 @@ const PlanHelper = (function() {
                     "date": dateString,
                     "day": getDayString(dayOfWeek),
                     "bible": mergedBibleEntries,  // bible 속성을 문자열로 처리
+                    //"bible_origin": dailyBible,  // 원본 데이터를 별도 속성으로 저장
                     "completed": false,
                     "newweek": isNewWeek,
                     "category": dayCategory
@@ -326,7 +340,6 @@ const PlanHelper = (function() {
         });
     }
     
-
     // 연속된 성경 구절을 병합하는 함수 (공용 함수로 외부로 이동)
     function mergeBibleEntries(bibleEntries) {
         if (bibleEntries.length === 0) return "";
@@ -338,7 +351,7 @@ const PlanHelper = (function() {
         let endChapter = null;
         let endVerse = null;
 
-        if(_planData.readingMethod === '01') {
+        if(_planData.readingMethod === '01') { //성경 순서로 읽기
 
             bibleEntries.forEach((entry, index) => {
                 if (!entry || typeof entry !== 'string') {
@@ -397,42 +410,108 @@ const PlanHelper = (function() {
                 }
             });
 
-        }else{
+        } 
+        else if(_planData.readingMethod === '05') { //구약/신약 혼합해서 읽기
+
+            bibleEntries.forEach((entry, index) => {
+                if (!entry || typeof entry !== 'string') {
+                    console.warn("Invalid entry found, skipping:", entry);
+                    return;
+                }
+        
+                const sections = entry.split(", "); // 책별로 분리
+                sections.forEach((section) => {
+                    const parts = section.split(" "); // 책 이름과 구절 범위 분리
+                    if (parts.length < 4 || parts[2] !== "~") {
+                        console.warn("Invalid format, skipping:", section);
+                        return;
+                    }
+        
+                    const bookLabel = parts[0]; // 책 이름 (창세기)
+                    const start = parts[1]; // 시작 구절 (1:1)
+                    const end = parts[3]; // 끝 구절 (1:31)
+        
+                    // 시작 장:절과 끝 장:절을 분리하여 숫자로 변환
+                    const [startCh, startVs] = start.split(":").map(Number); // 시작 장과 절
+                    let endCh = startCh, endVs = startVs; // 기본적으로 시작 구절로 초기화
+        
+                    // 끝 구절이 존재하고, 제대로 된 포맷이라면 처리
+                    if (end && end.includes(":")) {
+                        [endCh, endVs] = end.split(":").map(Number);
+                    }
+        
+                    if (isNaN(startCh) || isNaN(startVs) || isNaN(endCh) || isNaN(endVs)) {
+                        console.warn("Invalid chapter/verse format, skipping:", start, end);
+                        return;
+                    }
+        
+                    if (!currentBook) {
+                        // 첫 번째 구절 시작
+                        currentBook = bookLabel;
+                        startChapter = startCh;
+                        startVerse = startVs;
+                        endChapter = endCh;
+                        endVerse = endVs;
+                    } else if (currentBook === bookLabel && ((startCh === endChapter && startVs === endVerse + 1) || (startCh === endChapter + 1 && startVs === 1))) {
+                        // 같은 책이고, 장과 절이 연속되면 범위 확장
+                        endChapter = endCh;
+                        endVerse = endVs;
+                    } else {
+                        // 연속되지 않는 경우 병합된 범위를 저장하고 새 범위 시작
+                        mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
+                        currentBook = bookLabel;
+                        startChapter = startCh;
+                        startVerse = startVs;
+                        endChapter = endCh;
+                        endVerse = endVs;
+                    }
+                });
+        
+                // 마지막 entry는 병합하여 추가
+                if (index === bibleEntries.length - 1) {
+                    mergedEntries.push(`${currentBook} ${startChapter}:${startVerse} ~ ${endChapter}:${endVerse}`);
+                }
+            });
+        
+            // 책별로 구절 병합
+            return groupAndMergeBibleEntries(mergedEntries.join(", "));
+        }
+        else { //역사,테마,주제 순서로 읽기
 
             bibleEntries.forEach((entry, index) => {
                 if (!entry || typeof entry !== 'string') return;
         
-                const [bookLabel, chapterRange] = entry.split(" ");
-                let [startCh, endCh] = chapterRange.split("장 ~ ").map(ch => parseInt(ch.replace("장", ""), 10));
+                const sections = entry.split(", "); // 각 책과 장 구분
+                sections.forEach((section) => {
+                    const parts = section.split(" ");
+                    const bookLabel = parts[0]; // 책 이름 추출
+                    let chapterRange = parts.slice(1).join(" "); // 장 범위 추출
+                    let chapterParts = chapterRange.split("~").map(ch => ch.trim()); // 범위를 분리
         
-                // startCh와 endCh가 undefined인 경우 기본값 설정
-                if (!endCh) endCh = startCh;
+                    // 시작 장과 끝 장을 추출
+                    let startCh = parseInt(chapterParts[0].replace("장", ""), 10);
+                    let endCh = chapterParts[1] ? parseInt(chapterParts[1].replace("장", ""), 10) : startCh;
         
-                if (!currentBook) {
-                    // 최초의 책과 장 정보 설정
-                    currentBook = bookLabel;
-                    startChapter = startCh;
-                    endChapter = endCh;
-                } else if (currentBook === bookLabel && endChapter + 1 === startCh) {
-                    // 같은 책이고 연속된 장이면 병합
-                    endChapter = endCh;
-                } else {
-                    // 연속되지 않으면 기존 항목 병합 후 새 항목 시작
-                    mergedEntries.push(startChapter === endChapter ?
-                        `${currentBook} ${startChapter}장` :
-                        `${currentBook} ${startChapter}장 ~ ${endChapter}장`
-                    );
-                    currentBook = bookLabel;
-                    startChapter = startCh;
-                    endChapter = endCh;
-                }
+                    // 첫 번째 entry 처리
+                    if (!currentBook) {
+                        currentBook = bookLabel;
+                        startChapter = startCh;
+                        endChapter = endCh;
+                    } else if (currentBook === bookLabel && endChapter + 1 === startCh) {
+                        // 같은 책이고 연속된 장이면 병합
+                        endChapter = endCh;
+                    } else {
+                        // 연속되지 않으면 기존 항목 병합 후 새 항목 시작
+                        mergedEntries.push(formatChapterRange(currentBook, startChapter, endChapter));
+                        currentBook = bookLabel;
+                        startChapter = startCh;
+                        endChapter = endCh;
+                    }
+                });
         
                 // 마지막 항목 병합
                 if (index === bibleEntries.length - 1) {
-                    mergedEntries.push(startChapter === endChapter ?
-                        `${currentBook} ${startChapter}장` :
-                        `${currentBook} ${startChapter}장 ~ ${endChapter}장`
-                    );
+                    mergedEntries.push(formatChapterRange(currentBook, startChapter, endChapter));
                 }
             });
         }
@@ -440,6 +519,87 @@ const PlanHelper = (function() {
         return mergedEntries.join(", ");
     }
 
+
+
+    // 책별로 병합하는 함수
+    function groupAndMergeBibleEntries(testData) {
+        let mergedEntries = [];
+        let finalMergedEntries = [];
+    
+        // 1차로 구절을 분리하여 책별로 그룹화
+        const entries = testData.split(",").map(entry => entry.trim()); // 구절을 ,로 분리하고 트림
+    
+        // 각 구절을 분리하여 처리
+        entries.forEach((entry) => {
+            const spaceIndex = entry.indexOf(" "); // 책 이름과 구절 범위를 나누는 첫 번째 공백 찾기
+            const book = entry.slice(0, spaceIndex); // 책 이름 추출
+            const chapterVerseRange = entry.slice(spaceIndex + 1).trim(); // 구절 범위 전체 추출
+            mergedEntries.push({ book, range: chapterVerseRange }); // 책과 구절 범위 객체로 저장
+        });
+    
+    
+        // 책별로 구절 병합
+        let groupedEntries = {};
+        mergedEntries.forEach(({ book, range }) => {
+            if (!groupedEntries[book]) {
+                groupedEntries[book] = [];
+            }
+            groupedEntries[book].push(range);
+        });
+    
+        // 범위 병합 로직
+        Object.keys(groupedEntries).forEach((book) => {
+            const ranges = groupedEntries[book];
+    
+            // 첫 번째 구절 시작 장과 절
+            let [startCh, startVs] = ranges[0].split("~")[0].split(":").map(Number); 
+    
+            // 끝 구절이 있는 경우 처리, 없는 경우 시작 구절로 끝 구절을 설정
+            let [endCh, endVs] = ranges[0].includes("~") 
+                ? ranges[0].split("~")[1].split(":").map(Number) 
+                : [startCh, startVs]; 
+    
+            for (let i = 1; i < ranges.length; i++) {
+                let nextStartCh, nextStartVs, nextEndCh, nextEndVs;
+    
+                // "~"가 있는지 확인하여 범위 처리
+                if (ranges[i].includes("~")) {
+                    const [nextStart, nextEnd] = ranges[i].split("~").map(v => v.trim());
+                    [nextStartCh, nextStartVs] = nextStart.split(":").map(Number);
+                    [nextEndCh, nextEndVs] = nextEnd.split(":").map(Number);
+                } else {
+                    // "~"가 없으면 단일 구절로 처리
+                    [nextStartCh, nextStartVs] = ranges[i].split(":").map(Number);
+                    nextEndCh = nextStartCh;
+                    nextEndVs = nextStartVs;
+                }
+    
+                // 범위가 연속되면 병합
+                if ((nextStartCh === endCh && nextStartVs === endVs + 1) || (nextStartCh === endCh + 1 && nextStartVs === 1)) {
+                    endCh = nextEndCh;
+                    endVs = nextEndVs;
+                } else {
+                    // 연속되지 않으면 저장하고 새 범위 시작
+                    finalMergedEntries.push(`${book} ${startCh}:${startVs} ~ ${endCh}:${endVs}`);
+                    [startCh, startVs] = [nextStartCh, nextStartVs];
+                    [endCh, endVs] = [nextEndCh, nextEndVs];
+                }
+            }
+    
+            // 마지막 범위 병합
+            finalMergedEntries.push(`${book} ${startCh}:${startVs} ~ ${endCh}:${endVs}`);
+        });
+    
+        return finalMergedEntries.join(", ");
+    }
+    
+
+
+    function formatChapterRange(bookLabel, startChapter, endChapter) {
+        return startChapter === endChapter
+            ? `${bookLabel} ${startChapter}장`
+            : `${bookLabel} ${startChapter}장 ~ ${endChapter}장`;
+    }
 
 
     function formatDate(date) { return fnFormatDate(date, "yy.MM.dd"); }
