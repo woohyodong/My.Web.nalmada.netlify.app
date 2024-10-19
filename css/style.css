@@ -85,6 +85,12 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin: var(--gap)
 #_download .bar{width:100%;height:7px;background:#dedede;border-radius:3px;position: relative;margin-top:15px;overflow: hidden;position:relative;}
 #_download .bar > i{position:absolute;top:0;left:0;height:100%;display: block;background:#ff7844;width:0;transition:.2s;-webkit-transition:.2s;-moz-transition:.2s;}
 #_download.active{visibility: visible;opacity: 1;}
+
+#bible-nav{flex:1; display: flex;align-items: center;gap: var(--gap-sm);}
+#bible-nav a{display: block; text-decoration: underline;text-underline-offset: .5rem;}
+#bible-nav a:hover, #bible-nav a:active{font-weight: bold;transform: scale(1.1);}
+#bible-nav a::after{content: '›';display: inline-flex;margin-left: var(--gap-sm);font-weight: normal;transform: none;}
+#bible-nav a:last-child{text-decoration: none;font-weight: bold;font-size: 1.2em;transform: none;}#bible-nav a:last-child::after{content: '';}
 /*============ Common ============*/
 .container{min-height:100vh;width:clamp(var(--size-min),100%,var(--size-max));margin:auto;}
 .container.main{box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);background-color: var(--background);}
@@ -99,3 +105,14 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin: var(--gap)
 .btn-icon{display: inline-block;width: 4.8rem;height: 4.8rem;border-radius: 50%;background-size: 2.4rem;background-position: center;  background-repeat: no-repeat;overflow: hidden;text-indent: -99999px;transition: var(--tran);}
 .btn-icon:hover{background-color: rgba(0, 0, 0, 0.075);}
 .btn-icon.settings{background-image: url(/images/icon_settings.png);}
+
+.bible-list{padding:var(--gap);display: grid;gap: var(--gap-sm);}																								  .bible-list
+.bible-list h4{margin-bottom: var(--gap);}
+.bible-list ul{margin-bottom: var(--gap);display: grid;gap: var(--gap-sm);grid-template-columns: repeat(auto-fit, minmax(min(100%,12rem), 1fr));}
+.bible-list ul li{padding: var(--gap-sm);cursor: pointer;outline: 1px solid var(--border);transition: var(--tran);border-radius: var(--radius-sm);text-align: center;font-size: clamp(1.4rem, calc(1vw + 1vh + 0.4vmin), 1.6rem);}
+.bible-list ul li:hover, .bible-list ul li:active{background-color: var(--primary-dark);color: var(--primary-light);}
+.bible-list ul:last-child{margin-bottom: 0;}
+.bible-list.type-chapter ul{grid-template-columns: repeat(auto-fit, minmax(min(100%,6rem), 1fr));}
+.bible-list p{margin-bottom: var(--gap-xsm);cursor: default;}
+.bible-list p sup{opacity: 0.3;padding: var(--gap-xsm);}
+.bible-list p:active sup{opacity: 1;}

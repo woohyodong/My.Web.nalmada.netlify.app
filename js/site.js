@@ -325,7 +325,7 @@ function OnSavePlan() {
 // 성경관련 이벤트 함수 -----------------------------------------------------------------------
 
 // 성경 책 화면 표시/숨김
-function OnDisplayBibleBook(isShowBook){
+function OnDisplayBibleBook(isShowBook = true) {
     if(isShowBook) {
         $("#bibles").show();
         $("#bible-list").hide();
@@ -337,9 +337,27 @@ function OnDisplayBibleBook(isShowBook){
 }
 
 // 성경 > 상단 네비게이션 상태 변경
-function OnChangeBibleNavState(step = 0, book = null, chapter = null) {
-    
+function OnChangeBibleNavState(step = 0, book = null, bookName = null, chapter = null) {
+    const nav = $("#bible-nav").empty();
+
+    OnDisplayBibleBook(false);
+    if (step === 0) {
+        nav.append($("<a href='javascript:;'></a>").text("전체"));
+    } else if (step === 1) {
+        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnDisplayBibleBook));
+        nav.append($("<a href='javascript:;'></a>").text(bookName).on("click", () => OnSelectBibleBook(book, bookName)));
+    } else if (step === 2) {
+        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnDisplayBibleBook));
+        nav.append($("<a href='javascript:;'></a>").text(bookName).on("click", () => OnSelectBibleChapter(book, bookName, chapter)));
+        nav.append($("<a href='javascript:;'></a>").text(`${chapter}장`));
+    }
+
+    // // 로컬 스토리지에 상태 저장
+    // localStorage.setItem("#DB_STEP", step);
+    // localStorage.setItem("#DB_BOOK", book ? book.book : "");
+    // localStorage.setItem("#DB_CHAPTER", chapter ? chapter : "");
 }
+
 
 // 성경 > 책 선택 -> 장 목록 표시
 async function OnSelectBibleBook(book, bookName) {
@@ -353,14 +371,14 @@ async function OnSelectBibleBook(book, bookName) {
             return;
         }
 
-        OnDisplayBibleBook(false);  // 책 선택 화면 업데이트
+        OnChangeBibleNavState(1, book, bookName);  // 상단 네비게이션 상태 변경
         console.log('장 목록:', chapters.chapter_count);
 
         // 장 목록을 화면에 표시
         $("#bible-list").empty();
         $("#bible-list").append(`<h4>${bookName}</h4>`).append('<ul>');
         for (let i = 1; i <= chapters.chapter_count; i++) {
-            $("#bible-list ul").append(`<li onclick="OnSelectBibleChapter(${book}, ${i})">${i}</li>`);
+            $("#bible-list ul").append(`<li onclick="OnSelectBibleChapter(${book}, '${bookName}', ${i})">${i}</li>`);
         }
 
         //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
@@ -370,7 +388,7 @@ async function OnSelectBibleBook(book, bookName) {
 }
 
 // 성경 > 책 > 장 선택 -> 절 목록 표시
-async function OnSelectBibleChapter(book, chapter) {
+async function OnSelectBibleChapter(book, bookName, chapter) {
     try {
         // 복합 인덱스를 사용하여 book과 chapter를 기반으로 데이터를 조회
         const verses = await DBHelper.fnGetDataByIndex(_STORE_NAME_BIBLE, 'book_chapter', [book, chapter]);
@@ -379,6 +397,8 @@ async function OnSelectBibleChapter(book, chapter) {
             return;
         }
         
+        OnChangeBibleNavState(2, book, bookName, chapter);  // 상단 네비게이션 상태 변경
+
         // 절 목록을 화면에 표시
         console.log('절 목록:', verses);
         $("#bible-list").empty();
@@ -391,7 +411,6 @@ async function OnSelectBibleChapter(book, chapter) {
         console.error('Error fetching chapter data:', error);
     }
 }
-
 
 
 
