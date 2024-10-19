@@ -11,13 +11,7 @@ const _STORE_NAME_READING_MIXED = "ReadingMixedStore";
 const _STORE_NAME_READING_RECORD = "ReadingRecordStore";
 
 let _currentStep = 1; // 현재 진행 중인 단계
-
-///테스트 데이터 ///////////////////////////////////////////////////////////////////////////////////////
-
-//const testData = "창세기 1:1 ~ 2:2, 마태복음 1:1 ~ 1:12, 창세기 2:3 ~ 3:10, 마태복음 1:13 ~ 1:24";
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+const _totalSteps = 3; // 총 단계 수
 
 
 // 이벤트 등록 (초기화)
@@ -26,15 +20,11 @@ document.addEventListener('DOMContentLoaded', InitPage);
 // 공통 초기화
 function InitPage() {
 
-    //테스트
-    // console.log("원본:", testData);
-    // console.log("수정:", groupAndMergeBibleEntries(testData));
-
     InitDB();
 
     //materializecss init
     $('.modal').modal();
-    $(".btn-side").sideNav();//$(".btn-side").sideNav({edge: 'right'});    
+    $("#btn-settings").sideNav({ edge: 'right' });
 
     //simplebar init
     $(".simplebar").each(function () { new SimpleBar(this); });
@@ -184,7 +174,7 @@ async function InitDB(){
 
 // 계획표관련 이벤트 함수 ---------------------------------------------------------------------
 
-// 계획표 > 초기화
+// 계획표 팝업 > 초기화
 function OnResetPlan() {
     // 계획표 초기화
     _currentStep = 1;
@@ -192,63 +182,106 @@ function OnResetPlan() {
     // 모든 선택 해제/선택
     $('input[type="radio"]').prop('checked', false);
     $('input[type="checkbox"]').prop('checked', true);
+    // 버튼 초기화
+    $('#prevStep').prop('disabled', true);
+    $('#nextStep').prop('disabled', false);
+
+    OnShowStep();
 }
 
+// 계획표 팝업 > 단계 표시
+function OnShowStep() {
+    $('.step').addClass('none');
+    $(`.step.s${_currentStep}`).removeClass('none').fadeIn(300 * _currentStep);
+    $('#stepCount').text(_currentStep);
+    if (_currentStep === _totalSteps) {
+        $('#nextStep').hide();
+        $('#btnGenerate').show();
+    } else {
+        $('#nextStep').show();
+        $('#btnGenerate').hide();
+        if (_currentStep === 1) {
+            $('#prevStep').prop('disabled', true); // 첫 단계에서는 '이전' 버튼 비활성화
+        } else {
+            $('#prevStep').prop('disabled', false); // 두 번째 단계부터는 '이전' 버튼 활성화
+        }
+    }
+}
+
+// 계획표 팝업 > 단계 유효성 검사
 function IsValidateStep(){
     if(_currentStep === 1){
-        const method = $("input[name='chk1']:checked").val();
-        if(method === undefined){
+        
+        if($("input[name='chk1']:checked").length === 0){
             toast('읽기 방식을 선택해주세요.');
             return false;
         }
-    } else if(_currentStep === 2){
-        const selectedDays = $('input[name="chk2-1"]:checked');
-        if(selectedDays.length === 0){
-            toast('읽을 요일을 선택해주세요.');
+    } else if(_currentStep === 2){        
+        if($('input[name="chk2"]:checked').length === 0){
+            toast('최소 하나의 요일을 선택해주세요.');
             return false;
         }
     } else if(_currentStep === 3){
-        const totalDays = parseInt($("input[name='chk3']:checked").val());
-        if(totalDays === undefined){
-            toast('총 일수를 선택해주세요.');
+        if($('input[name="chk3"]:checked').length === 0){
+            toast('읽기 기간을 선택해주세요.');
             return false;
         }
     }
     return true;
 }
 
-// 계획표 > 다음 단계 선택
+// 계획표 팝업 > 다음 단계 선택
 function OnNextPlanStep() {
+    if(IsValidateStep() === false) return;
     _currentStep++;
+
+    // 마지막 단계에서 평균 소요 시간 계산
+    if(_currentStep === _totalSteps){
+
+        const weekDays = $('input[name="chk2"]:checked').map(function() { return $(this).val(); }).get();
+
+        $('input[name="chk3"]').each(function() {
+            const totalDays = parseInt($(this).val());  // 선택한 기간 (3개월, 6개월 등)
+            // 평균 소요 시간을 계산
+            const averageTime = PlanHelper.fnCalculateAverageTime(totalDays, weekDays.length);
+            //console.log(`하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분 소요 (하루에 ${averageTime.charactersPerDay}글자 읽기)`);
+            
+            $(this).parent().find('.time-display').html(`<strong>하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분</strong>`.replace("0시간", ""));
+        });
+    }
+
+    OnShowStep();
 }
 
-// 계획표 > 이전 단계 선택
+// 계획표 팝업 > 이전 단계 선택
 function OnPrevPlanStep() {
+    if(_currentStep === 1) return;
     _currentStep--;
+    OnShowStep();
 }
 
-// 계획표 > 생성
+// 계획표 팝업 > 생성
 async function OnCreatePlan() {
 
     try{
         if(IsValidateStep() === false) return;
 
         const method = $("input[name='chk1']:checked").val();
-        const weekDays = $('input[name="chk2-1"]:checked').map(function() { return $(this).val(); }).get();
+        const weekDays = $('input[name="chk2"]:checked').map(function() { return $(this).val(); }).get();
         const totalDays = parseInt($("input[name='chk3']:checked").val());
     
-        console.clear();
-        console.log(`선택한 방식: ${method}`);
-        console.log(`총 일수: ${totalDays}일`);
-        console.log(weekDays);    
+        // console.clear();
+        // console.log(`선택한 방식: ${method}`);
+        // console.log(`총 일수: ${totalDays}일`);
+        // console.log(weekDays);    
     
-        // 평균 소요 시간을 계산
-        const averageTime = PlanHelper.fnCalculateAverageTime(totalDays, weekDays.length);
-        console.log(`하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분 소요 (하루에 ${averageTime.charactersPerDay}글자 읽기)`);
+        // // 평균 소요 시간을 계산
+        // const averageTime = PlanHelper.fnCalculateAverageTime(totalDays, weekDays.length);
+        // console.log(`하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분 소요 (하루에 ${averageTime.charactersPerDay}글자 읽기)`);
     
         await PlanHelper.fnCreatePlanData(method, weekDays, totalDays);
     
-        return;
+        //return;
         
         // 계획 생성 후 계획표 화면 바인딩
         await OnLoadAndBindingPlan();
@@ -257,7 +290,8 @@ async function OnCreatePlan() {
         CloseAllPopup();
 
         // 축폭 효과
-        ShowEffect();
+        setTimeout(ShowEffectByStart, 500);
+        
         
     }catch(error){
         console.error('계획 생성 중 오류 발생:', error);
@@ -399,11 +433,12 @@ function fnResizeHeight() {
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 // 계획표 팝업 열기
-function OpenPlanPopup() {$("#popup-plan").addClass("active");}
+function OpenPlanPopup() {OnResetPlan(); $("#popup-plan").addClass("active");}
 // 계획표 팝업 닫기
 function CloseAllPopup() {$(".popup").removeClass("active");}
 // 팝업 닫기 (공용)
 function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
+function CloseSettingPopup() {$("#btn-settings").sideNav("hide");}
 // 옵션 > 폰트크기 변경
 function ChangeFontSize(size) {
     // $(".bible-text").css("font-size", size + "px");
@@ -417,8 +452,38 @@ function ToggleCompletedPlan() {
 function OpenHelpPopup() {$("#popup-help").addClass("active");}
 
 // 화면효과 > 종이 꽃가루 효과
-function ShowEffect() {
-    console.log('효과 표시');
+function ShowEffectByStart() {
+    //console.log('효과 표시');
+    confetti({
+        particleCount: 200,
+        startVelocity: 50,
+        spread: 120,
+        origin: { y: 0.5 }
+      });
+}
+
+function ShowEffectByEnd() {
+    //console.log('효과 표시');
+    var duration = 7 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    
+    var interval = setInterval(function() {
+      var timeLeft = animationEnd - Date.now();
+    
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+    
+      var particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
 }
 
 

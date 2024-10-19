@@ -41,25 +41,31 @@
 
     <!-- 인트로 팝업 -->
     <aside id="popup-intro" class="container popup">
-        <h2>인트로 팝업</h2>
-        <hr>
-        <p>안내 설명2</p>
-        <hr>
-        <button class="btn" onclick="OpenPlanPopup()">계획표 생성</button>
+        <header>
+            <img src="/images/img_bible.png" alt="">
+            <h1>날마다성경</h1>
+        </header>
+        <main>
+            <p>"주의 말씀은 내 발에 등이요 내 길에 빛이니이다.“<br />- 시편 119:105 -</p>
+        </main>
+        <footer>
+            <button class="btn" onclick="OpenPlanPopup()">성경 통독 계획 세우기</button>
+            <small>매일 한 걸음씩 "<strong>날마다성경</strong>"과 함께 끝까지 통독하세요!</small>
+        </footer>
     </aside>
 
     <!-- 계획표 설정 팝업 -->
     <aside id="popup-plan" class="container popup">
         <header>
             <h4><span id="stepCount">1</span>/<small>3 단계</small></h4>
-            <a href="javascript:;" class="btn btn-text" onclick="ClosePopup(this)" title="닫기">✕</a>
+            <a href="javascript:;" class="btn-round" onclick="ClosePopup(this)" title="닫기">✕</a>
         </header>
         <main class="simplebar">
             <!-- 읽기 방식 선택 -->
             <article class="step s1">
                 <h4>읽기 방식 선택</h4>
                 <ul>
-                    <li><label><h5>성경 순서로 읽기 <small>성경의 책 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="01" checked></label></li>
+                    <li><label><h5>성경 순서로 읽기 <small>성경의 책 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="01"></label></li>
                     <li><label><h5>역사 순서로 읽기 <small>성경의 사건이 발생한 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="02"></label></li>
                     <li><label><h5>테마 순서로 읽기 <small>예수님의 생애, 지혜서 등 특정 테마에 집중하여 읽는 방식</small></h5><input type="radio" name="chk1" value="03"></label></li>
                     <li><label><h5>주제 순서로 읽기 <small>믿음, 사랑, 구원 등의 주제에 따라 관련된 구절을 모아 읽는 방식</small></h5><input type="radio" name="chk1" value="04"></label></li>
@@ -69,74 +75,71 @@
             </article>
             
             <!-- 읽기 요일 선택 -->
-            <article class="step s2">
+            <article class="step s2 none">
                 <h4>읽기 요일 선택</h4>
                 <ul class="grid col-2">
-                    <li><label><h5>월요일</h5><input type="checkbox" name="chk2-1" value="월" checked></label></li>
-                    <li><label><h5>화요일</h5><input type="checkbox" name="chk2-1" value="화" checked></label></li>
-                    <li><label><h5>수요일</h5><input type="checkbox" name="chk2-1" value="수" checked></label></li>
-                    <li><label><h5>목요일</h5><input type="checkbox" name="chk2-1" value="목" checked></label></li>
-                    <li><label><h5>금요일</h5><input type="checkbox" name="chk2-1" value="금" checked></label></li>
-                    <li><label><h5>토요일</h5><input type="checkbox" name="chk2-1" value="토" checked></label></li>
-                    <li><label><h5>일요일</h5><input type="checkbox" name="chk2-1" value="일" checked></label></li>                    
+                    <li><label><h5>월요일</h5><input type="checkbox" name="chk2" value="월" checked></label></li>
+                    <li><label><h5>화요일</h5><input type="checkbox" name="chk2" value="화" checked></label></li>
+                    <li><label><h5>수요일</h5><input type="checkbox" name="chk2" value="수" checked></label></li>
+                    <li><label><h5>목요일</h5><input type="checkbox" name="chk2" value="목" checked></label></li>
+                    <li><label><h5>금요일</h5><input type="checkbox" name="chk2" value="금" checked></label></li>
+                    <li><label><h5>토요일</h5><input type="checkbox" name="chk2" value="토" checked></label></li>
+                    <li><label><h5>일요일</h5><input type="checkbox" name="chk2" value="일" checked></label></li>
                 </ul>
             </article>
             
             <!-- 읽기 기간 설정 -->
-            <article class="step s3">
+            <article class="step s3 none">
                 <h4>읽기 기간 설정</h4>
                 <ul>
-                    <li>
-                        <label>
-                            <h5>3개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
-                            <input type="radio" name="chk3" value="90">
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <h5>6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
-                            <input type="radio" name="chk3" value="180">
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <h5>1년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
-                            <input type="radio" name="chk3" value="360" checked>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <h5>1년 6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
-                            <input type="radio" name="chk3" value="540">
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <h5>2년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5>
-                            <input type="radio" name="chk3" value="720">
-                        </label>
-                    </li>
+                    <li><label><h5>3개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="90"></label></li>
+                    <li><label><h5>6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="180"></label></li>
+                    <li><label><h5>1년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="360"></label></li>
+                    <li><label><h5>1년 6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="540"></label></li>
+                    <li><label><h5>2년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="720"></label></li>
                 </ul>
             </article>            
         </main>
         <footer>
-            <button id="prevStep" class="btn none" onclick="OnPrevPlanStep()" title="이전단계">이전 단계</button>
-            <button id="nextStep" class="btn active none" onclick="OnNextPlanStep()">다음 단계</button>
-            <button id="btnGenerate" class="btn active" onclick="OnCreatePlan()">계획표 생성</button>
+            <button id="prevStep" onclick="OnPrevPlanStep()">이전 단계</button>
+            <button id="nextStep" class="active" onclick="OnNextPlanStep()">다음 단계</button>
+            <button id="btnGenerate" class="active" style="display: none;" onclick="OnCreatePlan()">계획표 생성</button>
         </footer>
-
-
-        <!-- <h2>계획표 설정 팝업</h2>
-        <a href="javascript:;" onclick="ClosePopup(this)">닫기</a>
-        <hr>
-        <p>계획표 설정</p>
-        <hr>
-        <button class="btn" onclick="OnCreatePlan()">계획표 생성</button> -->
-    </aside>    
+    </aside>
 
     <!-- 설정 슬라이드 -->
     <aside id="slide-settings" class="side-nav">
-        설정 슬라이드
+        <header>
+            <a href="javascript:;" class="btn-round" onclick="CloseSettingPopup()" title="닫기">✕</a>
+            
+            <div class="info">
+                <h5>계획표 기간 (1년간)</h5>
+                <h3>23일 남음</h3>
+                <h6>23.11.30 ~ 24.12.30</h6>
+                <button class="btn" onclick="CloseSettingPopup();OpenPlanPopup()"><svg class="icon-svg" style="fill: var(--white);" xmlns="http://www.w3.org/2000/svg" width="240" height="240"><path d="M10 11H7.101l.001-.009a4.956 4.956 0 0 1 .752-1.787 5.054 5.054 0 0 1 2.2-1.811c.302-.128.617-.226.938-.291a5.078 5.078 0 0 1 2.018 0 4.978 4.978 0 0 1 2.525 1.361l1.416-1.412a7.036 7.036 0 0 0-2.224-1.501 6.921 6.921 0 0 0-1.315-.408 7.079 7.079 0 0 0-2.819 0 6.94 6.94 0 0 0-1.316.409 7.04 7.04 0 0 0-3.08 2.534 6.978 6.978 0 0 0-1.054 2.505c-.028.135-.043.273-.063.41H2l4 4 4-4zm4 2h2.899l-.001.008a4.976 4.976 0 0 1-2.103 3.138 4.943 4.943 0 0 1-1.787.752 5.073 5.073 0 0 1-2.017 0 4.956 4.956 0 0 1-1.787-.752 5.072 5.072 0 0 1-.74-.61L7.05 16.95a7.032 7.032 0 0 0 2.225 1.5c.424.18.867.317 1.315.408a7.07 7.07 0 0 0 2.818 0 7.031 7.031 0 0 0 4.395-2.945 6.974 6.974 0 0 0 1.053-2.503c.027-.135.043-.273.063-.41H22l-4-4-4 4z"></path></svg> 계획표 다시설정</button>
+            </div>
+        </header>
+        <main>
+            <ul class="list">
+                <li>
+                    <label for="opt1" class="cursor">계획표 › 완료는 숨기기</label>
+                    <div class="switch sm">
+                        <input type="checkbox" id="opt1">
+                        <label for="opt1" class="lever"></label>
+                    </div>
+                </li>
+                <li class="row">
+                    <h5 class="col">성경 › 글씨 크기</h5>
+                    <div class="col btn-group">
+                        <button class="active">보통</button>
+                        <button>크게</button>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list">
+                <li class="cursor" onclick="OnOpenHelper()"><a href="javascript:;">도움말</a><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg"><path d="M12 6a3.939 3.939 0 0 0-3.934 3.934h2C10.066 8.867 10.934 8 12 8s1.934.867 1.934 1.934c0 .598-.481 1.032-1.216 1.626a9.208 9.208 0 0 0-.691.599c-.998.997-1.027 2.056-1.027 2.174V15h2l-.001-.633c.001-.016.033-.386.441-.793.15-.15.339-.3.535-.458.779-.631 1.958-1.584 1.958-3.182A3.937 3.937 0 0 0 12 6zm-1 10h2v2h-2z"></path><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path></svg></li>
+            </ul>
+        </main>
     </aside>
 
     <!-- 도움말 모달 -->
@@ -145,9 +148,12 @@
     </aside>
 
     <!-- 메인 컨텐츠 -->
-    <div class="container bo">
+    <div class="container main">
 
-        <header id="header">header</header>
+        <header id="header">
+            <h4>전체</h4>
+            <a href="javascript:;" class="btn-icon settings" id="btn-settings" data-activates="slide-settings">Settings</a>
+        </header>
 
         <main id="main">
             <div id="bibles" class="bible-list">
@@ -231,9 +237,9 @@
             <div id="bible-list" class="bible-list"></div>
         </main>
 
-        <footer id="footer" class="grid col-2">
-            <a class="btn" href="/">계획표</a>
-            <a class="btn bg-second" href="/bible">성경</a>
+        <footer id="footer">
+            <a href="/">계획표</a>
+            <a class="active" href="/bible">성경</a>
         </footer>
         
     </div>
