@@ -1,0 +1,21 @@
+{
+    "name": "날마다성경",
+    "short_name": "날마다성경",
+    "icons": [
+        {"src": "android-chrome-192x192.png","type": "image/png","sizes": "192x192"},
+        {"src": "android-chrome-512x512.png","type": "image/png","sizes": "512x512"}
+    ],
+    "start_url": "/?_launch=pwa",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "id": "nalmada.netlify.app",
+    "description": "날마다성경은 성경 통독 계획표 및 성경 읽기를 도와주는 서비스입니다.",
+    "edge_side_panel": {"preferred_width": 1280},
+    "categories": ["education"],
+    "scope": "/",
+    "dir": "auto",
+    "lang": "ko",
+    "display_override": ["standalone"]
+  }

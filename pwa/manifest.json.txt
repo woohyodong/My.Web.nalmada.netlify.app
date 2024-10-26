@@ -1,0 +1,21 @@
+{
+    "name": "스마트무무 웹앱3",
+    "short_name": "스마트무무 웹앱3",
+    "icons": [
+        {"src": "android-chrome-192x192.png","type": "image/png","sizes": "192x192"},
+        {"src": "android-chrome-512x512.png","type": "image/png","sizes": "512x512"}
+    ],
+    "start_url": "/?_launch=pwa",
+    "orientation": "landscape",//any, natural, landscape, landscape-primary, landscape-secondary, portrait, portrait-primary, portrait-secondary
+    "display": "fullscreen",//standalone, fullscreen, minimal-ui, browser
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "id": "kr.co.moumou.my",
+    "description": "스마트무무 웹버전, 마이무무",
+    "edge_side_panel": {"preferred_width": 1280},
+    "categories": ["education"],
+    "scope": "/html/words/",
+    "dir": "auto",
+    "lang": "ko",
+    "display_override": ["fullscreen"]
+  }
