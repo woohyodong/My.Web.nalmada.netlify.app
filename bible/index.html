@@ -10,7 +10,7 @@
 
     <!-- View-transition -->
     <style>
-        @view-transition {navigation: auto;}
+        /* @view-transition {navigation: auto;} */
         @keyframes move-out-left {
             from { transform: translateX(0%) scale(1); opacity: 1; box-shadow: none; }
             to { transform: translateX(-100%) scale(0.95); opacity: 0.8; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
@@ -69,12 +69,12 @@
             <article class="step s1">
                 <h4>읽기 방식 선택</h4>
                 <ul>
-                    <li><label><h5>성경 순서로 읽기 <small>성경의 책 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="01"></label></li>
-                    <li><label><h5>역사 순서로 읽기 <small>성경의 사건이 발생한 순서에 따라 읽는 방식</small></h5><input type="radio" name="chk1" value="02"></label></li>
-                    <li><label><h5>테마 순서로 읽기 <small>예수님의 생애, 지혜서 등 특정 테마에 집중하여 읽는 방식</small></h5><input type="radio" name="chk1" value="03"></label></li>
-                    <li><label><h5>주제 순서로 읽기 <small>믿음, 사랑, 구원 등의 주제에 따라 관련된 구절을 모아 읽는 방식</small></h5><input type="radio" name="chk1" value="04"></label></li>
-                    <li><label><h5>구약/신약 혼합해서 읽기 <small>1년 계획으로 오전(구약), 오후(신약)으로 읽는 방식</small></h5><input type="radio" name="chk1" value="05"></label></li>
-                    <li><label><h5>내가 읽은 성경만 기록 <small>계획 없이 읽었던 성경 구절을 기록하는 방식</small></h5><input type="radio" name="chk1" value="00"></label></li>
+                    <li><label><h5>성경 순서로 읽기 <p>성경의 책 순서에 따라 읽는 방식</p></h5><input type="radio" name="chk1" value="01"></label></li>
+                    <li><label><h5>역사 순서로 읽기 <p>성경의 사건이 발생한 순서에 따라 읽는 방식</p></h5><input type="radio" name="chk1" value="02"></label></li>
+                    <li><label><h5>테마 순서로 읽기 <p>예수님의 생애, 지혜서 등 특정 테마에 집중하여 읽는 방식</p></h5><input type="radio" name="chk1" value="03"></label></li>
+                    <li><label><h5>주제 순서로 읽기 <p>믿음, 사랑, 구원 등의 주제에 따라 관련된 구절을 모아 읽는 방식</p></h5><input type="radio" name="chk1" value="04"></label></li>
+                    <li><label><h5>구약/신약 혼합해서 읽기 <p>1년 계획으로 오전(구약), 오후(신약)으로 읽는 방식</p></h5><input type="radio" name="chk1" value="05"></label></li>
+                    <li><label><h5>내가 읽은 성경만 기록 <p>계획 없이 읽었던 성경 구절을 기록하는 방식</p></h5><input type="radio" name="chk1" value="00"></label></li>
                 </ul>
             </article>
             
@@ -96,11 +96,11 @@
             <article class="step s3 none">
                 <h4>읽기 기간 설정</h4>
                 <ul>
-                    <li><label><h5>3개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="90"></label></li>
-                    <li><label><h5>6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="180"></label></li>
-                    <li><label><h5>1년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="360"></label></li>
-                    <li><label><h5>1년 6개월 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="540"></label></li>
-                    <li><label><h5>2년 <small>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></small></h5><input type="radio" name="chk3" value="720"></label></li>
+                    <li><label><h5>3개월 <p>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="90"></label></li>
+                    <li><label><h5>6개월 <p>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="180"></label></li>
+                    <li><label><h5>1년 <p>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="360"></label></li>
+                    <li><label><h5>1년 6개월 <p>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="540"></label></li>
+                    <li><label><h5>2년 <p>선택한 요일 기준 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="720"></label></li>
                 </ul>
             </article>            
         </main>
@@ -120,20 +120,20 @@
                 <h5>계획표 기간 (1년간)</h5>
                 <h3>23일 남음</h3>
                 <h6>23.11.30 ~ 24.12.30</h6>
-                <button class="btn" onclick="CloseSettingPopup();OpenPlanPopup()"><svg class="icon-svg" style="fill: var(--white);" xmlns="http://www.w3.org/2000/svg" width="240" height="240"><path d="M10 11H7.101l.001-.009a4.956 4.956 0 0 1 .752-1.787 5.054 5.054 0 0 1 2.2-1.811c.302-.128.617-.226.938-.291a5.078 5.078 0 0 1 2.018 0 4.978 4.978 0 0 1 2.525 1.361l1.416-1.412a7.036 7.036 0 0 0-2.224-1.501 6.921 6.921 0 0 0-1.315-.408 7.079 7.079 0 0 0-2.819 0 6.94 6.94 0 0 0-1.316.409 7.04 7.04 0 0 0-3.08 2.534 6.978 6.978 0 0 0-1.054 2.505c-.028.135-.043.273-.063.41H2l4 4 4-4zm4 2h2.899l-.001.008a4.976 4.976 0 0 1-2.103 3.138 4.943 4.943 0 0 1-1.787.752 5.073 5.073 0 0 1-2.017 0 4.956 4.956 0 0 1-1.787-.752 5.072 5.072 0 0 1-.74-.61L7.05 16.95a7.032 7.032 0 0 0 2.225 1.5c.424.18.867.317 1.315.408a7.07 7.07 0 0 0 2.818 0 7.031 7.031 0 0 0 4.395-2.945 6.974 6.974 0 0 0 1.053-2.503c.027-.135.043-.273.063-.41H22l-4-4-4 4z"></path></svg> 계획표 다시설정</button>
+                <button class="btn" onclick="CloseSettingPopup();OpenPlanPopup()"><img src="/images/icon_refresh.png" alt=""> 계획표 다시설정</button>
             </div>
         </header>
         <main>
             <ul class="list">
                 <li>
-                    <label for="opt1" class="cursor">계획표 › 완료는 숨기기</label>
+                    <label for="opt1" class="cursor"><h5>완료 표시 숨기기</h5></label>
                     <div class="switch sm">
                         <input type="checkbox" id="opt1">
                         <label for="opt1" class="lever"></label>
                     </div>
                 </li>
                 <li class="row">
-                    <h5 class="col">성경 › 글씨 크기</h5>
+                    <h5 class="col">글씨 크기</h5>
                     <div class="col btn-group">
                         <button class="active">보통</button>
                         <button>크게</button>
@@ -141,7 +141,7 @@
                 </li>
             </ul>
             <ul class="list">
-                <li class="cursor" onclick="OnOpenHelper()"><a href="javascript:;">도움말</a><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg"><path d="M12 6a3.939 3.939 0 0 0-3.934 3.934h2C10.066 8.867 10.934 8 12 8s1.934.867 1.934 1.934c0 .598-.481 1.032-1.216 1.626a9.208 9.208 0 0 0-.691.599c-.998.997-1.027 2.056-1.027 2.174V15h2l-.001-.633c.001-.016.033-.386.441-.793.15-.15.339-.3.535-.458.779-.631 1.958-1.584 1.958-3.182A3.937 3.937 0 0 0 12 6zm-1 10h2v2h-2z"></path><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path></svg></li>
+                <li class="cursor" onclick="OnOpenHelper()"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
             </ul>
         </main>
     </aside>

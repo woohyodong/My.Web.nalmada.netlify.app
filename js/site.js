@@ -9,7 +9,12 @@ const _STORE_NAME_READING_THEME = "ReadingThemeStore";
 const _STORE_NAME_READING_TOPIC = "ReadingTopicStore";
 const _STORE_NAME_READING_MIXED = "ReadingMixedStore";
 const _STORE_NAME_READING_RECORD = "ReadingRecordStore";
+// localStorage
+const _LOCAL_STORAGE_BIBLE_BOOK = "#DB_BOOK";
+const _LOCAL_STORAGE_BIBLE_CHAPTER = "#DB_CHAPTER";
+const _LOCAL_STORAGE_BIBLE_STEP = "#DB_STEP";
 
+// 전역변수 -> 계획표 관련
 let _currentStep = 1; // 현재 진행 중인 단계
 const _totalSteps = 3; // 총 단계 수
 
