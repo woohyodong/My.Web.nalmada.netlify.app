@@ -175,35 +175,44 @@
     // 특정 키로 데이터 조회
     function fnGetDataByKey(storeName, key) {
         return new Promise((resolve, reject) => {
-            const transaction = _db.transaction([storeName], 'readonly');
-            const objectStore = transaction.objectStore(storeName);
-            const request = objectStore.get(key);
+            // 이미 DB가 초기화되어 있으면 바로 접근
+            if (_db) {
+                getDataByKey(_db, storeName, resolve, reject, key);
+            } else {
+                // DB가 초기화되지 않은 경우 새로 열기
+                const request = indexedDB.open(_dbName, _dbVersion);
 
-            request.onsuccess = function (event) {
-                resolve(event.target.result);
-            };
+                request.onsuccess = function (event) {
+                    _db = event.target.result;
+                    getDataByKey(_db, storeName, resolve, reject, key);
+                };
 
-            request.onerror = function (event) {
-                reject('Data fetch by key failed: ' + event.target.errorCode);
-            };
+                request.onerror = function (event) {
+                    reject('Database open error: ' + event.target.errorCode);
+                };
+            }
         });
     }
 
     // 인덱스 기반으로 데이터 조회
     function fnGetDataByIndex(storeName, indexName, value) {
         return new Promise((resolve, reject) => {
-            const transaction = _db.transaction([storeName], 'readonly');
-            const objectStore = transaction.objectStore(storeName);
-            const index = objectStore.index(indexName);
-            const request = index.getAll(value); // 인덱스 값으로 여러 데이터를 가져오기 위해 getAll 사용
+            // 이미 DB가 초기화되어 있으면 바로 접근
+            if (_db) {
+                getDataByIndex(_db, storeName, resolve, reject, indexName, value);
+            } else {
+                // DB가 초기화되지 않은 경우 새로 열기
+                const request = indexedDB.open(_dbName, _dbVersion);
 
-            request.onsuccess = function (event) {
-                resolve(event.target.result); // 결과 반환
-            };
+                request.onsuccess = function (event) {
+                    _db = event.target.result;
+                    getDataByIndex(_db, storeName, resolve, reject, indexName, value);
+                };
 
-            request.onerror = function (event) {
-                reject('Data fetch by index failed: ' + event.target.errorCode);
-            };
+                request.onerror = function (event) {
+                    reject('Database open error: ' + event.target.errorCode);
+                };
+            }
         });
     }
 
@@ -312,6 +321,46 @@
         }
     }
     
+    // 특정 키로 데이터 조회
+    function getDataByKey(database, storeName, resolve, reject, key) {
+
+        try {
+            const transaction = database.transaction([storeName], 'readonly');
+            const objectStore = transaction.objectStore(storeName);
+            const request = objectStore.get(key);
+
+            request.onsuccess = function (event) {
+                resolve(event.target.result);
+            };
+
+            request.onerror = function (event) {
+                reject('Data fetch failed: ' + event.target.errorCode);
+            };
+        } catch (error) {
+            reject('Transaction failed: ' + error);
+        }
+    }
+
+    // 인덱스 기반으로 데이터 조회
+    function getDataByIndex(database, storeName, resolve, reject, indexName, value) {
+
+        try {
+            const transaction = database.transaction([storeName], 'readonly');
+            const objectStore = transaction.objectStore(storeName);
+            const index = objectStore.index(indexName);
+            const request = index.getAll(value); // 인덱스 값으로 여러 데이터를 가져오기 위해 getAll 사용
+
+            request.onsuccess = function (event) {
+                resolve(event.target.result);
+            };
+
+            request.onerror = function (event) {
+                reject('Data fetch failed: ' + event.target.errorCode);
+            };
+        } catch (error) {
+            reject('Transaction failed: ' + error);
+        }
+    }    
     
 
     return {

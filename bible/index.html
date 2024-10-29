@@ -243,7 +243,7 @@
 
         <footer id="footer">
             <a href="/">계획표</a>
-            <a class="active" href="/bible">성경</a>
+            <a class="active" href="javascript:;">성경</a>
         </footer>
         
     </div>
@@ -256,6 +256,19 @@
     <script src="/js/site.js"></script>
     <script src="/js/site.db.js"></script>
     <script src="/js/site.plan.js"></script>
+
+    <script>
+        $(function(){
+
+            $("#bibles li").on("click", function () {
+                const book = parseInt($(this).data("book"));
+                const bookName = $(this).text();
+                OnLoadChapters(book, bookName);
+            });
+
+            OnHistoryBible();
+        });
+    </script>
     
 </body>
 </html>

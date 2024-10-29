@@ -41,7 +41,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin: var(--gap)
 #main{padding: 6rem 0;}
 #footer{display:grid;grid-template-columns: 1fr 1fr; height: 6rem; width:clamp(var(--size-min),100%,var(--size-max));position: fixed;bottom: 0;left: 50%;transform: translateX(-50%);background-color: var(--primary-dark);z-index: var(--z-index-header);}
 #footer a{display:flex;justify-content: center;align-items: center;gap: var(--gap-sm);background-color: var(--primary);color: var(--primary-dark);transition: var(--tran);border: none;}
-#footer a.active, #footer a:hover{background-color: var(--primary-dark);color: var(--primary);}
+#footer a.active{background-color: var(--primary-dark);color: var(--primary);}
 /*============ Popup & Modal & Slide ============*/
 #popup-intro{flex-direction: column;justify-content: space-between;align-items: center;gap: var(--gap-lg); text-align: center;padding: var(--gap-xlg) var(--gap); background-color: var(--primary-dark);color: var(--primary);}
 #popup-intro.active{display: flex;}
@@ -110,7 +110,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin: var(--gap)
 .bible-list{padding:var(--gap);display: grid;gap: var(--gap-sm);}																								  .bible-list
 .bible-list h4{margin-bottom: var(--gap);}
 .bible-list ul{margin-bottom: var(--gap);display: grid;gap: var(--gap-sm);grid-template-columns: repeat(auto-fit, minmax(min(100%,12rem), 1fr));}
-.bible-list ul li{padding: var(--gap-sm);cursor: pointer;outline: 1px solid var(--border);transition: var(--tran);border-radius: var(--radius-sm);text-align: center;font-size: clamp(1.4rem, calc(1vw + 1vh + 0.4vmin), 1.6rem);}
+.bible-list ul li{user-select: none; padding: var(--gap-sm);cursor: pointer;outline: 1px solid var(--border);transition: var(--tran);border-radius: var(--radius-sm);text-align: center;font-size: clamp(1.4rem, calc(1vw + 1vh + 0.4vmin), 1.6rem);}
 .bible-list ul li:hover, .bible-list ul li:active{background-color: var(--primary-dark);color: var(--primary-light);}
 .bible-list ul:last-child{margin-bottom: 0;}
 .bible-list.type-chapter ul{grid-template-columns: repeat(auto-fit, minmax(min(100%,6rem), 1fr));}

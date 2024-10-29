@@ -11,8 +11,8 @@ const _STORE_NAME_READING_MIXED = "ReadingMixedStore";
 const _STORE_NAME_READING_RECORD = "ReadingRecordStore";
 // localStorage
 const _LOCAL_STORAGE_BIBLE_BOOK = "#DB_BOOK";
+const _LOCAL_STORAGE_BIBLE_BOOKNAME = "#DB_BOOKNAME";
 const _LOCAL_STORAGE_BIBLE_CHAPTER = "#DB_CHAPTER";
-const _LOCAL_STORAGE_BIBLE_STEP = "#DB_STEP";
 
 // 전역변수 -> 계획표 관련
 let _currentStep = 1; // 현재 진행 중인 단계
@@ -37,9 +37,6 @@ function InitPage() {
     // 공통 초기화 코드
     fnResizeHeight();
     window.addEventListener("resize", fnResizeHeight);
-
-    //성경 선택 이벤트
-    $("#bibles li").on("click", function(){ OnSelectBibleBook($(this).data("book"), $(this).text()); });
 
 } // function initPage() end ----------------------------------------------------------------//
 
@@ -329,43 +326,36 @@ function OnSavePlan() {
 
 // 성경관련 이벤트 함수 -----------------------------------------------------------------------
 
-// 성경 책 화면 표시/숨김
-function OnDisplayBibleBook(isShowBook = true) {
-    if(isShowBook) {
-        $("#bibles").show();
-        $("#bible-list").hide();
-    }else{
-        $("#bibles").hide();
-        $("#bible-list").show();
-    } 
+// 이전에 읽었던 성경 히스토리 조회
+async function OnHistoryBible() {    
+    const savedBook = fnNull(localStorage.getItem(_LOCAL_STORAGE_BIBLE_BOOK),"");
+    const saveBookName = fnNull(localStorage.getItem(_LOCAL_STORAGE_BIBLE_BOOKNAME),"");
+    const savedChapter = fnNull(localStorage.getItem(_LOCAL_STORAGE_BIBLE_CHAPTER),"");
 
-}
-
-// 성경 > 상단 네비게이션 상태 변경
-function OnChangeBibleNavState(step = 0, book = null, bookName = null, chapter = null) {
-    const nav = $("#bible-nav").empty();
-
-    OnDisplayBibleBook(false);
-    if (step === 0) {
-        nav.append($("<a href='javascript:;'></a>").text("전체"));
-    } else if (step === 1) {
-        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnDisplayBibleBook));
-        nav.append($("<a href='javascript:;'></a>").text(bookName).on("click", () => OnSelectBibleBook(book, bookName)));
-    } else if (step === 2) {
-        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnDisplayBibleBook));
-        nav.append($("<a href='javascript:;'></a>").text(bookName).on("click", () => OnSelectBibleChapter(book, bookName, chapter)));
-        nav.append($("<a href='javascript:;'></a>").text(`${chapter}장`));
+    if (savedChapter && savedBook) {
+        await OnLoadVerses(parseInt(savedBook),saveBookName, parseInt(savedChapter));
+    } else if (savedBook) {
+        await OnLoadChapters(parseInt(savedBook), saveBookName);
+    } else {
+        OnLoadBooks();
     }
-
-    // // 로컬 스토리지에 상태 저장
-    // localStorage.setItem("#DB_STEP", step);
-    // localStorage.setItem("#DB_BOOK", book ? book.book : "");
-    // localStorage.setItem("#DB_CHAPTER", chapter ? chapter : "");
 }
 
+ // 책 목록 불러오기
+ async function OnLoadBooks() {
+    console.log("OnLoadBooks");
 
-// 성경 > 책 선택 -> 장 목록 표시
-async function OnSelectBibleBook(book, bookName) {
+    $("#bibles").show();
+    $("#bible-list").hide();
+    OnUpdateNav(0);
+}
+
+// 장 목록 불러오기
+async function OnLoadChapters(book, bookName = null) {
+    console.log("OnLoadChapters");
+    $("#bibles").hide();
+    $("#bible-list").show();
+
     try {
         console.log('선택한 성경책:', book, bookName);
         
@@ -376,24 +366,31 @@ async function OnSelectBibleBook(book, bookName) {
             return;
         }
 
-        OnChangeBibleNavState(1, book, bookName);  // 상단 네비게이션 상태 변경
+        OnUpdateNav(1, book, bookName);  // 상단 네비게이션 상태 변경
         console.log('장 목록:', chapters.chapter_count);
 
         // 장 목록을 화면에 표시
         $("#bible-list").empty();
         $("#bible-list").append(`<h4>${bookName}</h4>`).append('<ul>');
         for (let i = 1; i <= chapters.chapter_count; i++) {
-            $("#bible-list ul").append(`<li onclick="OnSelectBibleChapter(${book}, '${bookName}', ${i})">${i}</li>`);
+            const li = $("<li></li>").text(`${i}장`);
+            li.on("click", () => OnLoadVerses(book,bookName,i));
+            $("#bible-list ul").append(li);
         }
 
         //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
+        
     } catch (error) {
         console.error('Error selecting Bible book:', error);
     }
 }
 
-// 성경 > 책 > 장 선택 -> 절 목록 표시
-async function OnSelectBibleChapter(book, bookName, chapter) {
+// 절 목록 불러오기
+async function OnLoadVerses(book, bookName, chapter) {
+    console.log("OnLoadVerses");
+    $("#bibles").hide();
+    $("#bible-list").show();
+
     try {
         // 복합 인덱스를 사용하여 book과 chapter를 기반으로 데이터를 조회
         const verses = await DBHelper.fnGetDataByIndex(_STORE_NAME_BIBLE, 'book_chapter', [book, chapter]);
@@ -402,7 +399,7 @@ async function OnSelectBibleChapter(book, bookName, chapter) {
             return;
         }
         
-        OnChangeBibleNavState(2, book, bookName, chapter);  // 상단 네비게이션 상태 변경
+        OnUpdateNav(2, book, bookName, chapter);  // 상단 네비게이션 상태 변경
 
         // 절 목록을 화면에 표시
         console.log('절 목록:', verses);
@@ -417,9 +414,43 @@ async function OnSelectBibleChapter(book, bookName, chapter) {
     }
 }
 
+// 상단 네비게이션 업데이트
+function OnUpdateNav(step = 0, book = null, bookName = null, chapter = null) {
+    const nav = $("#bible-nav").empty();
+
+    if (step === 0) {
+        nav.append($("<a href='javascript:;'></a>").text("전체"));
+    } else if (step === 1) {
+        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnLoadBooks));
+        nav.append($("<a href='javascript:;'></a>").text(bookName));
+    } else if (step === 2) {
+        nav.append($("<a href='javascript:;'></a>").text("전체").on("click", OnLoadBooks));
+        nav.append($("<a href='javascript:;'></a>").text(bookName).on("click", () => OnLoadChapters(book, bookName)));
+        nav.append($("<a href='javascript:;'></a>").text(`${chapter}장`));
+    }
+    // 로컬 스토리지에 상태 저장
+    localStorage.setItem(_LOCAL_STORAGE_BIBLE_BOOK, book);
+    localStorage.setItem(_LOCAL_STORAGE_BIBLE_BOOKNAME, bookName);
+    localStorage.setItem(_LOCAL_STORAGE_BIBLE_CHAPTER, chapter);
+}
 
 
 // 공용 이벤트 함수 -------------------------------------------------------------------------
+
+// 높이는 제한해서 딱 맞출때 (앱모드 pwa 사이트활용)
+function fnResizeHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+// 계획표 팝업 열기
+function OpenPlanPopup() {OnResetPlan(); $("#popup-plan").addClass("active");}
+// 옵션 > 도움말 팝업 열기
+function OpenHelpPopup() {$("#popup-help").addClass("active");}
+// 계획표 팝업 닫기
+function CloseAllPopup() {$(".popup").removeClass("active");}
+// 팝업 닫기 (공용)
+function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
+function CloseSettingPopup() {$("#btn-settings").sideNav("hide");}
 
 function initRouter() {
     const path = window.location.pathname;
@@ -451,18 +482,6 @@ function handleRoute(path) {
     // }
 }
 
-// 높이는 제한해서 딱 맞출때 (앱모드 pwa 사이트활용)
-function fnResizeHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-}
-// 계획표 팝업 열기
-function OpenPlanPopup() {OnResetPlan(); $("#popup-plan").addClass("active");}
-// 계획표 팝업 닫기
-function CloseAllPopup() {$(".popup").removeClass("active");}
-// 팝업 닫기 (공용)
-function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
-function CloseSettingPopup() {$("#btn-settings").sideNav("hide");}
 // 옵션 > 폰트크기 변경
 function ChangeFontSize(size) {
     // $(".bible-text").css("font-size", size + "px");
@@ -472,8 +491,7 @@ function ChangeFontSize(size) {
 function ToggleCompletedPlan() {
     // $(".completed").toggle();
 }
-// 옵션 > 도움말 팝업 열기
-function OpenHelpPopup() {$("#popup-help").addClass("active");}
+
 
 // 화면효과 > 종이 꽃가루 효과
 function ShowEffectByStart() {
@@ -536,7 +554,4 @@ function TestDDB(){
 function TestPlan(){
     PlanHelper.fnSaveReadingRecords(1, 1, [1, 3, 5]);
     //PlanHelper.fnSaveReadingPlan("24.10.18");
-
 }
-
-
