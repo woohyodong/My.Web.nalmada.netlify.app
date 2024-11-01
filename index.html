@@ -25,7 +25,7 @@
 
     <!-- Icon -->
     <link rel="icon" href="/pwa/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="pwa/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/pwa/apple-touch-icon.png">
 
     <!-- PWA -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -36,7 +36,7 @@
     <script src="/assets/lib/simplebar/simplebar.min.js"></script>    
 
     <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/css/style.common.css" rel="stylesheet" />    
+    <link href="/assets/css/style.common.min.css" rel="stylesheet" />    
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     
     <title>날마다성경</title>
@@ -154,13 +154,45 @@
     <!-- 메인 컨텐츠 -->
     <div class="container main">
 
-        <header id="header">
+        <header id="header" class="plan-progress-bar">
             <h4>날마다성경</h4>
             <a href="javascript:;" class="btn-icon settings" id="btn-settings" data-activates="slide-settings">Settings</a>
         </header>
 
         <main id="main">
-            <!-- <button class="btn" onclick="ShowEffectByStart()">폭죽시작</button> -->
+            <!-- <div id="plan-list"></div> -->
+
+            <div id="plan-list">
+                <h4>창세기 </h4>
+                <table>
+                    <tr><td>월</td><td>24.08.12</td><td>창세기 1~5장</td><td><i>✔</i></td></tr>
+                    <tr class="active"><td>화</td><td>24.08.13</td><td>창세기 6~10장</td><td><i>✔</i></tr>
+                    <tr><td>수</td><td>24.08.14</td><td>미가 4~7, 나훔 1~3, 하박국 1~3, 스바냐 1~3, 학개 1</td><td><i>✔</i></tr>
+                    <tr><td>목</td><td>24.08.15</td><td>빌립보서 4, 골로새서 1~4, 데살로니가전서 1~5, 데살로니가후서 1~3, 디모데전서 1</td><td><i>✔</i></tr>
+                    <tr class="split"><td>금</td><td>24.08.16</td><td>빌립보서 2~4, 골로새서 1~4, 데살로니가전서 1~5, 데살로니가후서 1~3, 디모데전서 1~6, 디모데후서 1~4, 디도서 1~3, 빌레몬서 1, 히브리서 1~13, 야고보서 1~5, 베드로전서 1~5, 베드로후서 1~3, 요한1서 1~5, 요한2서 1, 요한3서 1, 유다서 1, 요한계시록 1~22</td><td><i>✔</i></tr>
+                    <tr><td>토</td><td>24.08.17</td><td>창세기 26~30장</td><td><i>✔</i></tr>
+                    <tr><td>일</td><td>24.08.18</td><td>창세기 31~35장</td><td><i>✔</i></tr>
+
+                    <tr class="split"><td>월</td><td>24.08.19</td><td>창세기 36~40장</td><td><i>✔</i></tr>
+                    <tr><td>화</td><td>24.08.20</td><td>창세기 41~45장</td><td><i>✔</i></tr>
+                    <tr><td>수</td><td>24.08.21</td><td>창세기 46~50장</td><td><i>✔</i></tr>
+                </table>
+
+                <h4>출앱굽기 </h4>
+                <table>
+                    <tr><td>월</td><td>24.08.12</td><td>창세기 1~5장</td><td><i>✔</i></td></tr>
+                    <tr class="active"><td>화</td><td>24.08.13</td><td>창세기 6~10장</td><td><i>✔</i></tr>
+                    <tr><td>수</td><td>24.08.14</td><td>창세기 11~15장</td><td><i>✔</i></tr>
+                    <tr><td>목</td><td>24.08.15</td><td>창세기 16~20장</td><td><i>✔</i></tr>
+                    <tr><td>금</td><td>24.08.16</td><td>창세기 21~25장</td><td><i>✔</i></tr>
+                    <tr><td>토</td><td>24.08.17</td><td>창세기 26~30장</td><td><i>✔</i></tr>
+                    <tr><td>일</td><td>24.08.18</td><td>창세기 31~35장</td><td><i>✔</i></tr>
+
+                    <tr class="split"><td>월</td><td>24.08.19</td><td>창세기 36~40장</td><td><i>✔</i></tr>
+                    <tr><td>화</td><td>24.08.20</td><td>창세기 41~45장</td><td><i>✔</i></tr>
+                    <tr><td>수</td><td>24.08.21</td><td>창세기 46~50장</td><td><i>✔</i></tr>
+                </table>
+            </div>             
         </main>
 
         <footer id="footer">
@@ -178,6 +210,37 @@
     <script src="/js/site.js"></script>
     <script src="/js/site.db.js"></script>
     <script src="/js/site.plan.js"></script>
+
+    <script>
+        $(function() {            
+            //체크리스트 테이블 행 클릭시 active 토글
+            $(document).on("click", "#plan-list table tr", function () {
+                $(this).toggleClass("active");
+            });
+
+                //체크리스트 테이블 행 전체 선택/해제
+            $(document).on("click", "#plan-list .btn", function () {
+                const table = $(this).closest('h4').next('table');
+                const rows = table.find('tr');
+                const allActive = rows.hasClass('active');
+
+                $(rows).each(function (index, item) {
+                    const date = $(item).data('date');
+                    //TODO:작업필요
+                    //toggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
+                });
+                
+
+                if (allActive) {
+                    // 모든 행에 'active' 해제 및 체크 표시 제거
+                    rows.removeClass('active');
+                } else {
+                    // 모든 행에 'active' 적용 및 체크 표시 추가
+                    rows.addClass('active');
+                }
+            });
+        });
+    </script>
     
 </body>
 </html>

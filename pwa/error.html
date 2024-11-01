@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Icon -->
+    <link rel="icon" href="/pwa/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/pwa/apple-touch-icon.png">
+    
+    <title>오류 발생</title>
+
+    <style>
+        /* 화면 중앙 정렬 및 스타일링 */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .error-container {
+            text-align: center;
+        }
+        .error-container h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .error-container p {
+            font-size: 16px;
+            color: #666;
+        }
+        .error-container .emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="emoji">😢</div>
+        <h1>오류가 발생했습니다</h1>
+        <p>잠시 후 다시 시도해 주세요.</p>
+    </div>
+</body>
+</html>

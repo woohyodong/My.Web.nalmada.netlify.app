@@ -1,5 +1,4 @@
-﻿// site.js
-// 상수정의
+﻿// #region 상수정의 -------------------------------------------------------------------------------
 const _APP_VERSION = "2024.1.0";
 const _STORE_NAME_BIBLE = "BibleStore";
 const _STORE_NAME_BIBLE_SUMMARY = "BibleSummaryStore";
@@ -18,6 +17,10 @@ const _LOCAL_STORAGE_BIBLE_CHAPTER = "#DB_CHAPTER";
 let _currentStep = 1; // 현재 진행 중인 단계
 const _totalSteps = 3; // 총 단계 수
 
+// #endregion 상수정의 ----------------------------------------------------------------------------
+
+
+// #region 초기화 함수 -----------------------------------------------------------------------------
 
 // 이벤트 등록 (초기화)
 document.addEventListener('DOMContentLoaded', InitPage);
@@ -173,8 +176,175 @@ async function InitDB(){
     }    
 } // async function InitDB() end ------------------------------------------------------------//
 
+// #endregion 초기화 함수 --------------------------------------------------------------------------
 
-// 계획표관련 이벤트 함수 ---------------------------------------------------------------------
+
+// #region 계획표관련 이벤트 함수 ---------------------------------------------------------------------
+
+// 계획표 > 조회 + 화면 바인딩
+async function OnLoadAndBindingPlan() {
+    try{
+        console.log("OnLoadAndBindingPlan");
+        const planDataDB = await DBHelper.fnGetAllData(_STORE_NAME_PLAN);        
+        if(planDataDB.length === 0) return;
+
+        const planData = planDataDB[0].data;
+        
+        console.log('계획 데이터:', planData);
+        console.log(planData.readingMethod);        
+
+        const planList = $('#plan-list');
+        planList.empty();
+
+
+        let currentMonth = null; // 현재 처리 중인 월을 저장할 변수
+        let table = null; // 월별로 테이블을 관리할 변수
+        
+        planData.plan.forEach(item => {
+            const [year, month, day] = item.date.split('.'); // 날짜에서 연도와 월을 추출
+        
+            // 월이 바뀔 때마다 <h4> 헤더와 새로운 테이블을 추가
+            if (currentMonth !== month) {
+                currentMonth = month;
+                if (table) {
+                    // 기존의 테이블이 존재하면 planList에 추가
+                    planList.append(table);
+                }
+                // 새로운 월의 헤더와 테이블 생성
+                const header = $(`<h4>20${year}년 ${parseInt(month)}월 <a href="javascript:;" class="btn btn-icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="240" height="240"><path d="m10.933 13.519-2.226-2.226-1.414 1.414 3.774 3.774 5.702-6.84-1.538-1.282z"></path><path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.002 14H5z"></path></svg></a></h4>`); // 월에 따라 헤더 생성
+                planList.append(header);
+        
+                table = $("<table></table>"); // 새로운 테이블 생성
+            }
+        
+            let isCompleted = item.completed ? 'active' : ''; // 완료 여부에 따른 클래스 설정
+            let isNewweek = item.newweek ? ' split' : ''; // 새로운 주 표시 여부
+            let classText = "";
+            if (isCompleted || isNewweek) classText = `class="${isCompleted}${isNewweek}"`;
+        
+            // 계획 데이터를 테이블에 추가
+            table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><i>✔</i></td></tr>`);
+        });
+        
+        // 마지막 테이블을 추가 (마지막 월에 대한 테이블이 남아있을 수 있음)
+        if (table) {
+            planList.append(table);
+        }
+        
+        // 체크리스트 항목 클릭 시 완료 상태 변경
+        planList.find('tr').on('click', function () {
+            const date = $(this).data('date');
+            toggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
+        });
+        
+        // 남은 항목과 완료율 계산
+        const remainingTasks = calculateRemainingTasks(planData);
+        const completionRate = calculateCompletionRate(planData);
+        
+        // 설정 UI 업데이트
+        const settings = $('#slide-settings .info');
+        settings.find('h5').text(`계획표 기간 (${getDurationText(planData.readingDuration)})`);
+        settings.find('h3').text(`${remainingTasks}건 남음`); // 남은 건수 표시
+        settings.find('h6').text(`${planData.startDate} ~ ${planData.endDate}`);
+        
+        $("#title-plan").text(`${getMethodText(planData.readingMethod)}`);
+        
+        // 완료율 업데이트
+        updateCompletionRateUI(completionRate);
+        
+        // UI 바인딩 완료 후, 체크되지 않은 항목으로 포커스 이동
+        focusFirstUncheckedItem();
+
+
+
+        
+    }catch(error){
+        console.error('계획 조회 중 오류 발생:', error);
+        toast('계획 조회 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+}
+
+//함수에서 남은 체크리스트 항목 표시
+function calculateRemainingTasks(planData) {
+    // 완료되지 않은 항목의 개수를 계산
+    const remainingTasks = planData.plan.filter(item => !item.completed).length;
+    return remainingTasks;
+}
+
+//전체 완료율을 반환하는 함수
+function calculateCompletionRate(planData) {
+    const totalTasks = planData.plan.length;
+    const completedTasks = planData.plan.filter(item => item.completed).length;
+    const completionRate = (completedTasks / totalTasks) * 100; // 완료율 계산
+    return completionRate.toFixed(2); // 소수점 두 자리까지 반올림
+}
+
+function updateCompletionRateUI(completionRate) {
+    const header = document.querySelector('#header.plan-progress-bar');
+    header.style.setProperty('--completion-rate', `${completionRate}%`);
+}
+
+//체크되지 않은 항목 찾기 -> 스크롤 이동
+function focusFirstUncheckedItem() {
+    // 체크되지 않은 첫 번째 항목 찾기 (active 클래스가 없는 tr 요소)
+    const firstUncheckedItem = $('#plan-list tr').not('.active').first();
+
+    console.log(firstUncheckedItem);
+    
+    if (firstUncheckedItem.length) {
+        // 해당 항목으로 스크롤 이동
+        firstUncheckedItem[0].scrollIntoView({
+            behavior: 'smooth' // 부드럽게 스크롤
+            ,block: 'center'     // 화면 중앙에 위치하도록
+        });
+    }
+}
+
+function getDurationText(duration) {
+    switch (duration) {
+        case '90':
+            return '3개월';
+        case '180':
+            return '6개월';
+        case '360':
+            return '1년';
+        case '540':
+            return '1년 6개월';
+        case '720':
+            return '2년';            
+        default:
+            return `${duration} 일간`;
+    }
+}
+
+function getMethodText(method) {
+    switch (method) {
+        case '01':
+            return '성경 순서로 읽기';
+        case '02':
+            return '역사 순서로 읽기';
+        case '03':
+            return '테마 순서로 읽기';
+        case '04':
+            return '주제 순서로 읽기';
+        case '05':
+            return '구약/신약 혼합해서 읽기';
+        case '00':
+            return '내가 읽은 성경만 기록하기';            
+        default:
+            return '날마다성경';
+    }
+}
+
+// 계획표 > 저장
+function OnSavePlan() {
+    
+}
+
+// #endregion 계획표관련 이벤트 함수 ---------------------------------------------------------------------
+
+
+// #region 계획표 팝업 관련 함수 -------------------------------------------------------------------
 
 // 계획표 팝업 > 초기화
 function OnResetPlan() {
@@ -302,29 +472,10 @@ async function OnCreatePlan() {
     
 }
 
-// 계획표 > 조회 + 화면 바인딩
-
-async function OnLoadAndBindingPlan() {
-    try{
-        const planData = await DBHelper.fnGetAllData(_STORE_NAME_PLAN);        
-        console.log('계획 데이터:', planData);
-        if(planData.length === 0) return;
-        //TODO: 계획 데이터 바인딩
-        console.log(planData[0].data.readingMethod);
-        
-    }catch(error){
-        console.error('계획 조회 중 오류 발생:', error);
-        toast('계획 조회 중 오류가 발생했습니다. 다시 시도해주세요.');
-    }
-}
-
-// 계획표 > 저장
-function OnSavePlan() {
-    
-}
+// #endregion 계획표 팝업 관련 함수 -------------------------------------------------------------------
 
 
-// 성경관련 이벤트 함수 -----------------------------------------------------------------------
+// #region 성경관련 이벤트 함수 -----------------------------------------------------------------------
 
 // 이전에 읽었던 성경 히스토리 조회
 async function OnHistoryBible() {    
@@ -434,8 +585,10 @@ function OnUpdateNav(step = 0, book = null, bookName = null, chapter = null) {
     localStorage.setItem(_LOCAL_STORAGE_BIBLE_CHAPTER, chapter);
 }
 
+// #endregion 성경관련 이벤트 함수 -----------------------------------------------------------------------
 
-// 공용 이벤트 함수 -------------------------------------------------------------------------
+
+// #region 공용 이벤트 함수 -------------------------------------------------------------------------
 
 // 높이는 제한해서 딱 맞출때 (앱모드 pwa 사이트활용)
 function fnResizeHeight() {
@@ -528,17 +681,10 @@ function ShowEffectByEnd() {
     }, 250);
 }
 
+// #endregion 공용 이벤트 함수 -------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-// 테스트 함수-------------------------------------------------------------------------------
+// #region 테스트 함수-------------------------------------------------------------------------------
 
 function TestDDB(){
     DBHelper.fnDeleteDB().then(() => {
@@ -555,3 +701,5 @@ function TestPlan(){
     PlanHelper.fnSaveReadingRecords(1, 1, [1, 3, 5]);
     //PlanHelper.fnSaveReadingPlan("24.10.18");
 }
+
+// #endregion 테스트 함수-------------------------------------------------------------------------------
