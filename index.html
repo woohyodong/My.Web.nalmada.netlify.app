@@ -54,7 +54,7 @@
         </main>
         <footer>
             <button class="btn" onclick="OpenPlanPopup()">성경 통독 계획 세우기</button>
-            <small>매일 한 걸음씩 "<strong>날마다성경</strong>"과 함께 끝까지 통독하세요!</small>
+            <!-- <small>매일 한 걸음씩 "<strong>날마다성경</strong>"과 함께 끝까지 통독하세요!</small> -->
         </footer>
     </aside>
 
@@ -111,88 +111,74 @@
         </footer>
     </aside>
 
+    <!-- 도움말 팝업 -->
+    <aside id="popup-help" class="container popup">
+        <header>
+            <h4>도움말</h4>
+            <a href="javascript:;" class="btn-round" onclick="ClosePopup(this)" title="닫기">✕</a>
+        </header>
+        <main class="simplebar">
+            <section class="grid gap">
+                <p><strong>❝ 날마다성경 ❞</strong>은 성경을 매일 한 걸음씩 읽어나가는데 도움을 주는 서비스입니다.</p>
+                <p>성경을 1회도 통독하기 어려움을 겪는 분들에게 계획표를 제공하여 도움이 되도록 만들어졌습니다.</p>
+                <div class="divider"></div>
+                <p>더 필요한 기능 및 개선 사항은 개발자에게 문의해주세요. </p>
+            
+                <p class="mailto"><a href="mailto:jjtt.me@hotmail.com" title="개발자 메일보내기" class="link">jjtt.me@hotmail.com</a></p>
+            </section>
+        </main>
+        <footer class="flex between p">
+            <small>상희♡시우</small>
+            <small id="_version" class="op-5">VER_1.0.0</small>
+        </footer>
+    </aside>    
+
     <!-- 설정 슬라이드 -->
     <aside id="slide-settings" class="side-nav">
         <header>
             <a href="javascript:;" class="btn-round" onclick="CloseSettingPopup()" title="닫기">✕</a>
             
             <div class="info">
-                <h5>계획표 기간 (1년간)</h5>
-                <h3>23일 남음</h3>
-                <h6>23.11.30 ~ 24.12.30</h6>
+                <h4 class="info-title">계획표 기간</h4>
+                <h3 class="info-days">23일 남음</h3>
+                <h5 class="info-date">23.11.30 ~ 24.12.30</h5>
                 <button class="btn" onclick="CloseSettingPopup();OpenPlanPopup()"><img src="/images/icon_refresh.png" alt=""> 계획표 다시설정</button>
             </div>
         </header>
         <main>
             <ul class="list">
                 <li>
-                    <label for="opt1" class="cursor"><h5>완료 표시 숨기기</h5></label>
+                    <label for="chk-completed" class="cursor"><h5>완료 표시 숨기기</h5></label>
                     <div class="switch sm">
-                        <input type="checkbox" id="opt1">
-                        <label for="opt1" class="lever"></label>
+                        <input type="checkbox" id="chk-completed">
+                        <label for="chk-completed" class="lever"></label>
                     </div>
                 </li>
                 <li class="row">
                     <h5 class="col">글씨 크기</h5>
-                    <div class="col btn-group">
-                        <button class="active">보통</button>
-                        <button>크게</button>
+                    <div class="col-2 btn-group">
+                        <input type="radio" value="1.6rem" name="radio-font" data-label="작게"/>
+                        <input type="radio" value="1.8rem" name="radio-font" data-label="보통" checked/>
+                        <input type="radio" value="2.0rem" name="radio-font" data-label="크게"/>
                     </div>
                 </li>
             </ul>
             <ul class="list">
-                <li class="cursor" onclick="OnOpenHelper()"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
+                <li class="cursor" onclick="CloseSettingPopup();OpenHelpPopup()"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
             </ul>
         </main>
-    </aside>
-
-    <!-- 도움말 모달 -->
-    <aside id="popup-help" class="modal">
-        도움말 모달
     </aside>
 
     <!-- 메인 컨텐츠 -->
     <div class="container main">
 
         <header id="header" class="plan-progress-bar">
-            <h4>날마다성경</h4>
+            <h4 id="title-plan">날마다성경</h4>
             <a href="javascript:;" class="btn-icon settings" id="btn-settings" data-activates="slide-settings">Settings</a>
         </header>
 
         <main id="main">
-            <!-- <div id="plan-list"></div> -->
-
-            <div id="plan-list">
-                <h4>창세기 </h4>
-                <table>
-                    <tr><td>월</td><td>24.08.12</td><td>창세기 1~5장</td><td><i>✔</i></td></tr>
-                    <tr class="active"><td>화</td><td>24.08.13</td><td>창세기 6~10장</td><td><i>✔</i></tr>
-                    <tr><td>수</td><td>24.08.14</td><td>미가 4~7, 나훔 1~3, 하박국 1~3, 스바냐 1~3, 학개 1</td><td><i>✔</i></tr>
-                    <tr><td>목</td><td>24.08.15</td><td>빌립보서 4, 골로새서 1~4, 데살로니가전서 1~5, 데살로니가후서 1~3, 디모데전서 1</td><td><i>✔</i></tr>
-                    <tr class="split"><td>금</td><td>24.08.16</td><td>빌립보서 2~4, 골로새서 1~4, 데살로니가전서 1~5, 데살로니가후서 1~3, 디모데전서 1~6, 디모데후서 1~4, 디도서 1~3, 빌레몬서 1, 히브리서 1~13, 야고보서 1~5, 베드로전서 1~5, 베드로후서 1~3, 요한1서 1~5, 요한2서 1, 요한3서 1, 유다서 1, 요한계시록 1~22</td><td><i>✔</i></tr>
-                    <tr><td>토</td><td>24.08.17</td><td>창세기 26~30장</td><td><i>✔</i></tr>
-                    <tr><td>일</td><td>24.08.18</td><td>창세기 31~35장</td><td><i>✔</i></tr>
-
-                    <tr class="split"><td>월</td><td>24.08.19</td><td>창세기 36~40장</td><td><i>✔</i></tr>
-                    <tr><td>화</td><td>24.08.20</td><td>창세기 41~45장</td><td><i>✔</i></tr>
-                    <tr><td>수</td><td>24.08.21</td><td>창세기 46~50장</td><td><i>✔</i></tr>
-                </table>
-
-                <h4>출앱굽기 </h4>
-                <table>
-                    <tr><td>월</td><td>24.08.12</td><td>창세기 1~5장</td><td><i>✔</i></td></tr>
-                    <tr class="active"><td>화</td><td>24.08.13</td><td>창세기 6~10장</td><td><i>✔</i></tr>
-                    <tr><td>수</td><td>24.08.14</td><td>창세기 11~15장</td><td><i>✔</i></tr>
-                    <tr><td>목</td><td>24.08.15</td><td>창세기 16~20장</td><td><i>✔</i></tr>
-                    <tr><td>금</td><td>24.08.16</td><td>창세기 21~25장</td><td><i>✔</i></tr>
-                    <tr><td>토</td><td>24.08.17</td><td>창세기 26~30장</td><td><i>✔</i></tr>
-                    <tr><td>일</td><td>24.08.18</td><td>창세기 31~35장</td><td><i>✔</i></tr>
-
-                    <tr class="split"><td>월</td><td>24.08.19</td><td>창세기 36~40장</td><td><i>✔</i></tr>
-                    <tr><td>화</td><td>24.08.20</td><td>창세기 41~45장</td><td><i>✔</i></tr>
-                    <tr><td>수</td><td>24.08.21</td><td>창세기 46~50장</td><td><i>✔</i></tr>
-                </table>
-            </div>             
+            <div id="plan-list"></div>
         </main>
 
         <footer id="footer">
@@ -212,22 +198,28 @@
     <script src="/js/site.plan.js"></script>
 
     <script>
-        $(function() {            
+        $(function() {
+
+            if(isInitPage()) $("#popup-intro").addClass("active");
+
+            InitDB();
+
             //체크리스트 테이블 행 클릭시 active 토글
             $(document).on("click", "#plan-list table tr", function () {
-                $(this).toggleClass("active");
+                const date = $(this).data('date');
+                //$(this).toggleClass("active");
+                OnToggleCompletion(date); // 클릭한 항목의 완료 상태를 변경 
             });
 
                 //체크리스트 테이블 행 전체 선택/해제
-            $(document).on("click", "#plan-list .btn", function () {
+            $(document).on("click", "#plan-list .selected-all", function () {
                 const table = $(this).closest('h4').next('table');
                 const rows = table.find('tr');
                 const allActive = rows.hasClass('active');
 
                 $(rows).each(function (index, item) {
                     const date = $(item).data('date');
-                    //TODO:작업필요
-                    //toggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
+                    OnToggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
                 });
                 
 

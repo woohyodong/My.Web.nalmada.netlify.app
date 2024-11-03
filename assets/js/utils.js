@@ -70,6 +70,13 @@ function fnRandomInt(min, max) {
 }
 
 // 사용 예시:
+// fnRandomFloat(0.1, 1.0)
+// 반환 값: 0.1과 1.0 사이의 실수 (예: 0.456, 0.892 등)
+function fnRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// 사용 예시:
 // fnParseQueryString("?key1=value1&key2=value2")
 // 반환 값: { key1: "value1", key2: "value2" }
 function fnParseQueryString(queryString) {

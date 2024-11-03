@@ -1,5 +1,5 @@
 ﻿// #region 상수정의 -------------------------------------------------------------------------------
-const _APP_VERSION = "2024.1.0";
+const _APP_VERSION = "2024.11.01.0";
 const _STORE_NAME_BIBLE = "BibleStore";
 const _STORE_NAME_BIBLE_SUMMARY = "BibleSummaryStore";
 const _STORE_NAME_PLAN = "PlanStore";
@@ -12,6 +12,9 @@ const _STORE_NAME_READING_RECORD = "ReadingRecordStore";
 const _LOCAL_STORAGE_BIBLE_BOOK = "#DB_BOOK";
 const _LOCAL_STORAGE_BIBLE_BOOKNAME = "#DB_BOOKNAME";
 const _LOCAL_STORAGE_BIBLE_CHAPTER = "#DB_CHAPTER";
+
+const _LOCAL_STORAGE_SETTING_CHECKED = "#CHECKED";
+const _LOCAL_STORAGE_SETTING_FONT_SIZE = "#FONT_SIZE";
 
 // 전역변수 -> 계획표 관련
 let _currentStep = 1; // 현재 진행 중인 단계
@@ -28,7 +31,7 @@ document.addEventListener('DOMContentLoaded', InitPage);
 // 공통 초기화
 function InitPage() {
 
-    InitDB();
+    InitSetting();
 
     //materializecss init
     $('.modal').modal();
@@ -43,6 +46,10 @@ function InitPage() {
 
 } // function initPage() end ----------------------------------------------------------------//
 
+function isInitPage(){
+    return sessionStorage.getItem("#popup-intro") ? false : true;
+}
+
 // DB 초기화
 async function InitDB(){
     try {
@@ -54,7 +61,11 @@ async function InitDB(){
             // 이제 DB가 존재하므로 특정 스토어 내 데이터가 존재하는지 확인
             DBHelper.fnCheckStoreHasData(_STORE_NAME_PLAN).then(hasData => {
                 if(!hasData) $("#popup-intro").addClass("active");
-                else OnLoadAndBindingPlan();
+                else {
+                    $("#popup-intro").addClass("fadeOut");//.removeClass("active");
+                    OnLoadAndBindingPlan();
+                    sessionStorage.setItem("#popup-intro", "true");
+                }
             });
 
         } else {
@@ -176,6 +187,41 @@ async function InitDB(){
     }    
 } // async function InitDB() end ------------------------------------------------------------//
 
+
+// 설정 초기화
+function InitSetting(){
+
+    $("#_version").text(`VER_${_APP_VERSION}`);
+
+    //폰트 사이즈 설정
+    const savedFontSize = fnNull(localStorage.getItem(_LOCAL_STORAGE_SETTING_FONT_SIZE),"1.8rem");
+    if (savedFontSize) {
+        ChangeFontSize(savedFontSize);
+        $(`input[name=radio-font][value='${savedFontSize}']`).prop('checked', true);
+    }
+
+    // 폰트 크기 변경 이벤트 핸들러
+    $("input[name=radio-font]").change(function() {
+        const newSize = $(this).val();
+        ChangeFontSize(newSize);
+        localStorage.setItem(_LOCAL_STORAGE_SETTING_FONT_SIZE, newSize);
+    });
+
+    // 설정 체크박스
+    const savedChecked = localStorage.getItem(_LOCAL_STORAGE_SETTING_CHECKED);
+    if (savedChecked) {
+        $("#chk-completed").prop('checked', savedChecked === 'true');
+    }
+
+    // 완료건 보기/숨기기 이벤트 핸들러
+    $("#chk-completed").change(function() {
+        const isChecked = $(this).prop('checked');
+        //ToggleCompletedPlan();
+        localStorage.setItem(_LOCAL_STORAGE_SETTING_CHECKED, isChecked);
+    });
+
+}
+
 // #endregion 초기화 함수 --------------------------------------------------------------------------
 
 
@@ -183,6 +229,7 @@ async function InitDB(){
 
 // 계획표 > 조회 + 화면 바인딩
 async function OnLoadAndBindingPlan() {
+    
     try{
         console.log("OnLoadAndBindingPlan");
         const planDataDB = await DBHelper.fnGetAllData(_STORE_NAME_PLAN);        
@@ -211,7 +258,8 @@ async function OnLoadAndBindingPlan() {
                     planList.append(table);
                 }
                 // 새로운 월의 헤더와 테이블 생성
-                const header = $(`<h4>20${year}년 ${parseInt(month)}월 <a href="javascript:;" class="btn btn-icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="240" height="240"><path d="m10.933 13.519-2.226-2.226-1.414 1.414 3.774 3.774 5.702-6.84-1.538-1.282z"></path><path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM5 19V5h14l.002 14H5z"></path></svg></a></h4>`); // 월에 따라 헤더 생성
+                // 월에 따라 헤더 생성
+                const header = $(`<h4>20${year}년 ${parseInt(month)}월 <a href="javascript:;" class="btn-icon selected-all"></a></h4>`);
                 planList.append(header);
         
                 table = $("<table></table>"); // 새로운 테이블 생성
@@ -227,15 +275,7 @@ async function OnLoadAndBindingPlan() {
         });
         
         // 마지막 테이블을 추가 (마지막 월에 대한 테이블이 남아있을 수 있음)
-        if (table) {
-            planList.append(table);
-        }
-        
-        // 체크리스트 항목 클릭 시 완료 상태 변경
-        planList.find('tr').on('click', function () {
-            const date = $(this).data('date');
-            toggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
-        });
+        if (table) planList.append(table);
         
         // 남은 항목과 완료율 계산
         const remainingTasks = calculateRemainingTasks(planData);
@@ -243,20 +283,17 @@ async function OnLoadAndBindingPlan() {
         
         // 설정 UI 업데이트
         const settings = $('#slide-settings .info');
-        settings.find('h5').text(`계획표 기간 (${getDurationText(planData.readingDuration)})`);
-        settings.find('h3').text(`${remainingTasks}건 남음`); // 남은 건수 표시
-        settings.find('h6').text(`${planData.startDate} ~ ${planData.endDate}`);
+        settings.find('.info-title').html(`계획표 기간 <small class="op-5">(${planData.readingDurationName})</small>`); // 계획표 기간 표시
+        settings.find('.info-days').text(`${remainingTasks}건 남음`); // 남은 건수 표시
+        settings.find('.info-date').text(`${planData.startDate} ~ ${planData.endDate}`);
         
-        $("#title-plan").text(`${getMethodText(planData.readingMethod)}`);
+        $("#title-plan").text(`${planData.readingMethodName}`);
         
         // 완료율 업데이트
         updateCompletionRateUI(completionRate);
         
         // UI 바인딩 완료 후, 체크되지 않은 항목으로 포커스 이동
         focusFirstUncheckedItem();
-
-
-
         
     }catch(error){
         console.error('계획 조회 중 오류 발생:', error);
@@ -300,45 +337,12 @@ function focusFirstUncheckedItem() {
     }
 }
 
-function getDurationText(duration) {
-    switch (duration) {
-        case '90':
-            return '3개월';
-        case '180':
-            return '6개월';
-        case '360':
-            return '1년';
-        case '540':
-            return '1년 6개월';
-        case '720':
-            return '2년';            
-        default:
-            return `${duration} 일간`;
-    }
-}
-
-function getMethodText(method) {
-    switch (method) {
-        case '01':
-            return '성경 순서로 읽기';
-        case '02':
-            return '역사 순서로 읽기';
-        case '03':
-            return '테마 순서로 읽기';
-        case '04':
-            return '주제 순서로 읽기';
-        case '05':
-            return '구약/신약 혼합해서 읽기';
-        case '00':
-            return '내가 읽은 성경만 기록하기';            
-        default:
-            return '날마다성경';
-    }
-}
-
 // 계획표 > 저장
-function OnSavePlan() {
-    
+async function OnToggleCompletion(date) {
+    console.log(date);
+    await PlanHelper.fnSaveReadingPlan(date);
+
+    OnLoadAndBindingPlan();
 }
 
 // #endregion 계획표관련 이벤트 함수 ---------------------------------------------------------------------
@@ -637,8 +641,7 @@ function handleRoute(path) {
 
 // 옵션 > 폰트크기 변경
 function ChangeFontSize(size) {
-    // $(".bible-text").css("font-size", size + "px");
-    // $(".bible-text").css("line-height", size + 10 + "px");
+    document.documentElement.style.setProperty("--fs", size);
 }
 // 옵션 > 계획표 완료건 보기/숨기기
 function ToggleCompletedPlan() {
@@ -650,10 +653,10 @@ function ToggleCompletedPlan() {
 function ShowEffectByStart() {
     //console.log('효과 표시');
     confetti({
-        particleCount: 200,
-        startVelocity: 50,
-        spread: 120,
-        origin: { y: 0.5 }
+        particleCount: fnRandomInt(200,250),
+        startVelocity: fnRandomInt(50, 60),
+        spread: fnRandomInt(120,150),
+        origin: { y: fnRandomFloat(0.5,0.8) }
       });
 }
 

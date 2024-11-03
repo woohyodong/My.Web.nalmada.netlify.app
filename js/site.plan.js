@@ -6,6 +6,7 @@ const PlanHelper = (function() {
         readingMethodName: null,
         readingDays: [],
         readingDuration: null,
+        readingDurationName: '',
         startDate: null,  // 시작일자
         endDate: null,    // 종료일자
         plan: []          // 최종 계획 데이터  ex)샘플구조 { "date": "24.10.01", "day": "월", "bible": "창세기 1:1 ~ 2:25", "completed": false, "newweek": true }
@@ -21,6 +22,7 @@ const PlanHelper = (function() {
             _planData.readingMethod = method;        
             _planData.readingDays = weekDays;
             _planData.readingDuration = duration;
+            _planData.readingDurationName = getDurationText(duration);
             _planData.startDate = new Date();
 
             // 실제 읽을 수 있는 날 계산
@@ -747,6 +749,24 @@ const PlanHelper = (function() {
         const diff = target - firstThursday;
         return 1 + Math.round(diff / (7 * 24 * 60 * 60 * 1000)); // 주 계산
     }
+
+    // 기간을 텍스트로 변환하는 함수
+    function getDurationText(duration) {
+        switch (duration) {
+            case 90:
+                return '3개월';
+            case 180:
+                return '6개월';
+            case 360:
+                return '1년';
+            case 540:
+                return '1년 6개월';
+            case 720:
+                return '2년';            
+            default:
+                return `${duration} 일간`;
+        }
+    }    
 
     return {
         fnCreatePlanData,

@@ -111,44 +111,62 @@
         </footer>
     </aside>
 
+    <!-- 도움말 팝업 -->
+    <aside id="popup-help" class="container popup">
+        <header>
+            <h4>도움말</h4>
+            <a href="javascript:;" class="btn-round" onclick="ClosePopup(this)" title="닫기">✕</a>
+        </header>
+        <main class="simplebar">
+            <section class="grid gap">
+                <p><strong>❝ 날마다성경 ❞</strong>은 성경을 매일 한 걸음씩 읽어나가는데 도움을 주는 서비스입니다.</p>
+                <p>성경을 1회도 통독하기 어려움을 겪는 분들에게 계획표를 제공하여 도움이 되도록 만들어졌습니다.</p>
+                <div class="divider"></div>
+                <p>더 필요한 기능 및 개선 사항은 개발자에게 문의해주세요. </p>
+            
+                <p class="mailto"><a href="mailto:jjtt.me@hotmail.com" title="개발자 메일보내기" class="link">jjtt.me@hotmail.com</a></p>
+            </section>
+        </main>
+        <footer class="flex between p">
+            <small>상희♡시우</small>
+            <small id="_version" class="op-5">VER_1.0.0</small>
+        </footer>
+    </aside>    
+
     <!-- 설정 슬라이드 -->
     <aside id="slide-settings" class="side-nav">
         <header>
             <a href="javascript:;" class="btn-round" onclick="CloseSettingPopup()" title="닫기">✕</a>
             
             <div class="info">
-                <h5>계획표 기간 (1년간)</h5>
-                <h3>23일 남음</h3>
-                <h6>23.11.30 ~ 24.12.30</h6>
+                <h4 class="info-title">계획표 기간</h4>
+                <h3 class="info-days">23일 남음</h3>
+                <h5 class="info-date">23.11.30 ~ 24.12.30</h5>
                 <button class="btn" onclick="CloseSettingPopup();OpenPlanPopup()"><img src="/images/icon_refresh.png" alt=""> 계획표 다시설정</button>
             </div>
         </header>
         <main>
             <ul class="list">
                 <li>
-                    <label for="opt1" class="cursor"><h5>완료 표시 숨기기</h5></label>
+                    <label for="chk-completed" class="cursor"><h5>완료 표시 숨기기</h5></label>
                     <div class="switch sm">
-                        <input type="checkbox" id="opt1">
-                        <label for="opt1" class="lever"></label>
+                        <input type="checkbox" id="chk-completed">
+                        <label for="chk-completed" class="lever"></label>
                     </div>
                 </li>
                 <li class="row">
                     <h5 class="col">글씨 크기</h5>
-                    <div class="col btn-group">
-                        <button class="active">보통</button>
-                        <button>크게</button>
+                    <div class="col-2 btn-group">
+                        <input type="radio" value="1.6rem" name="radio-font" data-label="작게"/>
+                        <input type="radio" value="1.8rem" name="radio-font" data-label="보통" checked/>
+                        <input type="radio" value="2.0rem" name="radio-font" data-label="크게"/>
                     </div>
                 </li>
             </ul>
             <ul class="list">
-                <li class="cursor" onclick="OnOpenHelper()"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
+                <li class="cursor" onclick="CloseSettingPopup();OpenHelpPopup()"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
             </ul>
         </main>
-    </aside>
-
-    <!-- 도움말 모달 -->
-    <aside id="popup-help" class="modal">
-        도움말 모달
     </aside>
 
     <!-- 메인 컨텐츠 -->
@@ -243,7 +261,7 @@
 
         <footer id="footer">
             <a href="/">계획표</a>
-            <a class="active" href="javascript:;">성경</a>
+            <a class="active" href="javascript:;" onclick="ChangeFontSize('2rem')">성경</a>
         </footer>
         
     </div>
