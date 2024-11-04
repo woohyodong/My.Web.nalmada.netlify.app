@@ -1,5 +1,5 @@
 //PWA 캐시 사용***********************************************
-const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241101'; //갱신 key값
+const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241103'; //갱신 key값
 const somethingWentWrongURL = "/pwa/error.html";
 const criticalAssets = [
     // 주요 CSS
@@ -22,6 +22,7 @@ const criticalAssets = [
     // 주요 이미지 및 폰트
     "/images/img_bible.png",
     "/images/icon_settings.png",
+    "/images/icon_share.png",
     "/images/icon_refresh.png"
 
     //"/assets/fonts/Inkfree.woff"
