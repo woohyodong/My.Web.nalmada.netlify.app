@@ -62,7 +62,7 @@ async function InitDB(){
             DBHelper.fnCheckStoreHasData(_STORE_NAME_PLAN).then(hasData => {
                 if(!hasData) $("#popup-intro").addClass("active");
                 else {
-                    $("#popup-intro").addClass("fadeOut");//.removeClass("active");
+                    $("#popup-intro").removeClass("active");
                     OnLoadAndBindingPlan();
                     sessionStorage.setItem("#popup-intro", "true");
                 }
@@ -259,7 +259,8 @@ async function OnLoadAndBindingPlan() {
                 }
                 // 새로운 월의 헤더와 테이블 생성
                 // 월에 따라 헤더 생성
-                const header = $(`<h4>20${year}년 ${parseInt(month)}월 <a href="javascript:;" class="btn-icon selected-all"></a></h4>`);
+                // const header = $(`<h4>20${year}년 ${parseInt(month)}월 <a href="javascript:;" class="btn-icon selected-all"></a></h4>`);
+                const header = $(`<h4>20${year}년 ${parseInt(month)}월 <b>${item.category}<b></h4>`);
                 planList.append(header);
         
                 table = $("<table></table>"); // 새로운 테이블 생성
@@ -271,7 +272,11 @@ async function OnLoadAndBindingPlan() {
             if (isCompleted || isNewweek) classText = `class="${isCompleted}${isNewweek}"`;
         
             // 계획 데이터를 테이블에 추가
-            table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><i>✔</i></td></tr>`);
+            if(item.category === ""){
+                table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><i>✔</i></td></tr>`);
+            }else{
+                table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><b>${item.category}</b></td></tr>`);
+            }
         });
         
         // 마지막 테이블을 추가 (마지막 월에 대한 테이블이 남아있을 수 있음)

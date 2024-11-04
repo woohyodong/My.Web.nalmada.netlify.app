@@ -125,6 +125,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #plan-list table i{opacity: 0;transition: var(--tran);}
 #plan-list table tr.active i{opacity: 1;}
 #plan-list table tr.split{border-top: 4px double;}
+#plan-list table td b{font-size: .8em;text-overflow: ellipsis;}
 
 .bible-list{padding:var(--gap);display: grid;gap: var(--gap-sm);}																								  .bible-list
 .bible-list h4{margin-bottom: var(--gap);}
