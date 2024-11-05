@@ -1,5 +1,5 @@
 //PWA 캐시 사용***********************************************
-const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241103'; //갱신 key값
+const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241105'; //갱신 key값
 const somethingWentWrongURL = "/pwa/error.html";
 const criticalAssets = [
     // 주요 CSS

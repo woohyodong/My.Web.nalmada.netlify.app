@@ -1,6 +1,6 @@
 ﻿const DBHelper = (function () {
     const _dbName = 'myDatabase'; // 데이터베이스 이름
-    const _dbVersion = 20241101; // 데이터베이스 버전
+    const _dbVersion = 20241105; // 데이터베이스 버전
     let _db = null; // IndexedDB 참조 변수
 
     // DB 초기화 및 생성
