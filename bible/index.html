@@ -8,20 +8,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
+    <meta name="description" content="성경 일독이 목표이신가요? 날마다성경 앱을 통해 매일 조금씩 성경을 읽어나가고, 쉽게 통독 목표를 달성해보세요.">
+    <meta name="keywords" content="성경 일독, 성경 통독, 성경 읽기, 성경 읽기 계획, 성경 하루 한 장, 성경 매일 읽기">
+
     <!-- View-transition -->
-    <style>
-        @view-transition {navigation: auto;}
-        @keyframes move-out-left {
-            from { transform: translateX(0%) scale(1); opacity: 1; box-shadow: none; }
-            to { transform: translateX(-100%) scale(0.95); opacity: 0.8; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
-        }
-        @keyframes move-in-right {
-            from { transform: translateX(100%) scale(0.95); opacity: 0.8; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
-            to { transform: translateX(0%) scale(1); opacity: 1; box-shadow: none; }
-        }
-        ::view-transition-old(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-out-left;}
-        ::view-transition-new(root) {animation: 0.6s cubic-bezier(0.4, 0, 0.2, 1) both move-in-right;}     
-    </style> 
+    <style>@view-transition {navigation: auto;}::view-transition-group{animation-duration: .5s;}</style>
 
     <!-- Icon -->
     <link rel="icon" href="/pwa/favicon.ico" sizes="any">
@@ -39,7 +30,7 @@
     <link href="/assets/css/style.common.min.css" rel="stylesheet" />    
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     
-    <title>날마다성경</title>
+    <title>날마다성경 - 성경 일독을 돕는 하루 계획표 읽기 앱</title>
 </head>
 <body>
 

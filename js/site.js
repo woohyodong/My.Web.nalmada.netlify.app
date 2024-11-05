@@ -833,7 +833,8 @@ function ShowEffectByLove(){
 
 // 공용 이벤트 함수 > 공유하기
 function OnShareApp(){
-    fnShareLink('날마다성경','성경 통독 계획표를 만들고,날마다 성경을 읽어보세요.','https://nalmada.netlify.app');
+    var packageID = "app.netlify.nalmada.twa";
+    fnShareLink('날마다성경','성경 통독 계획표를 만들고,날마다 성경을 읽어보세요.','https://nalmada.netlify.app', packageID);
 }
 
 function OnResetApp(){

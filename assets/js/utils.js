@@ -252,19 +252,38 @@ function toast(msg, sec) {
 //ex) await fnDelay(1000); // 1초 대기
 function fnDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
+
 //Share Link------------------------------
-async function fnShareLink(shareTitle, shareText, link) {
+async function fnShareLink(shareTitle, shareText, shareLink, packageID = null) {
+    // Google Play 스토어 링크 (앱이 배포된 경우)
+    if(packageID){
+        const googlePlayLink = `https://play.google.com/store/apps/details?id=${packageID}`;
+        // 현재 URL을 공유할지 구글 플레이 링크를 공유할지 결정
+        shareLink = await isInstalled() ? googlePlayLink : shareLink;
+    }
+    
+
     const shareData = {
         title: shareTitle,
         text: shareText,
-        url: link,
+        url: shareLink,
     };
+
     try {
         await navigator.share(shareData);
     } catch (e) {
         console.error(e);
     }
 }
+
+// PWA가 설치되었는지 확인하는 함수
+async function isInstalled() {
+    // 설치 여부를 로컬 스토리지나 쿠키 등으로 확인
+    return (await 'matchMedia' in window && window.matchMedia('(display-mode: standalone)').matches) || // PWA 설치 여부 확인
+           (navigator.standalone) || // iOS Standalone 여부 확인
+           false;
+}
+
 
 //Share Files------------------------------
 async function fnShareFiles(filesArray, shareTitle, shareText) {
@@ -281,4 +300,4 @@ async function fnShareFiles(filesArray, shareTitle, shareText) {
     } else {
         console.log(`System doesn't support sharing.`);
     }
-};
+}

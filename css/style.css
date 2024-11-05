@@ -31,7 +31,7 @@
 }
 /*========== Reset ==========*/
 html{font-family:var(--ff);font-size:var(--fp);}
-body{min-height:var(--size-min-height);font-size:var(--fs);line-height: 1.5;background-color: var(--second);color: var(--primary-dark);word-break: keep-all;}
+body{display: flex;justify-content: center; min-height:var(--size-min-height);font-size:var(--fs);line-height: 1.5;background-color: var(--second);color: var(--primary-dark);word-break: keep-all;}
 h1,h2,h3,h4,h5,h6{font-weight: bold;}strong{font-weight: bold;}
 h1{font-size:4rem;}h2{font-size:3.2rem;}h3{font-size:2.4rem;}h4{font-size:2rem;}h5{font-size:1.6rem;}h6{font-size:1.2rem;}
 small{font-size:0.8em;}button{cursor: pointer;outline: none;border: none;}
@@ -108,6 +108,8 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .btn-icon:hover{background-color: rgba(0, 0, 0, 0.075);}
 .btn-icon.settings{background-image: url(/images/icon_settings.png);}
 .btn-icon.selected-all{background-image: url(/images/icon_select.png);}
+.btn-sm{padding: var(--gap-sm) var(--gap);font-size: 1.2rem;}
+.btn.active{background-color: var(--primary-dark);color: var(--primary-light);}
 
 #plan-progress{display: block;text-align: center;opacity: 0.75;}
 
@@ -172,6 +174,13 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .op-5{opacity: .5;}
 .mailto{text-decoration: underline;text-underline-offset: .3em;}
 #myfamily, #_version {user-select: none;}
+
+/* PWA */
+#pwa-setup{font-size: clamp(1.2rem, calc(1vw + 1vh + 0.5vmin), 1.6rem);display: none;position: fixed;top:2rem;width:clamp(300px,95%,55rem); background-color: var(--background);color: var(--text); padding: var(--gap);border:1px solid var(--border);z-index: 9999;transform: translate(-50%,-50%);border-radius: var(--radius);}
+#pwa-setup.active{display: flex;justify-content: space-between; align-items: center; -webkit-animation:slide-in-top 1s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-top 1s cubic-bezier(.25,.46,.45,.94) both}
+#pwa-setup img.icon{width: 4rem;}
+@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
+@-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
 /*============ Animation ============*/
 .fadeOut{animation: ani-fadeOut 1s ease forwards;}
 @keyframes ani-fadeOut{0%{opacity: 1;}100%{opacity: 0;display: none;}}
