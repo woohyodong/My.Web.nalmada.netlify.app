@@ -35,7 +35,17 @@ function InitPage() {
 
     //materializecss init
     $('.modal').modal();
-    $("#btn-settings").sideNav({ edge: 'right' });
+    $("#btn-settings").sideNav({
+        edge: 'right',
+        onOpen: function () {
+            // Sidenav가 열릴 때 히스토리 추가
+            history.pushState({ page: "sidenav" }, "sidenav", "#sidenav");
+        },
+        onClose: function () {
+            // Sidenav가 닫힐 때 히스토리 상태를 되돌림
+            if (history.state && history.state.page === "sidenav") history.back();
+        }
+    });
 
     //simplebar init
     $(".simplebar").each(function () { new SimpleBar(this); });
@@ -47,6 +57,17 @@ function InitPage() {
     $("#myfamily").on("dblclick", ShowEffectByLove);
 
     $("#_version").on("dblclick", OnResetApp);
+
+    window.addEventListener('popstate', function(event) {
+        if ($('.popup').hasClass('active')) {
+            CloseAllPopup();
+        }
+        else if ($("#sidenav-overlay").length > 0) {
+            CloseSettingPopup();
+        }
+
+        event.preventDefault();
+    });
 
 } // function initPage() end ----------------------------------------------------------------//
 
@@ -600,8 +621,6 @@ async function OnLoadChapters(book, bookName = null) {
             li.on("click", () => OnLoadVerses(book,bookName,i));
             $("#bible-list ul").append(li);
         }
-
-        //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
         
     } catch (error) {
         console.error('Error selecting Bible book:', error);
@@ -631,7 +650,6 @@ async function OnLoadVerses(book, bookName, chapter) {
             $("#bible-list").append(`<p data-idx="${verse.idx}"><sup>${verse.paragraph}</sup>${verse.sentence}</p>`);
         });
 
-        //TODO: 상단 네비게이션 상태 변경 + 주소 추가 (히스토리)
     } catch (error) {
         console.error('Error fetching chapter data:', error);
     }
@@ -668,44 +686,31 @@ function fnResizeHeight() {
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 // 계획표 팝업 열기
-function OpenPlanPopup() {OnResetPlan(); $("#popup-plan").addClass("active");}
+function OpenPlanPopup() {
+    OnResetPlan(); 
+    $("#popup-plan").addClass("active");    
+    history.pushState({ page: "popup" }, "popup", "#popup");
+}
 // 옵션 > 도움말 팝업 열기
-function OpenHelpPopup() {$("#popup-help").addClass("active");}
+function OpenHelpPopup() {
+    $("#popup-help").addClass("active");
+    history.pushState({ page: "popup" }, "popup", "#popup");
+}
 // 계획표 팝업 닫기
-function CloseAllPopup() {$(".popup").removeClass("active");}
+function CloseAllPopup() {
+    $(".popup").removeClass("active");
+    if (history.state && history.state.page === "popup") history.back();
+}
 // 팝업 닫기 (공용)
-function ClosePopup(obj) {$(obj).parents(".popup").removeClass("active");}
-function CloseSettingPopup() {$("#btn-settings").sideNav("hide");}
-
-function initRouter() {
-    const path = window.location.pathname;
-    handleRoute(path); // 현재 경로에 맞게 초기 화면 로드
-
-    window.addEventListener('popstate', (event) => {
-        const path = window.location.pathname;
-        handleRoute(path); // 뒤로가기 버튼 클릭 시 경로 처리
-    });
+function ClosePopup(obj) {
+    $(obj).parents(".popup").removeClass("active");
+    if (history.state && history.state.page === "popup") history.back();
+}
+function CloseSettingPopup() {
+    $("#btn-settings").sideNav("hide");
+    //if (history.state && history.state.page === "sidenav") history.back();
 }
 
-// TODO:경로에 따라 화면 표시 
-// 참고: https://chatgpt.com/c/67076ad3-a0b4-8003-9e51-371a165ea674
-function handleRoute(path) {
-    const segments = path.split('/').filter(Boolean);
-
-    // if (segments.length === 1) {
-    //     // /bible -> 성경 목록 표시
-    //     displayBibleList();
-    // } else if (segments.length === 2) {
-    //     // /bible/1 -> 장 목록 표시
-    //     const book = parseInt(segments[1]);
-    //     displayChapters(book);
-    // } else if (segments.length === 3) {
-    //     // /bible/1/1 -> 절 목록 표시
-    //     const book = parseInt(segments[1]);
-    //     const chapter = parseInt(segments[2]);
-    //     displayVerses(book, chapter);
-    // }
-}
 
 // 옵션 > 폰트크기 변경
 function ChangeFontSize(size) {
