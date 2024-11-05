@@ -833,19 +833,7 @@ function ShowEffectByLove(){
 
 // 공용 이벤트 함수 > 공유하기
 function OnShareApp(){
-    if (navigator.share) {
-        navigator.share({
-            title: '날마다성경',
-            text: '성경 통독 계획표를 만들고,날마다 성경을 읽어보세요.',
-            url: 'https://nalmada.netlify.app',
-        }).then(() => {
-            console.log('공유 성공');
-        }).catch((error) => {
-            console.error('공유 실패:', error);
-        });
-    } else {
-        toast('공유 기능이 지원되지 않는 브라우저입니다.');
-    }
+    fnShareLink('날마다성경','성경 통독 계획표를 만들고,날마다 성경을 읽어보세요.','https://nalmada.netlify.app');
 }
 
 function OnResetApp(){

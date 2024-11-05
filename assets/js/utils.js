@@ -251,3 +251,34 @@ function toast(msg, sec) {
 //Delay ------------------------------
 //ex) await fnDelay(1000); // 1초 대기
 function fnDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+//Share Link------------------------------
+async function fnShareLink(shareTitle, shareText, link) {
+    const shareData = {
+        title: shareTitle,
+        text: shareText,
+        url: link,
+    };
+    try {
+        await navigator.share(shareData);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+//Share Files------------------------------
+async function fnShareFiles(filesArray, shareTitle, shareText) {
+    if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+        try {
+            await navigator.share({
+                files: filesArray,
+                title: shareTitle,
+                text: shareText
+            });
+        } catch (error) {
+            console.log('Sharing failed', error);
+        }
+    } else {
+        console.log(`System doesn't support sharing.`);
+    }
+};
