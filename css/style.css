@@ -98,7 +98,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .container{min-height:100vh;width:clamp(var(--size-min),100%,var(--size-max));margin:auto;}
 .container.main{box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);background-color: var(--background);}
 
-.popup{display: none; position: absolute;top: 0;left:50%;transform: translateX(-50%); z-index: var(--z-index-popup);background-color: #fff;}
+.popup{display: none; position: fixed;top: 0;left:50%;transform: translateX(-50%); z-index: var(--z-index-popup);background-color: #fff;}
 .popup.active{display: block;}body:has(.popup.active){overflow: hidden;}
 
 .btn{display: inline-flex;justify-content: center;align-items: center;padding: var(--gap-sm) var(--gap);background-color: var(--primary);color: var(--primary-dark);transition: var(--tran);border-radius: var(--radius);}
@@ -172,7 +172,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .cursor{cursor: pointer;}
 .divider{border-top: 1px dashed var(--primary);margin: var(--gap) 0;}
 .op-5{opacity: .5;}
-.mailto{text-align: right;text-decoration: underline;text-underline-offset: .3em;}
+.mailto{text-decoration: underline;text-underline-offset: .3em;}
 /*============ Animation ============*/
 .fadeOut{animation: ani-fadeOut 1s ease forwards;}
 @keyframes ani-fadeOut{0%{opacity: 1;}100%{opacity: 0;display: none;}}

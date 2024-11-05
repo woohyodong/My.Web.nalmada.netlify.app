@@ -69,8 +69,8 @@
             // put() 메서드는 동일한 키가 있으면 덮어쓰고, 없으면 새로 저장합니다.
             const request = objectStore.put(data);
 
-            request.onsuccess = function () {
-                resolve('Data saved successfully');
+            request.onsuccess = function (event) {
+                resolve(data);
             };
 
             request.onerror = function (event) {

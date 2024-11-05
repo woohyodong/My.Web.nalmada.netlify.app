@@ -202,11 +202,12 @@ const PlanHelper = (function() {
     
             // 읽기 완료 상태 토글 (true -> false 또는 false -> true)
             dayEntry.completed = !dayEntry.completed;
+
+            console.log(`${targetDate} 읽기 계획의 완료 상태가 ${dayEntry.completed ? '완료' : '미완료'}로 업데이트되었습니다.`);
     
             // PlanStore에 업데이트된 데이터를 다시 저장
-            await DBHelper.fnSaveData(_STORE_NAME_PLAN, planData);
-    
-            console.log(`${targetDate} 읽기 계획의 완료 상태가 ${dayEntry.completed ? '완료' : '미완료'}로 업데이트되었습니다.`);
+            return await DBHelper.fnSaveData(_STORE_NAME_PLAN, planData);
+            
         } catch (error) {
             console.error('오류가 발생했습니다:', error);
         }

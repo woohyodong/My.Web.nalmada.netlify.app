@@ -63,8 +63,8 @@ async function InitDB(){
                 if(!hasData) $("#popup-intro").addClass("active");
                 else {
                     $("#popup-intro").removeClass("active");
-                    OnLoadAndBindingPlan();
                     sessionStorage.setItem("#popup-intro", "true");
+                    OnLoadAndBindingPlan(ToggleCompletedPlan);
                 }
             });
 
@@ -216,8 +216,8 @@ function InitSetting(){
     // 완료건 보기/숨기기 이벤트 핸들러
     $("#chk-completed").change(function() {
         const isChecked = $(this).prop('checked');
-        //ToggleCompletedPlan();
         localStorage.setItem(_LOCAL_STORAGE_SETTING_CHECKED, isChecked);
+        ToggleCompletedPlan();
     });
 
 }
@@ -228,7 +228,7 @@ function InitSetting(){
 // #region 계획표관련 이벤트 함수 ---------------------------------------------------------------------
 
 // 계획표 > 조회 + 화면 바인딩
-async function OnLoadAndBindingPlan() {
+async function OnLoadAndBindingPlan(callback = null) {
     
     try{
         console.log("OnLoadAndBindingPlan");
@@ -243,6 +243,8 @@ async function OnLoadAndBindingPlan() {
         const planList = $('#plan-list');
         planList.empty();
 
+        //완료건 보기/숨기기 설정
+        const isHide = localStorage.getItem(_LOCAL_STORAGE_SETTING_CHECKED) === 'true';
 
         let currentMonth = null; // 현재 처리 중인 월을 저장할 변수
         let table = null; // 월별로 테이블을 관리할 변수
@@ -272,38 +274,42 @@ async function OnLoadAndBindingPlan() {
             if (isCompleted || isNewweek) classText = `class="${isCompleted}${isNewweek}"`;
         
             // 계획 데이터를 테이블에 추가
-            if(item.category === ""){
-                table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><i>✔</i></td></tr>`);
-            }else{
-                table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td><b>${item.category}</b></td></tr>`);
-            }
+            let displayCategory = item.category === "" ? "<i>✔</i>" : `<b>${item.category}</b>`;            
+            table.append(`<tr ${classText} data-date="${item.date}"><td>${item.day}</td><td>${item.date}</td><td>${item.bible}</td><td>${displayCategory}</td></tr>`);
         });
         
         // 마지막 테이블을 추가 (마지막 월에 대한 테이블이 남아있을 수 있음)
         if (table) planList.append(table);
-        
-        // 남은 항목과 완료율 계산
-        const remainingTasks = calculateRemainingTasks(planData);
-        const completionRate = calculateCompletionRate(planData);
-        
-        // 설정 UI 업데이트
-        const settings = $('#slide-settings .info');
-        settings.find('.info-title').html(`계획표 기간 <small class="op-5">(${planData.readingDurationName})</small>`); // 계획표 기간 표시
-        settings.find('.info-days').text(`${remainingTasks}건 남음`); // 남은 건수 표시
-        settings.find('.info-date').text(`${planData.startDate} ~ ${planData.endDate}`);
-        
-        $("#title-plan").text(`${planData.readingMethodName}`);
-        
-        // 완료율 업데이트
-        updateCompletionRateUI(completionRate);
-        
-        // UI 바인딩 완료 후, 체크되지 않은 항목으로 포커스 이동
-        focusFirstUncheckedItem();
+
+        OnBindingPlanAfterProc(planData, (callback) ? false : true);
+
+        if(callback) callback();
         
     }catch(error){
         console.error('계획 조회 중 오류 발생:', error);
         toast('계획 조회 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
+}
+
+//계획표 > 조회 + 화면 바인딩 후처리
+function OnBindingPlanAfterProc(planData, isFocus = true) {
+    // 남은 항목과 완료율 계산
+    const remainingTasks = calculateRemainingTasks(planData);
+    const completionRate = calculateCompletionRate(planData);
+    
+    // 설정 UI 업데이트
+    const settings = $('#slide-settings .info');
+    settings.find('.info-title').html(`계획표 기간 <small class="op-5">(${planData.readingDurationName})</small>`); // 계획표 기간 표시
+    settings.find('.info-days').text(`${remainingTasks}건 남음`); // 남은 건수 표시
+    settings.find('.info-date').text(`${planData.startDate} ~ ${planData.endDate}`);
+    
+    $("#title-plan").text(`${planData.readingMethodName}`);
+    
+    // 완료율 업데이트
+    updateCompletionRateUI(completionRate);
+
+    // UI 바인딩 완료 후, 체크되지 않은 항목으로 포커스 이동
+    if(isFocus) focusFirstUncheckedItem();
 }
 
 //함수에서 남은 체크리스트 항목 표시
@@ -321,6 +327,7 @@ function calculateCompletionRate(planData) {
     return completionRate.toFixed(2); // 소수점 두 자리까지 반올림
 }
 
+// 완료율 상단 UI 업데이트
 function updateCompletionRateUI(completionRate) {
     const header = document.querySelector('#header.plan-progress-bar');
     header.style.setProperty('--completion-rate', `${completionRate}%`);
@@ -342,12 +349,12 @@ function focusFirstUncheckedItem() {
     }
 }
 
-// 계획표 > 저장
-async function OnToggleCompletion(date) {
-    console.log(date);
-    await PlanHelper.fnSaveReadingPlan(date);
 
-    OnLoadAndBindingPlan();
+// 계획표 체크리스트 저장/취소
+async function OnSavePlan(date) {
+    console.log(date);
+    const planDataDB = await PlanHelper.fnSaveReadingPlan(date);
+    OnBindingPlanAfterProc(planDataDB.data);
 }
 
 // #endregion 계획표관련 이벤트 함수 ---------------------------------------------------------------------
@@ -650,7 +657,36 @@ function ChangeFontSize(size) {
 }
 // 옵션 > 계획표 완료건 보기/숨기기
 function ToggleCompletedPlan() {
-    // $(".completed").toggle();
+    const isHide = localStorage.getItem(_LOCAL_STORAGE_SETTING_CHECKED) === 'true';
+    const $tables = $("#plan-list table"); // 모든 table을 가져옵니다.
+
+    $tables.each(function() {
+        const $table = $(this);
+        const $allRows = $table.find("tr");
+        const $activeRows = $table.find("tr.active");
+        const $header = $table.prev("h4"); // table 상단의 h4 요소
+
+        // 모든 tr이 active 상태라면 table과 해당 h4를 숨깁니다.
+        if ($allRows.length === $activeRows.length) {
+            if (isHide) {
+                $table.hide();
+                $header.hide();
+            } else {
+                $table.show();
+                $header.show();
+            }
+        } else {
+            if (isHide) {
+                $activeRows.hide();
+            } else {
+                $activeRows.show();
+            }
+            $table.show(); // 일부 row만 active라면 table을 보여줍니다.
+            $header.show(); // 일부 row만 active라면 h4도 보여줍니다.
+        }
+    });
+
+    if(!isHide) focusFirstUncheckedItem();
 }
 
 
@@ -665,6 +701,7 @@ function ShowEffectByStart() {
       });
 }
 
+// 화면효과 > 종이 꽃가루 폭죽 
 function ShowEffectByEnd() {
     //console.log('효과 표시');
     var duration = 7 * 1000;
@@ -690,11 +727,12 @@ function ShowEffectByEnd() {
 }
 
 
+// 공용 이벤트 함수 > 공유하기
 function OnShareApp(){
     if (navigator.share) {
         navigator.share({
             title: '날마다성경',
-            text: '성경 통독 계획표를 만들고, 성경을 읽어보세요.',
+            text: '성경 통독 계획표를 만들고,날마다 성경을 읽어보세요.',
             url: 'https://nalmada.netlify.app',
         }).then(() => {
             console.log('공유 성공');
