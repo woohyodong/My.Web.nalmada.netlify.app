@@ -53,7 +53,7 @@
             <p>"주의 말씀은 내 발에 등이요 내 길에 빛이니이다.“<br />- 시편 119:105 -</p>
         </main>
         <footer>
-            <button class="btn" onclick="OpenPlanPopup()">성경 통독 계획 세우기</button>
+            <button class="btn" onclick="OnSetupDB()">성경 통독 계획 세우기</button>
             <!-- <small>매일 한 걸음씩 "<strong>날마다성경</strong>"과 함께 끝까지 통독하세요!</small> -->
         </footer>
     </aside>
@@ -128,7 +128,7 @@
             </section>            
         </main>
         <footer class="flex between p">
-            <small>상희♡시우</small>
+            <small id="myfamily">상희♡시우</small>
             <small id="_version" class="op-5">VER_1.0.0</small>
         </footer>
     </aside>    
@@ -203,8 +203,7 @@
 
     <script>
         $(function() {
-
-            if(isInitPage()) $("#popup-intro").addClass("active");
+            if(isShowIntroPopup()) $("#popup-intro").addClass("active");
 
             InitDB();
 
@@ -214,28 +213,7 @@
                 $(this).toggleClass("active");
                 OnSavePlan(date); // 클릭한 항목의 완료 상태를 변경 
             });
-
-                //체크리스트 테이블 행 전체 선택/해제
-            $(document).on("click", "#plan-list .selected-all", function () {
-                const table = $(this).closest('h4').next('table');
-                const rows = table.find('tr');
-                const allActive = rows.hasClass('active');
-
-                $(rows).each(function (index, item) {
-                    const date = $(item).data('date');
-                    //OnToggleCompletion(date); // 클릭한 항목의 완료 상태를 변경
-                });
-                
-
-                if (allActive) {
-                    // 모든 행에 'active' 해제 및 체크 표시 제거
-                    rows.removeClass('active');
-                } else {
-                    // 모든 행에 'active' 적용 및 체크 표시 추가
-                    rows.addClass('active');
-                }
-            });
-        });
+        }); //$(function() {
     </script>
     
 </body>

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', InitPage);
 // 공통 초기화
 function InitPage() {
 
-    InitSetting();
+    InitSettingPopup();
 
     //materializecss init
     $('.modal').modal();
@@ -44,9 +44,13 @@ function InitPage() {
     fnResizeHeight();
     window.addEventListener("resize", fnResizeHeight);
 
+    $("#myfamily").on("dblclick", ShowEffectByLove);
+
+    $("#_version").on("dblclick", OnResetApp);
+
 } // function initPage() end ----------------------------------------------------------------//
 
-function isInitPage(){
+function isShowIntroPopup(){
     return sessionStorage.getItem("#popup-intro") ? false : true;
 }
 
@@ -71,125 +75,177 @@ async function InitDB(){
         } else {
             console.log('DB가 존재하지 않으므로 초기화 및 데이터 로드를 시작합니다.');
             $("#popup-intro").addClass("active");
-            // DB 스키마 정의 후 초기화
-            await DBHelper.fnInitDB([
-                { 
-                    name: _STORE_NAME_BIBLE, 
-                    keyPath: 'idx', // 고유 인덱스 필드를 키로 사용
-                    indices: [
-                        { name: 'cate', keyPath: 'cate', unique: false }, // 성경 구분 (구약/신약)
-                        { name: 'book', keyPath: 'book', unique: false }, // 성경책 번호
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'book_chapter', keyPath: ['book', 'chapter'], unique: false } // 복합 인덱스 추가
-                    ]
-                },
-                {
-                    name: _STORE_NAME_BIBLE_SUMMARY, // 성경 요약 스토어 (구약/신약 데이터 저장)
-                    keyPath: 'book', // 책의 고유 번호를 key로 사용
-                    indices: [
-                        { name: 'long_label', keyPath: 'long_label', unique: false }, // 성경책의 전체 이름
-                        { name: 'short_label', keyPath: 'short_label', unique: false }, // 성경책의 짧은 이름
-                        { name: 'chapter_count', keyPath: 'chapter_count', unique: false }, // 장 수
-                        { name: 'cate', keyPath: 'cate', unique: false } // 성경 구분 (구약/신약 구분)
-                    ]
-                },
-                { 
-                    name: _STORE_NAME_PLAN, // 계획 스토어 생성
-                    keyPath: 'key'
-                },
-                {
-                    name: _STORE_NAME_READING_HISTORICAL,
-                    keyPath: null, // 명시적인 키 없음
-                    autoIncrement: true, // 자동 키 생성
-                    indices: [
-                        { name: 'book', keyPath: 'book', unique: false },
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'long_label', keyPath: 'long_label', unique: false },
-                        { name: 'category', keyPath: 'category', unique: false }
-                    ]
-                },
-                {
-                    name: _STORE_NAME_READING_THEME, // 테마순 읽기
-                    keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
-                    autoIncrement: true, // 고유 ID 자동 생성
-                    indices: [
-                        { name: 'book', keyPath: 'book', unique: false },
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'long_label', keyPath: 'long_label', unique: false },
-                        { name: 'category', keyPath: 'category', unique: false }
-                    ]
-                },
-                {
-                    name: _STORE_NAME_READING_TOPIC, // 주제순 읽기
-                    keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
-                    autoIncrement: true, // 고유 ID 자동 생성
-                    indices: [
-                        { name: 'book', keyPath: 'book', unique: false },
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'long_label', keyPath: 'long_label', unique: false },
-                        { name: 'category', keyPath: 'category', unique: false }
-                    ]
-                },
-                {
-                    name: _STORE_NAME_READING_MIXED, // 구약/신약 혼합순 읽기
-                    keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
-                    autoIncrement: true, // 고유 ID 자동 생성
-                    indices: [
-                        { name: 'book', keyPath: 'book', unique: false },
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'long_label', keyPath: 'long_label', unique: false },
-                        { name: 'category', keyPath: 'category', unique: false }
-                    ]
-                },
-                {
-                    name: _STORE_NAME_READING_RECORD, // 읽은 성경 구절 기록
-                    keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
-                    autoIncrement: true, // 고유 ID 자동 생성
-                    indices: [
-                        { name: 'book', keyPath: 'book', unique: false },
-                        { name: 'chapter', keyPath: 'chapter', unique: false },
-                        { name: 'verse', keyPath: 'verse', unique: false }
-                    ]
-                }
-            ]);
 
-            console.log('DB 초기화 완료. 이제 JSON 데이터를 로드합니다.');
-
-            // JSON 데이터를 로드하여 IndexedDB에 저장 (프로세스 바 업데이트)
-            $("body").append('<aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside>');
-            await DBHelper.fnLoadAndSaveJSON('/data/bible_db.json', _STORE_NAME_BIBLE, 'Bible', updateProgressBar);
-            // 다른 구조의 JSON 파일을 처리할 경우, 적절한 keyPath를 지정
-            await DBHelper.fnLoadAndSaveJSON('/data/bible_db.summary.json', _STORE_NAME_BIBLE_SUMMARY, 'oldTestament');
-            await DBHelper.fnLoadAndSaveJSON('/data/bible_db.summary.json', _STORE_NAME_BIBLE_SUMMARY, 'newTestament');
-
-            await DBHelper.fnLoadAndSaveJSON('/data/historicalOrder_db.json', _STORE_NAME_READING_HISTORICAL);
-
-            await DBHelper.fnLoadAndSaveJSON('/data/themeOrder_db.json', _STORE_NAME_READING_THEME);
-
-            await DBHelper.fnLoadAndSaveJSON('/data/topicOrder_db.json', _STORE_NAME_READING_TOPIC);
-
-            await DBHelper.fnLoadAndSaveJSON('/data/mixedOrder_db.json', _STORE_NAME_READING_MIXED);
-
-            console.log('DB에 데이터 저장 완료.');
-            $("#_download").removeClass("active");
         }
     } catch (err) {
 
         DBHelper.fnDeleteDB();
         toast("DB 처리 중 오류 발생 <br> 새고로침 후 다시 시도해주세요.");
-    }
-
-    // 다운로드 진행 상태 업데이트 함수
-    function updateProgressBar(progress) {
-        //console.log('진행률:', progress);
-        $("#_download h1").text(progress + "%");
-        $("#_download .bar > i").css("width", progress + "%");
-    }    
+    }  
 } // async function InitDB() end ------------------------------------------------------------//
 
+async function OnSetupDB(){
+    try{
+
+        // DB 존재 여부 체크
+        const dbExists = await DBHelper.fnCheckDBExists();
+
+        if (dbExists) {
+            OpenPlanPopup();
+            return;
+        }
+
+        // DB 스키마 정의 후 초기화
+        await DBHelper.fnInitDB([
+            { 
+                name: _STORE_NAME_BIBLE, 
+                keyPath: 'idx', // 고유 인덱스 필드를 키로 사용
+                indices: [
+                    { name: 'cate', keyPath: 'cate', unique: false }, // 성경 구분 (구약/신약)
+                    { name: 'book', keyPath: 'book', unique: false }, // 성경책 번호
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'book_chapter', keyPath: ['book', 'chapter'], unique: false } // 복합 인덱스 추가
+                ]
+            },
+            {
+                name: _STORE_NAME_BIBLE_SUMMARY, // 성경 요약 스토어 (구약/신약 데이터 저장)
+                keyPath: 'book', // 책의 고유 번호를 key로 사용
+                indices: [
+                    { name: 'long_label', keyPath: 'long_label', unique: false }, // 성경책의 전체 이름
+                    { name: 'short_label', keyPath: 'short_label', unique: false }, // 성경책의 짧은 이름
+                    { name: 'chapter_count', keyPath: 'chapter_count', unique: false }, // 장 수
+                    { name: 'cate', keyPath: 'cate', unique: false } // 성경 구분 (구약/신약 구분)
+                ]
+            },
+            { 
+                name: _STORE_NAME_PLAN, // 계획 스토어 생성
+                keyPath: 'key'
+            },
+            {
+                name: _STORE_NAME_READING_HISTORICAL,
+                keyPath: null, // 명시적인 키 없음
+                autoIncrement: true, // 자동 키 생성
+                indices: [
+                    { name: 'book', keyPath: 'book', unique: false },
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'long_label', keyPath: 'long_label', unique: false },
+                    { name: 'category', keyPath: 'category', unique: false }
+                ]
+            },
+            {
+                name: _STORE_NAME_READING_THEME, // 테마순 읽기
+                keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
+                autoIncrement: true, // 고유 ID 자동 생성
+                indices: [
+                    { name: 'book', keyPath: 'book', unique: false },
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'long_label', keyPath: 'long_label', unique: false },
+                    { name: 'category', keyPath: 'category', unique: false }
+                ]
+            },
+            {
+                name: _STORE_NAME_READING_TOPIC, // 주제순 읽기
+                keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
+                autoIncrement: true, // 고유 ID 자동 생성
+                indices: [
+                    { name: 'book', keyPath: 'book', unique: false },
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'long_label', keyPath: 'long_label', unique: false },
+                    { name: 'category', keyPath: 'category', unique: false }
+                ]
+            },
+            {
+                name: _STORE_NAME_READING_MIXED, // 구약/신약 혼합순 읽기
+                keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
+                autoIncrement: true, // 고유 ID 자동 생성
+                indices: [
+                    { name: 'book', keyPath: 'book', unique: false },
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'long_label', keyPath: 'long_label', unique: false },
+                    { name: 'category', keyPath: 'category', unique: false }
+                ]
+            },
+            {
+                name: _STORE_NAME_READING_RECORD, // 읽은 성경 구절 기록
+                keyPath: null, // 고유한 keyPath를 사용하지 않고 자동 생성
+                autoIncrement: true, // 고유 ID 자동 생성
+                indices: [
+                    { name: 'book', keyPath: 'book', unique: false },
+                    { name: 'chapter', keyPath: 'chapter', unique: false },
+                    { name: 'verse', keyPath: 'verse', unique: false }
+                ]
+            }
+        ]);
+
+        console.log('DB 초기화 완료. 이제 JSON 데이터를 로드합니다.');
+
+        $("body").append('<aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside>');
+
+        const datasets = [
+            { filePath: '/data/bible_db.json', storeName: _STORE_NAME_BIBLE, keyPath: 'Bible' },
+            { filePath: '/data/bible_db.summary.json', storeName: _STORE_NAME_BIBLE_SUMMARY, keyPath: 'oldTestament' },
+            { filePath: '/data/bible_db.summary.json', storeName: _STORE_NAME_BIBLE_SUMMARY, keyPath: 'newTestament' },
+            { filePath: '/data/historicalOrder_db.json', storeName: _STORE_NAME_READING_HISTORICAL },
+            { filePath: '/data/themeOrder_db.json', storeName: _STORE_NAME_READING_THEME },
+            { filePath: '/data/topicOrder_db.json', storeName: _STORE_NAME_READING_TOPIC },
+            { filePath: '/data/mixedOrder_db.json', storeName: _STORE_NAME_READING_MIXED }
+        ];
+
+        let totalRecords = 0;
+        const datasetSizes = [];
+
+        // 각 데이터셋의 총 레코드 수를 계산하여 전체 레코드 수 구하기
+        for (const dataset of datasets) {
+            const data = await fetch(dataset.filePath).then(res => res.json());
+            const extractedData = dataset.keyPath ? data[dataset.keyPath] : data;
+            const recordCount = Array.isArray(extractedData) ? extractedData.length : 0;
+            datasetSizes.push(recordCount);
+            totalRecords += recordCount;
+        }
+
+        let processedRecords = 0;
+
+        // 각 JSON 파일을 로드하고 저장하며 진행 상태 업데이트
+        for (let i = 0; i < datasets.length; i++) {
+            const dataset = datasets[i];
+            const datasetSize = datasetSizes[i];
+
+            await DBHelper.fnLoadAndSaveJSON(
+                dataset.filePath,
+                dataset.storeName,
+                dataset.keyPath,
+                (progress) => {
+                    const datasetProgress = (progress / 100) * datasetSize;
+                    const overallProgress = Math.floor(((processedRecords + datasetProgress) / totalRecords) * 100);
+                    updateProgressBar(overallProgress);
+                }
+            );
+
+            // 현재 데이터셋 완료 후 processedRecords 업데이트
+            processedRecords += datasetSize;
+        }
+
+        function updateProgressBar(progress) {
+            $("#_download h1").text(progress + "%");
+            $("#_download .bar > i").css("width", progress + "%");
+        }
+
+        console.log('DB에 데이터 저장 완료.');
+
+        await fnDelay(300);
+        $("#_download").removeClass("active");
+
+        OpenPlanPopup();
+
+    } catch (err) {
+
+        DBHelper.fnDeleteDB();
+        toast("DB 처리 중 오류 발생 <br> 새고로침 후 다시 시도해주세요.");
+    }  
+}
 
 // 설정 초기화
-function InitSetting(){
+function InitSettingPopup(){
 
     $("#_version").text(`VER_${_APP_VERSION}`);
 
@@ -726,6 +782,49 @@ function ShowEffectByEnd() {
     }, 250);
 }
 
+function ShowEffectByLove(){
+    CloseAllPopup();
+
+    // pumpkin shape from https://thenounproject.com/icon/pumpkin-5253388/
+    var pumpkin = confetti.shapeFromPath({
+        path: 'M449.4 142c-5 0-10 .3-15 1a183 183 0 0 0-66.9-19.1V87.5a17.5 17.5 0 1 0-35 0v36.4a183 183 0 0 0-67 19c-4.9-.6-9.9-1-14.8-1C170.3 142 105 219.6 105 315s65.3 173 145.7 173c5 0 10-.3 14.8-1a184.7 184.7 0 0 0 169 0c4.9.7 9.9 1 14.9 1 80.3 0 145.6-77.6 145.6-173s-65.3-173-145.7-173zm-220 138 27.4-40.4a11.6 11.6 0 0 1 16.4-2.7l54.7 40.3a11.3 11.3 0 0 1-7 20.3H239a11.3 11.3 0 0 1-9.6-17.5zM444 383.8l-43.7 17.5a17.7 17.7 0 0 1-13 0l-37.3-15-37.2 15a17.8 17.8 0 0 1-13 0L256 383.8a17.5 17.5 0 0 1 13-32.6l37.3 15 37.2-15c4.2-1.6 8.8-1.6 13 0l37.3 15 37.2-15a17.5 17.5 0 0 1 13 32.6zm17-86.3h-82a11.3 11.3 0 0 1-6.9-20.4l54.7-40.3a11.6 11.6 0 0 1 16.4 2.8l27.4 40.4a11.3 11.3 0 0 1-9.6 17.5z',
+        matrix: [0.020491803278688523, 0, 0, 0.020491803278688523, -7.172131147540983, -5.9016393442622945]
+    });
+    // tree shape from https://thenounproject.com/icon/pine-tree-1471679/
+    var tree = confetti.shapeFromPath({
+        path: 'M120 240c-41,14 -91,18 -120,1 29,-10 57,-22 81,-40 -18,2 -37,3 -55,-3 25,-14 48,-30 66,-51 -11,5 -26,8 -45,7 20,-14 40,-30 57,-49 -13,1 -26,2 -38,-1 18,-11 35,-25 51,-43 -13,3 -24,5 -35,6 21,-19 40,-41 53,-67 14,26 32,48 54,67 -11,-1 -23,-3 -35,-6 15,18 32,32 51,43 -13,3 -26,2 -38,1 17,19 36,35 56,49 -19,1 -33,-2 -45,-7 19,21 42,37 67,51 -19,6 -37,5 -56,3 25,18 53,30 82,40 -30,17 -79,13 -120,-1l0 41 -31 0 0 -41z',
+        matrix: [0.03597122302158273, 0, 0, 0.03597122302158273, -4.856115107913669, -5.071942446043165]
+    });
+    // heart shape from https://thenounproject.com/icon/heart-1545381/
+    var heart = confetti.shapeFromPath({
+        path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
+        matrix: [0.03333333333333333, 0, 0, 0.03333333333333333, -5.566666666666666, -5.533333333333333]
+    });
+    
+    var defaults = {
+        scalar: 2,
+        spread: 180,
+        particleCount: 30,
+        origin: { y: -0.1 },
+        startVelocity: -35
+    };
+    
+    confetti({
+        ...defaults,
+        shapes: [pumpkin],
+        colors: ['#ff9a00', '#ff7400', '#ff4d00']
+    });
+    confetti({
+        ...defaults,
+        shapes: [tree],
+        colors: ['#8d960f', '#be0f10', '#445404']
+    });
+    confetti({
+        ...defaults,
+        shapes: [heart],
+        colors: ['#f93963', '#a10864', '#ee0b93']
+    });
+}
 
 // 공용 이벤트 함수 > 공유하기
 function OnShareApp(){
@@ -744,24 +843,26 @@ function OnShareApp(){
     }
 }
 
+function OnResetApp(){
+    if(!confirm("데이터를 정말 초기화 하시겠습니까?")) return;
+
+    DBHelper.fnDeleteDB().then(() => {
+        console.log('DB 삭제 완료');
+        localStorage.clear();
+    }).catch(err => {
+        console.error('DB 삭제 실패:', err);
+    });
+
+    setTimeout(() => { alert("초기화 되었습니다."); location.reload(); }, 1500);
+}
+
 // #endregion 공용 이벤트 함수 -------------------------------------------------------------------------
 
 
 // #region 테스트 함수-------------------------------------------------------------------------------
 
-function TestDDB(){
-    DBHelper.fnDeleteDB().then(() => {
-        console.log('DB 삭제 완료');
-        
-    }).catch(err => {
-        console.error('DB 삭제 실패:', err);
-    });
-
-    setTimeout(() => { alert("새로고침 합니다."); location.reload(); }, 1500);
-}
-
 function TestPlan(){
-    PlanHelper.fnSaveReadingRecords(1, 1, [1, 3, 5]);
+    //PlanHelper.fnSaveReadingRecords(1, 1, [1, 3, 5]);
     //PlanHelper.fnSaveReadingPlan("24.10.18");
 }
 

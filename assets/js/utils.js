@@ -77,6 +77,15 @@ function fnRandomFloat(min, max) {
 }
 
 // 사용 예시:
+// fnRandomArray([1, 2, 3, 4, 5])
+// 배열에서 랜덤한 요소 하나를 반환하는 함수
+function fnRandomArray(array) {
+    if (!array || array.length === 0) return null; // 배열이 비어있을 경우 null 반환
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
+}
+
+// 사용 예시:
 // fnParseQueryString("?key1=value1&key2=value2")
 // 반환 값: { key1: "value1", key2: "value2" }
 function fnParseQueryString(queryString) {
@@ -233,10 +242,12 @@ function fnZoomChange(){
     const zoom = Math.min((window.innerHeight / window.innerWidth) * 1.25 , 1);
     document.documentElement.style.zoom = `${zoom}`;
 }
-
 //toast ------------------------------
 function toast(msg, sec) {
     sec = sec || 3000;
     try { Materialize.toast(msg, sec);} 
     catch {alert(msg);}
 }
+//Delay ------------------------------
+//ex) await fnDelay(1000); // 1초 대기
+function fnDelay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }

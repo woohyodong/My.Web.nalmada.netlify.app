@@ -90,7 +90,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #_download{min-height: 100vh;width:100%;display: flex;top: 0;left: 0; justify-content: center;align-items: center; position: fixed;background-color: rgba(0, 0, 0, 0.65);backdrop-filter: blur(5px);transition: opacity 0.2s;visibility: hidden;opacity: 0;z-index: var(--z-index-setup);}
 #_download section{background-color: #fff;padding: 20px;border-radius: 5px;box-shadow: 0 0 10px rgba(0,0,0,0.1);width: 300px;text-align: center;}
 #_download .bar{width:100%;height:7px;background:#dedede;border-radius:3px;position: relative;margin-top:15px;overflow: hidden;position:relative;}
-#_download .bar > i{position:absolute;top:0;left:0;height:100%;display: block;background:#ff7844;width:0;transition:.2s;-webkit-transition:.2s;-moz-transition:.2s;}
+#_download .bar > i{position:absolute;top:0;left:0;height:100%;display: block;background:var(--primary-dark);width:0;transition:.2s;-webkit-transition:.2s;-moz-transition:.2s;}
 #_download.active{visibility: visible;opacity: 1;}
 
 #bible-nav{flex:1; display: flex;align-items: center;gap: var(--gap-sm);}
@@ -171,6 +171,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .divider{border-top: 1px dashed var(--primary);margin: var(--gap) 0;}
 .op-5{opacity: .5;}
 .mailto{text-decoration: underline;text-underline-offset: .3em;}
+#myfamily, #_version {user-select: none;}
 /*============ Animation ============*/
 .fadeOut{animation: ani-fadeOut 1s ease forwards;}
 @keyframes ani-fadeOut{0%{opacity: 1;}100%{opacity: 0;display: none;}}
