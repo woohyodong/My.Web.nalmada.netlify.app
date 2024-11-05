@@ -50,9 +50,9 @@ function InitPage() {
     //simplebar init
     $(".simplebar").each(function () { new SimpleBar(this); });
 
-    // // 공통 초기화 코드
-    // fnResizeHeight();
-    // window.addEventListener("resize", fnResizeHeight);
+    // 공통 초기화 코드
+    fnResizeHeight();
+    window.addEventListener("resize", fnResizeHeight);
 
     $("#myfamily").on("dblclick", ShowEffectByLove);
 
@@ -445,7 +445,7 @@ function OnResetPlan() {
     _currentStep = 1;
 
     // 모든 선택 해제/선택
-    $('input[type="radio"]').prop('checked', false);
+    $('input[type="radio"]:not([name=radio-font])').prop('checked', false);
     $('input[type="checkbox"]').prop('checked', true);
     // 버튼 초기화
     $('#prevStep').prop('disabled', true);
