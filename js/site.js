@@ -50,9 +50,9 @@ function InitPage() {
     //simplebar init
     $(".simplebar").each(function () { new SimpleBar(this); });
 
-    // 공통 초기화 코드
-    fnResizeHeight();
-    window.addEventListener("resize", fnResizeHeight);
+    // // 공통 초기화 코드
+    // fnResizeHeight();
+    // window.addEventListener("resize", fnResizeHeight);
 
     $("#myfamily").on("dblclick", ShowEffectByLove);
 
