@@ -39,7 +39,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 /*============ Layout ============*/
 #header{display: flex;justify-content: space-between;align-items: center;padding: var(--gap);background-color: var(--primary-dark);color: var(--primary-light);position: relative;}
 #header.plan-progress-bar::after{content: '';height: .5rem;width: var(--completion-rate);background-color: var(--primary);position: absolute;bottom: 0;left: 0;opacity: 0.5;transition: width 0.3s ease;}
-#main{padding-block:var(--gap-sm); overflow: auto;max-height:calc(100 * var(--vh) - 12rem);}
+#main{padding-block:var(--gap-sm); overflow: auto;max-height:calc(100 * var(--vh, 1vh) - 12rem);}
 #footer{display:grid;grid-template-columns: 1fr 1fr;background-color: var(--primary-dark);}
 #footer a{display:flex;justify-content: center;align-items: center;gap: var(--gap-sm);background-color: var(--primary);color: var(--primary-dark);transition: var(--tran);border: none;}
 #footer a.active{background-color: var(--primary-dark);color: var(--primary);}
