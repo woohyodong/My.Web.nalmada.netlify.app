@@ -321,9 +321,6 @@ async function OnLoadAndBindingPlan(callback = null) {
         const planList = $('#plan-list');
         planList.empty();
 
-        //완료건 보기/숨기기 설정
-        const isHide = localStorage.getItem(_LOCAL_STORAGE_SETTING_CHECKED) === 'true';
-
         let currentMonth = null; // 현재 처리 중인 월을 저장할 변수
         let table = null; // 월별로 테이블을 관리할 변수
         
