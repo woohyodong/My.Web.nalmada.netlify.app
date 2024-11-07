@@ -369,54 +369,58 @@ const PlanHelper = (function() {
             let lastWeek = getWeek(currentDate); // 주 번호 확인
             let minChaptersPerDay = Math.floor(totalChapters / totalDays);  // 각 날에 최소한 할당해야 하는 장 수
             let extraChapters = totalChapters % totalDays;  // 남은 구절 수
-        
-            for (let currentDay = 1; currentDay <= totalDays; currentDay++) {
-                let dailyBible = [];
-                let dayCategory = data[currentEntryIndex].category;
-                let isNewWeek = false;
     
-                let dayOfWeek = currentDate.getDay();
-                let dateString = formatDate(currentDate);
-                let currentWeek = getWeek(currentDate);
+            // 필요한 일수만큼 계획 생성
+            while (result.length < totalDays && currentEntryIndex < totalChapters) {
+                let dayOfWeek = currentDate.getDay(); // 현재 요일 확인
+                let dayString = getDayString(dayOfWeek); // 요일을 문자열로 변환
     
-                // 주의 첫 날인지 여부 확인
-                if (currentWeek !== lastWeek) {
-                    isNewWeek = true;
-                    lastWeek = currentWeek;
+                // 선택된 요일인지 확인하고, 선택한 요일에만 계획을 추가
+                if (_planData.readingDays.includes(dayString)) {
+                    let dailyBible = [];
+                    let isNewWeek = false;
+                    let dateString = formatDate(currentDate); // 현재 날짜 포맷 적용
+                    let currentWeek = getWeek(currentDate);
+    
+                    // 주가 바뀌면 새 주 표시
+                    if (currentWeek !== lastWeek) {
+                        isNewWeek = true;
+                        lastWeek = currentWeek;
+                    }
+    
+                    // 각 날에 최소 할당 장 수를 분배하고 남은 구절을 추가
+                    let chaptersForToday = minChaptersPerDay;
+                    if (extraChapters > 0) {
+                        chaptersForToday++;  // 남은 구절을 하루씩 추가
+                        extraChapters--;
+                    }
+    
+                    // 필요한 구절을 일별로 분배
+                    while (dailyBible.length < chaptersForToday && currentEntryIndex < totalChapters) {
+                        let currentEntry = data[currentEntryIndex];
+                        let bibleText = `${currentEntry.bible}`;
+                        dailyBible.push(bibleText);
+                        currentEntryIndex++;
+                    }
+    
+                    // 병합된 구절을 적용
+                    const mergedBibleEntries = mergeBibleEntries(dailyBible);
+    
+                    // 결과에 추가
+                    result.push({
+                        date: dateString,
+                        day: dayString,
+                        bible: mergedBibleEntries,
+                        completed: false,
+                        newweek: isNewWeek,
+                        category: data[currentEntryIndex - 1].category // 마지막 장의 카테고리로 설정
+                    });
                 }
     
-                // 각 날에 최소 장을 할당하고 남은 구절을 분배
-                let chaptersForToday = minChaptersPerDay;
-                if (extraChapters > 0) {
-                    chaptersForToday++;  // 남은 구절을 하루씩 추가
-                    extraChapters--;
-                }
-    
-                // 필요한 구절을 일별로 분배
-                while (dailyBible.length < chaptersForToday && currentEntryIndex < totalChapters) {
-                    let currentEntry = data[currentEntryIndex];
-                    let bibleText = `${currentEntry.bible}`;
-                    dayCategory = currentEntry.category;
-                    dailyBible.push(bibleText);
-                    currentEntryIndex++;
-                }
-    
-                // 병합된 구절을 적용
-                const mergedBibleEntries = mergeBibleEntries(dailyBible);
-    
-                // 결과에 추가
-                result.push({
-                    "date": dateString,
-                    "day": getDayString(dayOfWeek),
-                    "bible": mergedBibleEntries,  // bible 속성을 문자열로 처리
-                    //"bible_origin": dailyBible,  // 원본 데이터를 별도 속성으로 저장
-                    "completed": false,
-                    "newweek": isNewWeek,
-                    "category": dayCategory
-                });
-    
-                // 날짜 하루 증가
-                currentDate.setDate(currentDate.getDate() + 1);
+                // 날짜를 하루 증가하여 선택된 요일까지 건너뜀
+                do {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                } while (!_planData.readingDays.includes(getDayString(currentDate.getDay())));
             }
     
             if (result.length > 0) {
@@ -426,6 +430,7 @@ const PlanHelper = (function() {
             }
         });
     }
+    
 
     // 3. 내가 읽은 성경만 기록하는 계획 생성 함수
     function generateReadingRecords(data) {
