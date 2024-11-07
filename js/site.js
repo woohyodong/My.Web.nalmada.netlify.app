@@ -1,5 +1,5 @@
 ﻿// #region 상수정의 -------------------------------------------------------------------------------
-const _APP_VERSION = "2024.11.06.3";
+const _APP_VERSION = "2024.11.07.0";
 const _STORE_NAME_BIBLE = "BibleStore";
 const _STORE_NAME_BIBLE_SUMMARY = "BibleSummaryStore";
 const _STORE_NAME_PLAN = "PlanStore";
@@ -200,7 +200,7 @@ async function OnSetupDB(){
 
         console.log('DB 초기화 완료. 이제 JSON 데이터를 로드합니다.');
 
-        $("body").append('<aside id="_download" class="active"><section><p>Downloading...</p><h1>0%</h1><div class="bar"><i></i></div></section></aside>');
+        $("body").append('<aside id="_download" class="active"><section><p>잠시만 기다려주세요^^</p><h1>0%</h1><div class="bar"><i></i></div></section></aside>');
 
         const datasets = [
             { filePath: '/data/bible_db.json', storeName: _STORE_NAME_BIBLE, keyPath: 'Bible' },
@@ -247,6 +247,7 @@ async function OnSetupDB(){
         }
 
         function updateProgressBar(progress) {
+            $("#_download section p").text("Downloading...");
             $("#_download h1").text(progress + "%");
             $("#_download .bar > i").css("width", progress + "%");
         }
@@ -387,6 +388,12 @@ function OnBindingPlanAfterProc(planData, isFocus = true) {
 
     // UI 바인딩 완료 후, 체크되지 않은 항목으로 포커스 이동
     if(isFocus) focusFirstUncheckedItem();
+
+    const savedChecked = localStorage.getItem(_LOCAL_STORAGE_SETTING_CHECKED) === 'true';   
+    $("#completed").removeClass("active");
+    if(remainingTasks === 0 && savedChecked){
+        $("#completed").addClass("active");
+    }
 }
 
 //함수에서 남은 체크리스트 항목 표시
@@ -432,6 +439,12 @@ async function OnSavePlan(date) {
     console.log(date);
     const planDataDB = await PlanHelper.fnSaveReadingPlan(date);
     OnBindingPlanAfterProc(planDataDB.data);
+
+    const remainingTasks = calculateRemainingTasks(planDataDB.data);
+    if(remainingTasks === 0){
+        alert("축하합니다!\n성경 통독을 완료하셨습니다.\n하나님의 은혜가 함께하시길 소망합니다.");
+        ShowEffectByEnd();
+    } 
 }
 
 // #endregion 계획표관련 이벤트 함수 ---------------------------------------------------------------------
@@ -505,13 +518,17 @@ function OnNextPlanStep() {
 
         const weekDays = $('input[name="chk2"]:checked').map(function() { return $(this).val(); }).get();
 
+        $("._w").text("(매일)");
+
+        if(weekDays.length < 7) $("._w").text(`(${weekDays.join(", ")})`);
+
         $('input[name="chk3"]').each(function() {
             const totalDays = parseInt($(this).val());  // 선택한 기간 (3개월, 6개월 등)
             // 평균 소요 시간을 계산
             const averageTime = PlanHelper.fnCalculateAverageTime(totalDays, weekDays.length);
             //console.log(`하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분 소요 (하루에 ${averageTime.charactersPerDay}글자 읽기)`);
             
-            $(this).parent().find('.time-display').html(`<strong>하루 평균 ${averageTime.hours}시간 ${averageTime.minutes}분</strong>`.replace("0시간", ""));
+            $(this).parent().find('.time-display').html(`<strong>${averageTime.hours}시간 ${averageTime.minutes}분</strong>`.replace("0시간", ""));
         });
     }
 
@@ -747,7 +764,10 @@ function ToggleCompletedPlan() {
         }
     });
 
+    $("#completed").removeClass("active");
+
     if(!isHide) focusFirstUncheckedItem();
+    else if(isHide && $("#plan-list table tr:not(.active)").length === 0) $("#completed").addClass("active");
 }
 
 

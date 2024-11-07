@@ -30,8 +30,8 @@
 	--z-index-setup:500;
 }
 /*========== Reset ==========*/
-html{font-family:var(--ff);font-size:var(--fp);height: 100%;}
-body{height: 100%; display: flex;justify-content: center; min-height:var(--size-min-height);font-size:var(--fs);line-height: 1.5;background-color: var(--second);color: var(--primary-dark);word-break: keep-all;}
+html{font-family:var(--ff);font-size:var(--fp);}
+body{display: flex;justify-content: center; min-height:var(--size-min-height);font-size:var(--fs);line-height: 1.5;background-color: var(--second);color: var(--primary-dark);word-break: keep-all;}
 h1,h2,h3,h4,h5,h6{font-weight: bold;}strong{font-weight: bold;}
 h1{font-size:4rem;}h2{font-size:3.2rem;}h3{font-size:2.4rem;}h4{font-size:2rem;}h5{font-size:1.6rem;}h6{font-size:1.2rem;}
 small{font-size:0.8em;}button{cursor: pointer;outline: none;border: none;}
@@ -39,7 +39,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 /*============ Layout ============*/
 #header{display: flex;justify-content: space-between;align-items: center;padding: var(--gap);background-color: var(--primary-dark);color: var(--primary-light);position: relative;}
 #header.plan-progress-bar::after{content: '';height: .5rem;width: var(--completion-rate);background-color: var(--primary);position: absolute;bottom: 0;left: 0;opacity: 0.5;transition: width 0.3s ease;}
-#main{padding-block:var(--gap-sm); overflow: auto;max-height:calc(100 * var(--vh, 1vh) - 12rem);}
+#main{position: relative; padding-block:var(--gap-sm); overflow: auto;height:calc(100 * var(--vh, 1vh) - 12rem);}
 #footer{display:grid;grid-template-columns: 1fr 1fr;background-color: var(--primary-dark);}
 #footer a{display:flex;justify-content: center;align-items: center;gap: var(--gap-sm);background-color: var(--primary);color: var(--primary-dark);transition: var(--tran);border: none;}
 #footer a.active{background-color: var(--primary-dark);color: var(--primary);}
@@ -56,7 +56,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #popup-plan.active, #popup-help.active{display: grid; grid-template-rows: 6rem 1fr 6rem;transform: translateX(-50%) scale(1);opacity: 1;pointer-events: auto;}
 
 #popup-plan header, #popup-help header{padding: var(--gap);display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid var(--border)}
-#popup-plan main, #popup-help main{flex: 1; padding: var(--gap);max-height: calc(100% - 12rem);overflow-x: hidden;overflow-y: auto;}
+#popup-plan main, #popup-help main{flex: 1; padding: var(--gap);max-height: calc(100vh - 12rem);overflow-x: hidden;overflow-y: auto;}
 #popup-plan footer{display: flex;}
 #popup-plan footer button{display: flex;justify-content: center; flex: 1;padding: var(--gap);background-color: var(--primary);color: var(--primary-dark);border: none;transition: var(--tran);}
 #popup-plan footer button:hover{opacity:.85;}
@@ -75,6 +75,8 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #popup-plan main .step ul li label::after{content: '✓'; color: transparent;}
 #popup-plan main .step ul li:has(input:checked) label::after{content: '✓'; color: inherit;}
 #popup-plan main .step ul li:has(input:checked) p{color: var(--white);}
+#popup-plan main .step b._w{opacity: 0.6;}
+.__o{opacity: 0.6;}
 
 #slide-settings{background-color: var(--white);color: var(--primary-dark);display: flex;flex-direction: column;}
 #slide-settings > header{min-height: 20rem; background-color: var(--second);padding: var(--gap); position: relative;}
@@ -126,6 +128,8 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #plan-list table tr.active i{opacity: 1;}
 #plan-list table tr.split{border-top: 4px double;}
 #plan-list table td b{font-size: .8em;text-overflow: ellipsis;}
+#completed{display: none; width: 100%;text-align: center; position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+#completed.active{display: block;}
 
 .bible-list{padding:var(--gap);display: grid;gap: var(--gap-sm);}																								  .bible-list
 .bible-list h4{margin-bottom: var(--gap);}
