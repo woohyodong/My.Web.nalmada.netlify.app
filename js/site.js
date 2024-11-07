@@ -1,5 +1,5 @@
 ﻿// #region 상수정의 -------------------------------------------------------------------------------
-const _APP_VERSION = "2024.11.07.0";
+const _APP_VERSION = "2024.11.07.1";
 const _STORE_NAME_BIBLE = "BibleStore";
 const _STORE_NAME_BIBLE_SUMMARY = "BibleSummaryStore";
 const _STORE_NAME_PLAN = "PlanStore";
