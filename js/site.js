@@ -1,5 +1,5 @@
 ﻿// #region 상수정의 -------------------------------------------------------------------------------
-const _APP_VERSION = "2024.11.07.1";
+const _APP_VERSION = "2024.11.07.2";
 const _STORE_NAME_BIBLE = "BibleStore";
 const _STORE_NAME_BIBLE_SUMMARY = "BibleSummaryStore";
 const _STORE_NAME_PLAN = "PlanStore";
@@ -411,7 +411,7 @@ function calculateCompletionRate(planData) {
 // 완료율 상단 UI 업데이트
 function updateCompletionRateUI(completionRate) {
     const header = document.querySelector('#header.plan-progress-bar');
-    header.style.setProperty('--completion-rate', `${completionRate}%`);
+    if(header) header.style.setProperty('--completion-rate', `${completionRate}%`);
 }
 
 //체크되지 않은 항목 찾기 -> 스크롤 이동
