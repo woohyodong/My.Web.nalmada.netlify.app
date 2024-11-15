@@ -42,7 +42,7 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 #main{position: relative; padding-block:var(--gap-sm); overflow: auto;height:calc(100 * var(--vh, 1vh) - 12rem);}
 #footer{display:grid;grid-template-columns: 1fr 1fr;background-color: var(--primary-dark);}
 #footer a{display:flex;justify-content: center;align-items: center;gap: var(--gap-sm);background-color: var(--primary);color: var(--primary-dark);transition: var(--tran);border: none;}
-#footer a.active{background-color: var(--primary-dark);color: var(--primary);}
+#footer a:active, #footer a.active{background-color: var(--primary-dark);color: var(--primary);}
 .container{min-height:100%;width:clamp(var(--size-min),100%,var(--size-max));margin:auto;}
 .container.main{display: grid;grid-template-rows: 6rem 1fr 6rem; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);background-color: var(--background);}
 .popup{display: none; position: fixed;top: 0;left:50%;transform: translateX(-50%); z-index: var(--z-index-popup);background-color: #fff;}
