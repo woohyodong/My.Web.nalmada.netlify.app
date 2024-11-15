@@ -1,5 +1,5 @@
 //PWA 캐시 사용***********************************************
-const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241105'; //갱신 key값
+const _KEY_CACHE_VERSION = '#KEY_CACHE_NAME.20241115'; //갱신 key값
 const somethingWentWrongURL = "/pwa/error.html";
 const criticalAssets = [
     // 주요 CSS
@@ -11,8 +11,8 @@ const criticalAssets = [
     "/assets/lib/simplebar/simplebar.min.js",
     "/assets/lib/materializecss/materialize.min.js",
     "/assets/lib/jquery/jquery.min-3.7.1.js",
-    "/assets/js/utils.js",
-    "/assets/js/extend.anim.js",
+    "/assets/js/utils.min.js",
+    "/assets/js/extend.anim.min.js",
     "/assets/lib/canvas-confetti/confetti.browser.min.js",
 
     // 주요 DATA 파일
