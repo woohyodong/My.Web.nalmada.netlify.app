@@ -36,7 +36,7 @@ if (typeof navigator.serviceWorker !== 'undefined') {
             const pwaSetupHTML = `
                 <aside id="pwa-setup" class="active">
                     <div class="flex gap center">
-                        <img src="/pwa/icon-192.png" class="icon" alt="앱아이콘" /> 
+                        <img src="/pwa/android-chrome-192x192.png" class="icon" alt="앱아이콘" /> 
                         <h5>홈 화면으로 설치하시겠습니까?</h5>
                     </div>
                     <div class="grid col-2 gap-sm m-l" style="max-width: 150px;">
