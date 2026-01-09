@@ -1,34 +1,55 @@
 ﻿/* @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap'); */
-/*========== Properties ==========*/
+/*========== Properties (Readable v1 - keep legacy vars) ==========*/
 :root{
-	--ff:'Nanum Gothic', sans-serif;--fp:62.5%;--fs:1.8rem;
-	--radius:.8rem;	--radius-sm: calc(var(--radius) * 0.5);
-	--gap:1.6rem; --gap-xsm:calc(var(--gap) * 0.25);--gap-sm:calc(var(--gap) * 0.5);--gap-lg:calc(var(--gap) * 2);--gap-xlg:calc(var(--gap) * 4);
-	--tran: all 0.25s ease;--tran-slow: all 0.5s ease;--tran-fast: all 0.1s ease;
-	--size-max:445px;--size-min:320px;--size-min-height:calc(var(--vh, 1vh) * 100);
+  /* Font */
+  --ff: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Nanum Gothic", sans-serif;
+  --fp: 62.5%;
+  --fs: 1.7rem; /* 기존 1.8rem 유지해도 되지만 살짝만 낮춤(행간과 함께 가독성↑) */
 
-	--text: #333;
-	--background: #f9f9f9;/*60*/
-	--primary: #faedcd;/*30*/
-	--second: #e9edc9;/*30*/
-	--accent: #ccd5ae;/*10*/
+  /* Radius / Gap (기존 체계 유지) */
+  --radius: .8rem;
+  --radius-sm: calc(var(--radius) * 0.5);
 
-	--border: hsl(0, 6%, 93%);
-	--muted: #ccc;
-	--white: hsl(0, 0%, 100%);
-	--red:#dc2626;
+  --gap: 1.6rem;
+  --gap-xsm: calc(var(--gap) * 0.25);
+  --gap-sm:  calc(var(--gap) * 0.5);
+  --gap-lg:  calc(var(--gap) * 2);
+  --gap-xlg: calc(var(--gap) * 4);
 
-	--primary-light: #fefae0;
-    --primary-dark:#d4a373;
+  /* Transition */
+  --tran: all 0.18s ease;
+  --tran-slow: all 0.35s ease;
+  --tran-fast: all 0.08s ease;
 
-	--layout-size:24rem; /*ex)반응형 가변적 설정*/
+  /* Layout */
+  --size-max: 445px;
+  --size-min: 320px;
+  --size-min-height: calc(var(--vh, 1vh) * 100);
 
-	--z-index-header:100;
-	--z-index-popup:200;
-	--z-index-modal:300;
-	--z-index-overlay:400;
-	--z-index-setup:500;
+  /* ===== Colors (가독성 우선, 변수명은 그대로) ===== */
+  --text: #1f2937;              /* 본문 텍스트: 더 진하게 */
+  --background: #ffffff;        /* 컨테이너 배경(카드): 흰색으로 대비 확보 */
+
+  --primary: #f3ecd7;           /* 버튼/하이라이트 배경용(기존 베이지 유지하되 살짝 정돈) */
+  --primary-light: #fbfaf7;     /* 밝은 표면 */
+  --primary-dark: #111827;      /* “주 텍스트/헤더” 역할: 여기서 대비를 확 올림 */
+
+  --second: #f6f4ef;            /* body 배경: 연두 제거 → 중립 톤으로 */
+  --accent: #7c8a5b;            /* 포인트(올리브) */
+
+  --border: #e5e7eb;            /* 경계선: 더 선명 */
+  --muted: #9ca3af;
+  --white: #ffffff;
+  --red: #dc2626;  
+
+  --layout-size: 24rem;
+  --z-index-header: 100;
+  --z-index-popup: 200;
+  --z-index-modal: 300;
+  --z-index-overlay: 400;
+  --z-index-setup: 500;
 }
+
 /*========== Reset ==========*/
 html{font-family:var(--ff);font-size:var(--fp);}
 body{display: flex;justify-content: center; min-height:var(--size-min-height);font-size:var(--fs);line-height: 1.5;background-color: var(--second);color: var(--primary-dark);word-break: keep-all;}
@@ -48,7 +69,8 @@ hr{border: 0;height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-block: var(
 .popup{display: none; position: fixed;top: 0;left:50%;transform: translateX(-50%); z-index: var(--z-index-popup);background-color: #fff;}
 .popup.active{display: block;}body:has(.popup.active){overflow: hidden;}
 /*============ Popup & Modal & Slide ============*/
-#popup-intro{flex-direction: column;justify-content: space-between;align-items: center;gap: var(--gap-lg); text-align: center;padding: var(--gap-xlg) var(--gap); background-color: var(--primary-dark);color: var(--primary);}
+#popup-intro{flex-direction: column;justify-content: space-between;align-items: center;gap: var(--gap-lg); text-align: center;padding: var(--gap-xlg) var(--gap); 
+  background-color:#d4a373;color: #faedcd;}
 #popup-intro.active{display: flex;}
 #popup-intro > * {display: grid;gap: var(--gap-sm);}#popup-intro header img{width: 12rem;margin: auto;}
 
