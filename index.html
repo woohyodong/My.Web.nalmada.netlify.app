@@ -1,232 +1,349 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- View-transition -->
+  <style>@view-transition {navigation: auto;}::view-transition-group {animation-duration: 5s;}</style>
 
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#d4a373" />
+  <!-- Icon -->
+  <link href="/favicon.ico?v=2" rel="shortcut icon" type="image/x-icon" />
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 
-    <meta name="description" content="날마다성경 앱으로 성경통독과 성경 계획표를 따라 매일 성경을 읽고 일독 목표를 달성해 보세요.">
-    <meta name="keywords" content="날마다성경, 성경 일독, 성경통독, 성경계획표, 성경 읽기, 성경 읽기 앱, 성경 읽기 계획, 매일 성경 읽기, 성경 하루 한 장, 성경 완독, 성경 일독 목표, 성경 읽기 습관, 성경읽기 PWA, 성경 일독 앱, 성경 읽기 일정">
+  <!-- Primary SEO -->
+  <title>날마다성경 | 365일 일독 · 52주 암송</title>
+  <meta name="description" content="날마다성경 앱으로 성경통독과 암송을 쉽게 관리하세요. 주평강교회 성도들을 위한 웹앱입니다. 52주 말씀 암송과 365일 성경 통독을 쉽고 편리하게 체크하고 공유할 수 있어요." />
+  <meta name="keywords" content="날마다성경, 성경 일독, 성경통독, 성경계획표, 성경 읽기, 성경 읽기 앱, 성경 읽기 계획, 매일 성경 읽기,주평강교회, 나의신앙생활, 웹앱, 52주 암송, 365일 일독, 성경 암송, 성경 읽기, 신앙생활, 기독교, 성경 공부" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://jshalom.netlify.app/" />
 
-    <!-- View-transition -->
-    <!-- <style>@view-transition {navigation: auto;}::view-transition-group{animation-duration: 5s;}</style> -->
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="날마다성경" />
+  <meta property="og:title" content="날마다성경 | 365일 일독 · 52주 암송" />
+  <meta property="og:description" content="주평강교회 성도들을 위한 365일 일독 · 52주 암송 웹앱. 완료 체크와 공유 기능을 제공합니다." />
+  <meta property="og:url" content="https://jshalom.netlify.app/" />
+  <meta property="og:image" content="https://jshalom.netlify.app/icons/icon-512.png" />
 
-    <!-- Icon -->
-    <link rel="icon" href="/pwa/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="/pwa/apple-touch-icon.png">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="날마다성경 | 365일 일독 · 52주 암송" />
+  <meta name="twitter:description" content="주평강교회 성도들을 위한 365일 일독 · 52주 암송 웹앱" />
+  <meta name="twitter:image" content="https://jshalom.netlify.app/icons/icon-512.png" />
 
-    <!-- PWA -->
-    <link rel="manifest" href="/pwa/manifest.json">
-    <script src="/pwa/pwa.js"></script>
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-    <!-- SimpleBar JS -->
-    <link href="/assets/lib/simplebar/simplebar.min.css" rel="stylesheet" />
-    <script src="/assets/lib/simplebar/simplebar.min.js"></script>    
-
-    <link href="/assets/lib/materializecss/materialize.custom.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/css/style.common.min.css" rel="stylesheet" />    
-     <link href="/css/style.css" rel="stylesheet" type="text/css" />
-    
-    <title>날마다성경 - 성경통독과 계획표로 매일 성경 읽기</title>
+  <!-- Tailwind (darkMode: class) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { darkMode: "class" };</script>
 </head>
-<body>
 
-    <!-- 인트로 팝업 -->
-    <aside id="popup-intro" class="container popup">
-        <header>
-            <img src="/images/img_bible.png" alt="">
-            <h1>날마다성경</h1>
-        </header>
-        <main>
-            <p>"주의 말씀은 내 발에 등이요 내 길에 빛이니이다.“<br />- 시편 119:105 -</p>
-        </main>
-        <footer>
-            <button class="btn" onclick="OnSetupDB()">성경 통독 계획 세우기</button>
-            <!-- <small>매일 한 걸음씩 "<strong>날마다성경</strong>"과 함께 끝까지 통독하세요!</small> -->
-        </footer>
-    </aside>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+  <div class="max-w-md mx-auto p-4 space-y-4">
+    <!-- Header -->
+    <header class="pt-2 flex items-center justify-between">
+      <div class="w-10"></div>
 
-    <!-- 계획표 설정 팝업 -->
-    <aside id="popup-plan" class="container popup">
-        <header>
-            <h4><span id="stepCount">1</span>/<small>3 단계</small></h4>
-            <a href="javascript:;" class="btn-round" onclick="ClosePopup(this)" title="닫기">✕</a>
-        </header>
-        <main class="simplebar">
-            <!-- 읽기 방식 선택 -->
-            <article class="step s1">
-                <h4>읽기 방식 선택</h4>
-                <ul>
-                    <li><label><h5>성경 순서로 읽기 <p>성경의 책 순서에 따라 읽는 방식</p></h5><input type="radio" name="chk1" value="01"></label></li>
-                    <li><label><h5>구약/신약 혼합해서 읽기 <p>구약/신약을 배분 혼합하여 읽는 방식</p></h5><input type="radio" name="chk1" value="05"></label></li>
-                    <!-- <li><label><h5>내가 읽은 성경만 기록 <p>계획 없이 읽었던 성경 구절을 기록하는 방식</p></h5><input type="radio" name="chk1" value="00"></label></li> -->
-                    <li><label><h5>역사 순서로 읽기 <p>성경의 사건이 발생한 순서에 따라 읽는 방식</p></h5><input type="radio" name="chk1" value="02"></label></li>
-                    <li><label><h5>테마 순서로 읽기 <p>예수님의 생애, 지혜서 등 특정 테마에 집중하여 읽는 방식</p></h5><input type="radio" name="chk1" value="03"></label></li>
-                    <li><label><h5>주제 순서로 읽기 <p>믿음, 사랑, 구원 등의 주제에 따라 관련된 구절을 모아 읽는 방식</p></h5><input type="radio" name="chk1" value="04"></label></li>                    
-                </ul>
-            </article>
-            
-            <!-- 읽기 요일 선택 -->
-            <article class="step s2 none">
-                <h4>읽기 요일 선택</h4>
-                <ul class="grid col-2">
-                    <li><label><h5>월요일</h5><input type="checkbox" name="chk2" value="월" checked></label></li>
-                    <li><label><h5>화요일</h5><input type="checkbox" name="chk2" value="화" checked></label></li>
-                    <li><label><h5>수요일</h5><input type="checkbox" name="chk2" value="수" checked></label></li>
-                    <li><label><h5>목요일</h5><input type="checkbox" name="chk2" value="목" checked></label></li>
-                    <li><label><h5>금요일</h5><input type="checkbox" name="chk2" value="금" checked></label></li>
-                    <li><label><h5>토요일</h5><input type="checkbox" name="chk2" value="토" checked></label></li>
-                    <li><label><h5>일요일</h5><input type="checkbox" name="chk2" value="일" checked></label></li>
-                </ul>
-            </article>
-            
-            <!-- 읽기 기간 설정 -->
-            <article class="step s3 none">
-                <h4>읽기 기간 설정</h4>
-                <ul>
-                    <li><label><h5>3개월 <b class="_w">(매일)</b><p>하루 읽기 소요 시간  ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="90"></label></li>
-                    <li><label><h5>6개월 <b class="_w">(매일)</b><p>하루 읽기 소요 시간 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="180"></label></li>
-                    <li><label><h5>1년 <b class="_w">(매일)</b><p>하루 읽기 소요 시간 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="360"></label></li>
-                    <li><label><h5>1년 6개월 <b class="_w">(매일)</b><p>하루 읽기 소요 시간 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="540"></label></li>
-                    <li><label><h5>2년 <b class="_w">(매일)</b><p>하루 읽기 소요 시간 ➔ <span class="time-display"><strong>하루 평균 계산 중...</strong></span></p></h5><input type="radio" name="chk3" value="720"></label></li>
-                </ul>
-            </article>            
-        </main>
-        <footer>
-            <button id="prevStep" onclick="OnPrevPlanStep()">이전 단계</button>
-            <button id="nextStep" class="active" onclick="OnNextPlanStep()">다음 단계</button>
-            <button id="btnGenerate" class="active" style="display: none;" onclick="OnCreatePlan()">계획표 생성</button>
-        </footer>
-    </aside>
-
-    <!-- 도움말 팝업 -->
-    <aside id="popup-help" class="container popup">
-        <header>
-            <h4>도움말</h4>
-            <a href="javascript:;" class="btn-round" onclick="ClosePopup(this)" title="닫기">✕</a>
-        </header>
-        <main class="simplebar">
-            <section class="grid gap">
-                <p>
-                    <strong>❝ 날마다성경 ❞</strong>은  
-                    매일 말씀을 가까이하며 성경 통독을 이어갈 수 있도록 돕는 성경 읽기 앱입니다.
-                </p>
-                <p>
-                    다양한 성경 읽기 방식과 맞춤형 성경계획표를 통해  
-                    각자의 상황과 속도에 맞게 부담 없이 성경을 읽을 수 있습니다.
-                </p>
-                <p>
-                    본 앱에 수록된 성경 본문은  
-                    <strong>대한성서공회 「개역개정판 성경」</strong>을 사용하고 있습니다.
-                </p>
-                <p>
-                    날마다 말씀 안에서  
-                    은혜와 위로, 그리고 기쁨이 함께하시길 소망합니다.
-                </p>
-                <div class="divider"></div>
-                <p>
-                    사용 중 불편한 점이나 개선이 필요한 부분,  
-                    또는 나누고 싶은 의견이 있다면 언제든지 알려주세요.
-                </p>
-                <p class="mailto">
-                    <a href="//forms.gle/2oYcvLiD1W1ocMc96" target="_blank" title="의견 보내기" class="link">의견 보내기 ✉︎</a>
-                </p>
-            </section>
-        </main>
-        <footer class="flex between p">
-            <small id="myfamily">상희♡시우</small>
-            <small id="_version" class="op-5">VER_1.1.0</small>
-        </footer>
-    </aside>
-   
-
-    <!-- 설정 슬라이드 -->
-    <aside id="slide-settings" class="side-nav">
-        <header>
-            <a href="javascript:;" class="btn-round" onclick="CloseSettingPopup()" title="닫기">✕</a>
-            
-            <div class="info">
-                <h4 class="info-title">계획표 기간</h4>
-                <h3 class="info-days">23일 남음</h3>
-                <h5 class="info-date">23.11.30 ~ 24.12.30</h5>
-                <button class="btn" onclick="OpenPlanPopup();CloseSettingPopup();"><img src="/images/icon_refresh.png" alt=""> 계획표 다시설정</button>
-            </div>
-        </header>
-        <main>
-            <ul class="list">
-                <li>
-                    <label for="chk-completed" class="cursor"><h5>완료 표시 숨기기</h5></label>
-                    <div class="switch sm">
-                        <input type="checkbox" id="chk-completed">
-                        <label for="chk-completed" class="lever"></label>
-                    </div>
-                </li>
-                <li class="row">
-                    <h5 class="col">글씨 크기</h5>
-                    <div class="col-2 btn-group">
-                        <input type="radio" value="1.6rem" name="radio-font" data-label="작게"/>
-                        <input type="radio" value="1.8rem" name="radio-font" data-label="보통" checked/>
-                        <input type="radio" value="2.0rem" name="radio-font" data-label="크게"/>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list">
-                <li class="cursor" onclick="OnShareApp()"><a href="javascript:;">공유하기</a> <img src="/images/icon_share.png" alt=""></li>
-                <li class="cursor" onclick="OpenHelpPopup();CloseSettingPopup();"><a href="javascript:;">도움말</a> <img src="/images/icon_help.png" alt=""></li>
-            </ul>
-        </main>
-    </aside>
+      <div class="text-center">
+        <h1 class="text-xl font-extrabold text-center flex-1">
+          <strong id="year">2026</strong>년 나의 신앙생활
+        </h1>
+        <small class="">ACTS 2026! 다시 복음으로!</small>
+      </div>
 
 
-    
+      <!-- Theme Toggle (Home only) -->
+      <button id="theme-toggle"
+        class="w-10 h-10 grid place-items-center rounded-xl bg-white dark:bg-gray-800 shadow
+               active:scale-[0.95] text-xl"
+        aria-label="다크 모드">
+        🌙
+      </button>
+    </header>
 
-    <!-- 메인 컨텐츠 -->
-    <div class="container main">
+    <!-- Key Verse -->
+    <section class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-3xl shadow-lg p-5 relative overflow-hidden">
+      <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
+      <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full"></div>
 
-        <header id="header" class="plan-progress-bar">
-            <h4 id="title-plan">날마다성경</h4>
-            <a href="javascript:;" class="btn-icon settings" id="btn-settings" data-activates="slide-settings">Settings</a>
-        </header>
+      <div class="flex items-start gap-3">
+        <div class="mt-1 w-1.5 rounded-full bg-white/70 shrink-0"></div>
+        <div>
+          <p class="text-[17px] leading-relaxed font-semibold">
+            “주 예수를 믿으라 그리하면<br class="sm:hidden" />
+            너와 네 집이 구원을 받으리라!”
+          </p>
+          <div class="mt-3 text-xs font-semibold opacity-90">사도행전 16장 31절</div>
+        </div>
+      </div>
+    </section>
 
-        <main id="main" class="simplebar">
-            <div id="plan-list"></div>
-            <div id="completed">성경 통독을 완료하셨습니다^^<button class="block m-a btn m-t" onclick="OpenPlanPopup()">다시 계획 세우기!</button></div>
-        </main>
+    <!-- 365일 일독 -->
+    <a href="/bible-read/"
+      class="block bg-white dark:bg-gray-800 rounded-2xl shadow p-5 active:scale-[0.99]">
+      <div class="text-xs text-gray-500 dark:text-gray-300">📖 성경 일독</div>
+      <div class="text-lg font-bold mt-1">365일 일독(성경읽기표)</div>
 
-        <footer id="footer">
-            <a class="active" href="javascript:;">계획표</a>
-            <a href="/bible">성경</a>
-        </footer>
-        
+      <div class="mt-3">
+        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-300">
+          <span>진행</span>
+          <span id="read-progress-text">0 / 365</span>
+        </div>
+        <div class="mt-1 h-2 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+          <div id="read-progress-bar" class="h-full rounded-full bg-blue-600 w-0"></div>
+        </div>
+      </div>
+    </a>
+
+    <!-- 52주 암송 -->
+    <a href="/memorize/"
+      class="block bg-white dark:bg-gray-800 rounded-2xl shadow p-5 active:scale-[0.99]">
+      <div class="text-xs text-gray-500 dark:text-gray-300">📌 성경 암송</div>
+      <div class="text-lg font-bold mt-1">52주 암송</div>
+
+      <div class="mt-3">
+        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-300">
+          <span>진행</span>
+          <span id="memo-progress-text">0 / 52</span>
+        </div>
+        <div class="mt-1 h-2 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+          <div id="memo-progress-bar" class="h-full rounded-full bg-blue-600 w-0"></div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Floating Share Button -->
+  <button id="share-btn"
+    class="fixed bottom-5 right-5 z-40 px-4 h-12 rounded-full bg-blue-600 text-white shadow-lg
+           flex items-center gap-2 text-sm font-semibold active:scale-[0.98]">
+    🔗 공유
+  </button>
+
+  <!-- Install Help Popup -->
+  <div id="install-overlay" class="hidden fixed inset-0 bg-black/40 z-50">
+    <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-2xl p-5 shadow-lg">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="text-sm text-gray-500 dark:text-gray-300">날마다성경</div>
+          <div class="text-lg font-bold mt-1">홈화면에 설치하면 더 편해요</div>
+          <div class="text-sm text-gray-500 dark:text-gray-300 mt-2" id="install-desc"></div>
+        </div>
+        <button id="install-close" class="text-gray-400 text-xl leading-none" aria-label="닫기">×</button>
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button id="install-btn"
+          class="hidden flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold active:scale-[0.99]">
+          설치하기
+        </button>
+        <button id="install-ok"
+          class="flex-1 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100
+                 font-semibold active:scale-[0.99]">
+          괜찮아요
+        </button>
+      </div>
     </div>
+  </div>
 
-    <script src="/assets/lib/jquery/jquery.min-3.7.1.js"></script>
-    <script src="/assets/lib/materializecss/materialize.min.js"></script>
-    <script src="/assets/js/utils.min.js"></script>
-    <script src="/assets/js/extend.anim.min.js"></script>
-    <script src="/assets/lib/canvas-confetti/confetti.browser.min.js"></script>
-    <script src="/js/site.min.js"></script>
-    <script src="/js/site.db.min.js"></script>
-    <script src="/js/site.plan.min.js"></script>
+  <!-- site.js (Theme/Overlay 등 공통) -->
+  <script defer src="/js/site.js"></script>
 
-    <script>
-        $(function() {
+  <script>
+    // ---------- Utils ----------
+    const qs = (id) => document.getElementById(id);
+    const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
 
-            if(isShowIntroPopup()) $("#popup-intro").addClass("active");
+    const safeJSON = {
+      read(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return fallback;
+          return JSON.parse(raw);
+        } catch (_) {
+          return fallback;
+        }
+      },
+    };
 
-            InitDB();
+    const countDoneMap = (map) => Object.values(map || {}).filter(Boolean).length;
 
-            //체크리스트 테이블 행 클릭시 active 토글
-            $(document).on("click", "#plan-list table tr", function () {
-                const date = $(this).data('date');
-                $(this).toggleClass("active");
-                OnSavePlan(date); // 클릭한 항목의 완료 상태를 변경 
-            });
-        }); //$(function() {
-    </script>
-    
+    function setProgressUI(prefix, done, total) {
+      done = clamp(done, 0, total);
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      const textEl = qs(`${prefix}-progress-text`);
+      const barEl  = qs(`${prefix}-progress-bar`);
+      if (!textEl || !barEl) return;
+
+      textEl.textContent = `${done} / ${total} (${pct}%)`;
+      barEl.style.width = `${(done / total) * 100}%`;
+
+      if (pct >= 100) {
+        barEl.classList.remove("bg-blue-600");
+        barEl.classList.add("bg-emerald-600");
+      }
+    }
+
+    // ---------- Year ----------
+    qs("year").textContent = new Date().getFullYear();
+
+    // ---------- SW ----------
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js");
+    }
+
+    // ---------- Share ----------
+    qs("share-btn")?.addEventListener("click", async () => {
+      const url = location.origin + "/";
+      const title = "날마다성경";
+      const text = "365일 일독 · 52주 암송 (주평강교회)";
+
+      try {
+        if (navigator.share) {
+          await navigator.share({ title, text, url });
+        } else {
+          await navigator.clipboard.writeText(String(url));
+          alert("링크를 복사했어요!");
+        }
+      } catch (_) {}
+    });
+
+  // ---------- Home Progress ----------
+  async function initHomeProgress() {
+    // 1) 52주 암송 (✅ year 유동 대응)
+    try {
+      const memoData = await fetch("/memorize/data.json", { cache: "no-store" }).then(r => r.json());
+      const totalWeeks = Array.isArray(memoData?.weeks) ? memoData.weeks.length : 52;
+
+      const currentYear = new Date().getFullYear();
+
+      // localStorage에 저장된 memorized:* 키 중에서 "현재 연도 우선, 없으면 완료가 가장 많은 연도" 선택
+      const memoKeys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("memorized:")) memoKeys.push(k);
+      }
+
+      const pickYear = () => {
+        // 1) 현재 연도 데이터가 있으면 그걸 사용
+        if (localStorage.getItem(`memorized:${currentYear}`)) return currentYear;
+
+        // 2) 없으면 memorized:* 중 가장 많이 완료된 연도 선택
+        let bestYear = currentYear;
+        let bestCount = -1;
+
+        for (const k of memoKeys) {
+          const y = parseInt(k.split(":")[1], 10);
+          const map = safeJSON.read(k, {});
+          const c = countDoneMap(map);
+          if (c > bestCount) {
+            bestCount = c;
+            bestYear = Number.isFinite(y) ? y : currentYear;
+          }
+        }
+        return bestYear;
+      };
+
+      const year = pickYear();
+      const doneMap = safeJSON.read(`memorized:${year}`, {});
+      setProgressUI("memo", countDoneMap(doneMap), totalWeeks);
+    } catch (_) {
+      setProgressUI("memo", 0, 52);
+    }
+
+    // 2) 365일 일독 (기존 그대로)
+    try {
+      const plan = await fetch("/bible-read/data.json", { cache: "no-store" }).then(r => r.json());
+      const totalDays = Array.isArray(plan) ? plan.length : 365;
+
+      const p = safeJSON.read("bibleRead:progress:v2", { activeCycle: 1, cycles: {} });
+      const cycle = String(p.activeCycle || 1);
+      const doneMap = p.cycles?.[cycle]?.completed || {};
+      setProgressUI("read", countDoneMap(doneMap), totalDays);
+    } catch (_) {
+      setProgressUI("read", 0, 365);
+    }
+  }
+
+  initHomeProgress();
+
+    // ---------- Install Help ----------
+    const overlay = qs("install-overlay");
+    const installBtn = qs("install-btn");
+    const installOk = qs("install-ok");
+    const installClose = qs("install-close");
+    const installDesc = qs("install-desc");
+
+    let deferredPrompt = null;
+
+    function isStandalone() {
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+    function isIOS() {
+      return /iphone|ipad|ipod/i.test(navigator.userAgent);
+    }
+
+    const SEEN_KEY = "installHelpSeen:v1";
+
+    function openInstallHelp() {
+      if (isStandalone()) return;
+      if (localStorage.getItem(SEEN_KEY)) return;
+      localStorage.setItem(SEEN_KEY, "1");
+      overlay.classList.remove("hidden");
+    }
+    function closeInstallHelp() {
+      overlay.classList.add("hidden");
+    }
+
+    installOk?.addEventListener("click", closeInstallHelp);
+    installClose?.addEventListener("click", closeInstallHelp);
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      installBtn.classList.remove("hidden");
+      installDesc.textContent = "‘설치하기’를 누르면 홈화면에 앱으로 추가할 수 있어요.";
+      openInstallHelp();
+    });
+
+    installBtn?.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      closeInstallHelp();
+    });
+
+    window.addEventListener("load", () => {
+      if (isStandalone()) return;
+      if (isIOS()) {
+        installBtn.classList.add("hidden");
+        installDesc.textContent = "Safari에서 공유 버튼(□↑) → ‘홈 화면에 추가’를 눌러 설치할 수 있어요.";
+        openInstallHelp();
+      }
+    });
+
+    window.addEventListener("appinstalled", () => closeInstallHelp());
+
+    // ---------- Refresh progress on BFCache / focus ----------
+    window.addEventListener("pageshow", () => initHomeProgress());
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) initHomeProgress(); });
+    window.addEventListener("focus", () => initHomeProgress());
+
+    // ---------- Theme Toggle bind (Home only) ----------
+    // site.js 로드 후 사용 가능
+    window.addEventListener("load", () => {
+      window.SiteTheme?.bindToggleButton("#theme-toggle");
+    });
+  </script>
 </body>
 </html>
