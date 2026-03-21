@@ -167,7 +167,7 @@
     qs("prayer-id").value = "";
     qs("form-status").textContent = "";
     editingPrayer = null;
-    qs("form-title").textContent = "증보기도 작성";
+    qs("form-title").textContent = "중보기도 작성";
     qs("prayer-password").required = false;
   };
 
@@ -175,7 +175,7 @@
     resetForm();
     if (prayer) {
       editingPrayer = prayer;
-      qs("form-title").textContent = "증보기도 수정";
+      qs("form-title").textContent = "중보기도 수정";
       qs("prayer-id").value = prayer.id;
       qs("prayer-title").value = prayer.title || "";
       qs("prayer-content").value = prayer.content || "";
