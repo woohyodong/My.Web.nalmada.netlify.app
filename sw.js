@@ -16,6 +16,9 @@ const CORE = [
   "/bible-read/index.html",
   "/bible-read/app.js",
   "/bible-read/data.json",
+  "/prayer/app.js",
+  "/prayer/index.html",
+  "/prayer/",
   "/js/confetti.browser.min.js",
   "/js/site.js",
   "/data/bible_db.json"
