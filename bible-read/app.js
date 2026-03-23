@@ -881,12 +881,25 @@
   const loadOptions = () => {
     try {
       const raw = localStorage.getItem(OPT_KEY);
-      if (raw) return { autoNextAfterDoneToday: false, ...JSON.parse(raw) };
+      if (raw) {
+        return {
+          autoNextAfterDoneToday: false,
+          keepScreenAwake: true,
+          ...JSON.parse(raw),
+        };
+      }
     } catch {}
-    return { autoNextAfterDoneToday: false };
+    return { autoNextAfterDoneToday: false, keepScreenAwake: true };
   };
 
   const saveOptions = (opt) => localStorage.setItem(OPT_KEY, JSON.stringify(opt));
+
+  const applyWakeLockOption = async (enabled) => {
+    try {
+      if (!window.SiteWakeLock?.setEnabled) return;
+      await window.SiteWakeLock.setEnabled(!!enabled);
+    } catch (_) {}
+  };
 
   const getQueryDay = () => {
     const u = new URL(location.href);
@@ -1159,18 +1172,34 @@
   // 옵션 UI가 있는 경우에만 연결(없으면 무시)
   const initOptions = () => {
     const $opt = qs("#opt-auto-next");
-    if (!$opt.length) return;
-
     const opt = loadOptions();
-    $opt.prop("checked", !!opt.autoNextAfterDoneToday);
+    if ($opt.length) {
+      $opt.prop("checked", !!opt.autoNextAfterDoneToday);
+      $opt.off("change").on("change", (e) => {
+        const next = {
+          ...loadOptions(),
+          autoNextAfterDoneToday: !!e.target.checked,
+        };
+        saveOptions(next);
+      });
+    }
 
-    $opt.off("change").on("change", (e) => {
-      const next = {
-        ...loadOptions(),
-        autoNextAfterDoneToday: !!e.target.checked,
-      };
-      saveOptions(next);
-    });
+    const $wake = qs("#opt-keep-screen-awake");
+    if ($wake.length) {
+      $wake.prop("checked", !!opt.keepScreenAwake);
+      applyWakeLockOption(opt.keepScreenAwake);
+      $wake.off("change").on("change", async (e) => {
+        const next = {
+          ...loadOptions(),
+          keepScreenAwake: !!e.target.checked,
+        };
+        saveOptions(next);
+        await applyWakeLockOption(next.keepScreenAwake);
+      });
+      return;
+    }
+
+    applyWakeLockOption(opt.keepScreenAwake);
   };
 
   // =========================================================

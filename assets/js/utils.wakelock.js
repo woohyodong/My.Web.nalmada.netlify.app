@@ -1,37 +1,80 @@
-﻿(() => {
+(() => {
   let wakeLock = null;
-  let requesting = false; // ✅ 중복요청 방지
+  let requesting = false;
+  let enabled = true;
 
-  if (!('wakeLock' in navigator)) return;
+  const mode =
+    document.body?.dataset?.wakelockMode ||
+    document.documentElement?.dataset?.wakelockMode ||
+    "auto";
+
+  if (!("wakeLock" in navigator)) return;
 
   async function enableWakeLock() {
-    // ✅ 이미 활성/요청중이면 스킵
-    if (requesting) return;
-    if (wakeLock && !wakeLock.released) return;
+    if (!enabled) return false;
+    if (requesting) return false;
+    if (wakeLock && !wakeLock.released) return true;
 
     requesting = true;
     try {
-      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock = await navigator.wakeLock.request("screen");
 
-      wakeLock.addEventListener('release', () => {
-        wakeLock = null;              // ✅ (중요) 해제 시 null로 갱신
-        if (document.visibilityState === 'visible') {
-          enableWakeLock();           // ✅ 보이는 상태면 즉시 재요청
+      wakeLock.addEventListener("release", () => {
+        wakeLock = null;
+        if (enabled && document.visibilityState === "visible") {
+          enableWakeLock();
         }
       });
-    } catch (err) {
-      // 필요하면 err.name(예: NotAllowedError)만 로깅
+    } catch (_) {
       wakeLock = null;
     } finally {
       requesting = false;
     }
+
+    return !!(wakeLock && !wakeLock.released);
   }
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
+  async function disableWakeLock() {
+    enabled = false;
+
+    if (!wakeLock || wakeLock.released) {
+      wakeLock = null;
+      return false;
+    }
+
+    try {
+      await wakeLock.release();
+    } catch (_) {
+      // no-op
+    } finally {
+      wakeLock = null;
+    }
+
+    return false;
+  }
+
+  async function setEnabled(next) {
+    enabled = !!next;
+    if (enabled) return enableWakeLock();
+    return disableWakeLock();
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (enabled && document.visibilityState === "visible") {
       enableWakeLock();
     }
   });
 
-  enableWakeLock();
+  window.SiteWakeLock = {
+    isSupported: true,
+    isEnabled: () => enabled,
+    isActive: () => !!(wakeLock && !wakeLock.released),
+    enable: () => setEnabled(true),
+    disable: () => disableWakeLock(),
+    setEnabled,
+  };
+
+  if (mode !== "manual") {
+    enableWakeLock();
+  }
 })();
