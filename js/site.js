@@ -5,6 +5,79 @@
   document.addEventListener("selectstart", (e) => e.preventDefault());
 
   // =========================
+  // Text Size (Global)
+  // =========================
+  const TEXT_SIZE_KEY = "textSize"; // "sm" | "base" | "lg"
+  const TEXT_SIZE_MAP = {
+    sm: "15px",
+    base: "16px",
+    lg: "18px",
+  };
+
+  const normalizeTextSize = (value) =>
+    Object.prototype.hasOwnProperty.call(TEXT_SIZE_MAP, value) ? value : "base";
+
+  const applyTextSize = (size) => {
+    const next = normalizeTextSize(size);
+    document.documentElement.style.fontSize = TEXT_SIZE_MAP[next];
+    document.documentElement.dataset.textSize = next;
+  };
+
+  const getTextSize = () => normalizeTextSize(localStorage.getItem(TEXT_SIZE_KEY));
+  const setTextSize = (size) => {
+    const next = normalizeTextSize(size);
+    localStorage.setItem(TEXT_SIZE_KEY, next);
+    applyTextSize(next);
+  };
+
+  applyTextSize(getTextSize());
+
+  const bindTextSizeButtons = (containerOrSelector) => {
+    const rootEl =
+      typeof containerOrSelector === "string"
+        ? document.querySelector(containerOrSelector)
+        : containerOrSelector;
+
+    if (!rootEl) return;
+
+    const buttons = Array.from(rootEl.querySelectorAll("[data-text-size]"));
+    if (!buttons.length) return;
+
+    const paintButtons = () => {
+      const current = getTextSize();
+
+      buttons.forEach((btn) => {
+        const active = btn.dataset.textSize === current;
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+        btn.classList.toggle("bg-blue-600", active);
+        btn.classList.toggle("text-white", active);
+        btn.classList.toggle("shadow-sm", active);
+        btn.classList.toggle("dark:bg-blue-500", active);
+
+        btn.classList.toggle("bg-white", !active);
+        btn.classList.toggle("text-gray-700", !active);
+        btn.classList.toggle("dark:bg-gray-800", !active);
+        btn.classList.toggle("dark:text-gray-100", !active);
+      });
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setTextSize(btn.dataset.textSize);
+        paintButtons();
+      });
+    });
+
+    window.addEventListener("storage", (e) => {
+      if (e.key !== TEXT_SIZE_KEY) return;
+      applyTextSize(getTextSize());
+      paintButtons();
+    });
+
+    paintButtons();
+  };
+
+  // =========================
   // Theme (Global)
   // =========================
   const THEME_KEY = "theme"; // "light" | "dark"
@@ -39,8 +112,18 @@
     if (!btn) return;
 
     const paintIcon = () => {
-      btn.textContent = get() === "dark" ? "☀️" : "🌙";
-      btn.setAttribute("aria-label", get() === "dark" ? "라이트 모드" : "다크 모드");
+      const isDark = get() === "dark";
+      const iconEl = btn.querySelector("[data-theme-icon]");
+      const labelEl = btn.querySelector("[data-theme-label]");
+
+      if (iconEl) iconEl.textContent = isDark ? "☀️" : "🌙";
+      if (labelEl) labelEl.textContent = isDark ? "라이트 모드로 전환" : "다크 모드로 전환";
+
+      if (!iconEl && !labelEl) {
+        btn.textContent = isDark ? "☀️" : "🌙";
+      }
+
+      btn.setAttribute("aria-label", isDark ? "라이트 모드" : "다크 모드");
     };
 
     paintIcon();
@@ -58,6 +141,7 @@
   };
 
   window.SiteTheme = { get, set, toggle, apply, bindToggleButton };
+  window.SiteTextSize = { get: getTextSize, set: setTextSize, apply: applyTextSize, bindButtons: bindTextSizeButtons };
 
   // =========================
   // Overlay Back Manager
