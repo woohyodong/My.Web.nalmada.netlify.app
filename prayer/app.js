@@ -9,6 +9,7 @@
   const listEl = qs("prayer-list");
   const emptyStateEl = qs("empty-state");
   const unlockedIds = new Set();
+  const expandedIds = new Set();
   let editingPrayer = null;
   let storageReady = false;
   let pendingUnlockAction = "view";
@@ -44,9 +45,32 @@
     content: String(prayer?.content || "").trim(),
     isPrivate: !!prayer?.isPrivate,
     passwordHash: String(prayer?.passwordHash || ""),
+    order: Number.isFinite(Number(prayer?.order)) ? Number(prayer.order) : null,
     createdAt: String(prayer?.createdAt || new Date().toISOString()),
     updatedAt: String(prayer?.updatedAt || prayer?.createdAt || new Date().toISOString()),
   });
+
+  const sortPrayers = (prayers) => prayers.sort((a, b) => {
+    const orderA = Number.isFinite(a.order) ? a.order : Number.MAX_SAFE_INTEGER;
+    const orderB = Number.isFinite(b.order) ? b.order : Number.MAX_SAFE_INTEGER;
+    if (orderA !== orderB) return orderA - orderB;
+    return (b.updatedAt || "").localeCompare(a.updatedAt || "");
+  });
+
+  const ensurePrayerOrder = (prayers) => {
+    let changed = false;
+    const next = prayers.map((prayer, index) => {
+      if (Number.isFinite(prayer.order)) return prayer;
+      changed = true;
+      return { ...prayer, order: index };
+    });
+    return { prayers: next, changed };
+  };
+
+  const resequencePrayers = (prayers) => prayers.map((prayer, index) => ({
+    ...normalizePrayer(prayer),
+    order: index,
+  }));
 
   const readPrayers = () => {
     try {
@@ -54,16 +78,18 @@
       if (!raw) return [];
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) return [];
-      return parsed
-        .map(normalizePrayer)
-        .sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
+      const normalized = parsed.map(normalizePrayer);
+      const ordered = sortPrayers(normalized);
+      const { prayers, changed } = ensurePrayerOrder(ordered);
+      if (changed) writePrayers(prayers);
+      return prayers;
     } catch (error) {
       throw error;
     }
   };
 
   const writePrayers = (prayers) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(prayers.map(normalizePrayer)));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(resequencePrayers(prayers)));
   };
 
   const getAllPrayers = async () => readPrayers();
@@ -73,15 +99,32 @@
     const next = normalizePrayer(prayer);
     const index = prayers.findIndex((item) => item.id === next.id);
     if (index >= 0) {
-      prayers[index] = next;
+      prayers[index] = {
+        ...next,
+        order: Number.isFinite(prayers[index].order) ? prayers[index].order : index,
+      };
     } else {
-      prayers.push(next);
+      prayers.push({
+        ...next,
+        order: prayers.length,
+      });
     }
     writePrayers(prayers);
   };
 
   const deletePrayer = async (id) => {
     const prayers = readPrayers().filter((item) => item.id !== id);
+    writePrayers(prayers);
+  };
+
+  const movePrayer = async (id, direction) => {
+    const prayers = readPrayers();
+    const index = prayers.findIndex((item) => item.id === id);
+    if (index < 0) return;
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= prayers.length) return;
+    const [item] = prayers.splice(index, 1);
+    prayers.splice(targetIndex, 0, item);
     writePrayers(prayers);
   };
 
@@ -197,9 +240,9 @@
     qs("unlock-password").value = "";
     qs("unlock-status").textContent = "";
     qs("unlock-title").textContent = action === "edit"
-      ? `“${prayer.title}” 비밀번호를 입력해 주세요.`
-      : `“${prayer.title}” 비밀번호를 입력해 주세요.`;
-    qs("unlock-submit").textContent = action === "edit" ? "수정하기" : "열기";
+      ? `“${prayer.title}” `
+      : `“${prayer.title}” `;
+    qs("unlock-submit").textContent = action === "edit" ? "수정하기" : "펼치기";
     setModal(qs("unlock-modal"), true);
     setTimeout(() => qs("unlock-password").focus(), 30);
   };
@@ -230,11 +273,12 @@
     renderStats(prayers);
     emptyStateEl.classList.toggle("hidden", prayers.length > 0);
 
-    listEl.innerHTML = prayers.map((prayer) => {
+    listEl.innerHTML = prayers.map((prayer, index) => {
       const unlocked = !prayer.isPrivate || unlockedIds.has(prayer.id);
+      const expanded = expandedIds.has(prayer.id);
       const contentHtml = unlocked
-        ? `<div class="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-gray-200">${escapeHTML(prayer.content)}</div>`
-        : `<div class="mt-3 rounded-xl border border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-4 text-sm text-amber-800 dark:text-amber-100">🔒 이 기도문은 가려져 있습니다. 비밀번호를 입력하면 볼 수 있어요.</div>`;
+        ? `<div class="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-gray-200">${escapeHTML(prayer.content)}</div>`
+        : `<div class="rounded-xl border border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-4 text-sm text-amber-800 dark:text-amber-100">🔒 이 기도문은 가려져 있습니다. 비밀번호를 입력하면 볼 수 있어요.</div>`;
 
       return `
         <article class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4">
@@ -245,14 +289,28 @@
                 <span class="text-[11px] px-2 py-1 rounded-full ${prayer.isPrivate ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-100" : "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-100"}">${prayer.isPrivate ? "잠금" : "공개"}</span>
               </div>
               <div class="mt-1 text-xs text-gray-500 dark:text-gray-300">최근 수정: ${escapeHTML(fmtDate(prayer.updatedAt))}</div>
+              <div class="mt-1 text-[11px] text-gray-400 dark:text-gray-500">순서 ${index + 1}</div>
             </div>
-            <div class="flex flex-col gap-2 shrink-0">
-              ${prayer.isPrivate ? (unlocked ? `<button data-action="lock" data-id="${prayer.id}" class="px-3 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-xs font-semibold">다시 가리기</button>` : `<button data-action="unlock" data-id="${prayer.id}" class="px-3 py-2 rounded-xl bg-amber-500 text-white text-xs font-semibold">내용 보기</button>`) : ""}
-              <button data-action="edit" data-id="${prayer.id}" class="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-xs font-semibold">수정</button>
-              <button data-action="delete" data-id="${prayer.id}" class="px-3 py-2 rounded-xl bg-red-600 text-white text-xs font-semibold">삭제</button>
+            <button data-action="toggle" data-id="${prayer.id}" class="shrink-0 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-xs font-semibold">
+              ${expanded ? "접기" : "펼치기"}
+            </button>
+          </div>
+          <div class="mt-3 ${expanded ? "" : "hidden"}">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <button data-action="move-up" data-id="${prayer.id}" ${index === 0 ? "disabled" : ""} class="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed">위로</button>
+                <button data-action="move-down" data-id="${prayer.id}" ${index === prayers.length - 1 ? "disabled" : ""} class="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed">아래로</button>
+              </div>
+              <div class="flex flex-1 items-center justify-between gap-2">
+                <span class="flex-1"></span>
+                <button data-action="edit" data-id="${prayer.id}" class="flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-xs font-semibold">수정</button>
+                <button data-action="delete" data-id="${prayer.id}" class="flex-1 px-3 py-2 rounded-xl bg-red-600 text-white text-xs font-semibold">삭제</button>
+              </div>
+            </div>
+            <div class="mt-3">
+              ${contentHtml}
             </div>
           </div>
-          ${contentHtml}
         </article>`;
     }).join("");
 
@@ -263,11 +321,23 @@
         if (!prayer) return;
 
         const action = button.dataset.action;
-        if (action === "unlock") {
-          openUnlock(prayer);
-        } else if (action === "lock") {
-          unlockedIds.delete(prayer.id);
+        if (action === "toggle") {
+          if (!expandedIds.has(prayer.id) && prayer.isPrivate && !unlockedIds.has(prayer.id)) {
+            openUnlock(prayer, "view");
+            return;
+          }
+          if (expandedIds.has(prayer.id)) {
+            expandedIds.delete(prayer.id);
+          } else {
+            expandedIds.add(prayer.id);
+          }
           renderList();
+        } else if (action === "move-up") {
+          await movePrayer(prayer.id, "up");
+          await renderList();
+        } else if (action === "move-down") {
+          await movePrayer(prayer.id, "down");
+          await renderList();
         } else if (action === "edit") {
           if (prayer.isPrivate && !unlockedIds.has(prayer.id)) {
             openUnlock(prayer, "edit");
@@ -325,6 +395,7 @@
 
       await savePrayer(next);
       if (!isPrivate) unlockedIds.add(next.id);
+      expandedIds.add(next.id);
       closeForm();
       await renderList();
     });
@@ -349,12 +420,14 @@
       }
 
       unlockedIds.add(id);
+      expandedIds.add(id);
       if (pendingUnlockAction === "edit") {
         closeUnlock();
         openForm(target);
         return;
       }
       closeUnlock();
+      expandedIds.add(id);
       await renderList();
     });
   });
@@ -363,6 +436,17 @@
     if (event.key !== "Escape") return;
     if (!qs("unlock-modal").classList.contains("hidden")) closeUnlock();
     if (!qs("form-modal").classList.contains("hidden")) closeForm();
+  });
+
+  qs("expand-all")?.addEventListener("click", async () => {
+    const prayers = await getAllPrayers();
+    prayers.forEach((prayer) => expandedIds.add(prayer.id));
+    renderList();
+  });
+
+  qs("collapse-all")?.addEventListener("click", () => {
+    expandedIds.clear();
+    renderList();
   });
 
   if ("serviceWorker" in navigator) {
