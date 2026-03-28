@@ -32,6 +32,75 @@
     },
   };
 
+  const BIBLE_BOOK_NAMES = {
+    창: "창세기",
+    출: "출애굽기",
+    레: "레위기",
+    민: "민수기",
+    신: "신명기",
+    수: "여호수아",
+    삿: "사사기",
+    룻: "룻기",
+    삼상: "사무엘상",
+    삼하: "사무엘하",
+    왕상: "열왕기상",
+    왕하: "열왕기하",
+    대상: "역대상",
+    대하: "역대하",
+    스: "에스라",
+    느: "느헤미야",
+    에: "에스더",
+    욥: "욥기",
+    시: "시편",
+    잠: "잠언",
+    전: "전도서",
+    아: "아가",
+    사: "이사야",
+    렘: "예레미야",
+    애: "예레미야애가",
+    겔: "에스겔",
+    단: "다니엘",
+    호: "호세아",
+    욜: "요엘",
+    암: "아모스",
+    옵: "오바댜",
+    욘: "요나",
+    미: "미가",
+    나: "나훔",
+    합: "하박국",
+    습: "스바냐",
+    학: "학개",
+    슥: "스가랴",
+    말: "말라기",
+    마: "마태복음",
+    막: "마가복음",
+    눅: "누가복음",
+    요: "요한복음",
+    행: "사도행전",
+    롬: "로마서",
+    고전: "고린도전서",
+    고후: "고린도후서",
+    갈: "갈라디아서",
+    엡: "에베소서",
+    빌: "빌립보서",
+    골: "골로새서",
+    살전: "데살로니가전서",
+    살후: "데살로니가후서",
+    딤전: "디모데전서",
+    딤후: "디모데후서",
+    딛: "디도서",
+    몬: "빌레몬서",
+    히: "히브리서",
+    약: "야고보서",
+    벧전: "베드로전서",
+    벧후: "베드로후서",
+    요일: "요한일서",
+    요이: "요한이서",
+    요삼: "요한삼서",
+    유: "유다서",
+    계: "요한계시록",
+  };
+
   // ======================
   // Date / Week
   // ======================
@@ -176,6 +245,85 @@
       .trim();
   };
 
+  const splitVersePart = (versePart) => {
+    const parts = String(versePart || "")
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    return parts.map((part) => {
+      const range = part.match(/^(\d+)\s*-\s*(\d+)$/);
+      if (range) {
+        return { start: Number(range[1]), end: Number(range[2]) };
+      }
+
+      const single = part.match(/^(\d+)$/);
+      if (single) {
+        const num = Number(single[1]);
+        return { start: num, end: num };
+      }
+
+      return { raw: part };
+    });
+  };
+
+  const formatVerseLabel = (versePart) => {
+    const refs = splitVersePart(versePart);
+    if (!refs.length) return String(versePart || "").trim();
+
+    return refs
+      .map((part) => {
+        if (part.raw) return part.raw;
+        if (part.start === part.end) return `${part.start}`;
+        return `${part.start}-${part.end}`;
+      })
+      .join(", ");
+  };
+
+  const formatVerseLabelForTTS = (versePart) => {
+    const refs = splitVersePart(versePart);
+    if (!refs.length) return sanitizeForTTS(versePart);
+
+    return refs
+      .map((part) => {
+        if (part.raw) return sanitizeForTTS(part.raw);
+        if (part.start === part.end) return `${part.start}절`;
+        return `${part.start}절에서 ${part.end}절`;
+      })
+      .join(", ");
+  };
+
+  const parseBibleRef = (ref) => {
+    const raw = String(ref || "").trim();
+    const match = raw.match(/^([가-힣]+)\s+(\d+):(.+)$/);
+    if (!match) return null;
+
+    return {
+      shortBook: match[1],
+      chapter: Number(match[2]),
+      versePart: match[3].trim(),
+    };
+  };
+
+  const formatDisplayRef = (ref) => {
+    const parsed = parseBibleRef(ref);
+    if (!parsed) return ref || "";
+
+    const longBook = BIBLE_BOOK_NAMES[parsed.shortBook] || parsed.shortBook;
+    return `${longBook} ${parsed.chapter}:${formatVerseLabel(parsed.versePart)}`;
+  };
+
+  const formatTTSRef = (ref) => {
+    const parsed = parseBibleRef(ref);
+    if (!parsed) {
+      const fallback = sanitizeForTTS(ref);
+      return fallback ? `${fallback} 말씀.` : "하나님의 말씀.";
+    }
+
+    const longBook = BIBLE_BOOK_NAMES[parsed.shortBook] || parsed.shortBook;
+    return `${longBook} ${parsed.chapter}장 ${formatVerseLabelForTTS(parsed.versePart)} 말씀.`;
+  };
+
   const getRateByPreset = (preset) => {
     if (preset === "slow") return 0.95;
     if (preset === "fast") return 1.05;
@@ -250,6 +398,45 @@
     return u;
   };
 
+  const playTTSSequence = (segments, cfg, onDone) => {
+    const queue = Array.isArray(segments) ? segments.filter(Boolean) : [];
+    if (!queue.length) {
+      onDone?.();
+      return;
+    }
+
+    const playNext = (index) => {
+      if (!ttsRuntime.playing) return;
+
+      const item = queue[index];
+      if (!item) {
+        onDone?.();
+        return;
+      }
+
+      const u = speakOnce(item.text, cfg);
+      if (!u) {
+        stopTTS();
+        return;
+      }
+
+      u.onend = () => {
+        if (!ttsRuntime.playing) return;
+
+        const delay = Math.max(0, Number(item.delayMs) || 0);
+        clearTTSTimer();
+        ttsRuntime.timer = setTimeout(() => {
+          if (!ttsRuntime.playing) return;
+          playNext(index + 1);
+        }, delay);
+      };
+
+      u.onerror = () => stopTTS();
+    };
+
+    playNext(0);
+  };
+
   const startTTS = (state) => {
     const verse = state.DATA.weeks.find((v) => v.week === state.selectedWeek);
     if (!verse) return;
@@ -257,31 +444,31 @@
     ensureDefaultGoogleVoiceSavedIfAvailable();
 
     const cfg = getTTS();
-    const text = sanitizeForTTS(verse.text);
+    const verseText = sanitizeForTTS(verse.text);
+    const refText = sanitizeForTTS(`${formatTTSRef(verse.ref)} 아멘!`);
 
     ttsRuntime.playing = true;
     setTTSStatus(`암송: ${cfg.gapSec}초 텀`);
 
-    const u = speakOnce(text, cfg);
-    if (!u) {
-      stopTTS();
-      return;
-    }
-
-    u.onend = () => {
-      if (!ttsRuntime.playing) return;
-
-      const cur = getTTS();
-      const gapMs = clamp(Number(cur.gapSec) || 10, 1, 999) * 1000;
-
-      clearTTSTimer();
-      ttsRuntime.timer = setTimeout(() => {
+    playTTSSequence(
+      [
+        { text: verseText, delayMs: 1000 },
+        { text: refText, delayMs: 0 },
+      ],
+      cfg,
+      () => {
         if (!ttsRuntime.playing) return;
-        startTTS(state);
-      }, gapMs);
-    };
 
-    u.onerror = () => stopTTS();
+        const cur = getTTS();
+        const gapMs = clamp(Number(cur.gapSec) || 10, 1, 999) * 1000;
+
+        clearTTSTimer();
+        ttsRuntime.timer = setTimeout(() => {
+          if (!ttsRuntime.playing) return;
+          startTTS(state);
+        }, gapMs);
+      }
+    );
   };
 
   // ======================
@@ -334,7 +521,7 @@
           ${verse.text}
         </div>
 
-        <div class="mt-3 text-sm text-gray-500 dark:text-gray-300">— ${verse.ref}</div>
+        <div class="mt-3 text-sm text-gray-500 dark:text-gray-300">— ${formatDisplayRef(verse.ref)}</div>
 
         <button id="done-btn"
           class="mt-4 w-full py-3 rounded-xl text-white font-semibold shadow-sm active:scale-[0.99]
