@@ -65,11 +65,18 @@
     lastUrl: null, // 마지막으로 로드한 음원 URL (패널 토글로 재로딩 방지)
   };
 
+  const GOODTV_SILENT_WAV =
+    "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=";
+
   const ensureGoodtvAudio = () => {
     if (goodtvAudio.el) return goodtvAudio.el;
     const a = new Audio();
     a.preload = "metadata";
     a.playsInline = true;
+    try {
+      a.setAttribute("playsinline", "");
+      a.setAttribute("webkit-playsinline", "");
+    } catch (_) {}
     goodtvAudio.el = a;
     return a;
   };
@@ -118,6 +125,50 @@
       audio.load();
     } catch (_) {}
     return waitForGoodtvReady(audio, timeoutMs);
+  };
+
+  const primeGoodtvPlayback = async () => {
+    const a = ensureGoodtvAudio();
+    if (a.__goodtvUnlocked) return true;
+
+    const ua = navigator.userAgent || "";
+    const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(ua) ||
+      (navigator.maxTouchPoints > 1 && /Macintosh/i.test(ua));
+
+    if (!isMobile) {
+      a.__goodtvUnlocked = true;
+      return true;
+    }
+
+    const prevSrc = a.getAttribute("src") || "";
+    const prevMuted = a.muted;
+    const prevVolume = a.volume;
+
+    try {
+      a.muted = true;
+      a.volume = 0;
+      a.src = prevSrc || GOODTV_SILENT_WAV;
+      a.load();
+      await a.play();
+      a.pause();
+      a.__goodtvUnlocked = true;
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      a.muted = prevMuted;
+      a.volume = prevVolume;
+      try {
+        if (prevSrc) {
+          a.src = prevSrc;
+          a.load();
+        } else {
+          a.removeAttribute("src");
+          a.load();
+        }
+      } catch (_) {}
+    }
   };
 
   const fmtTime = (sec) => {
@@ -285,7 +336,20 @@
     qs("#goodtv-play")
       .off("click")
       .on("click", async () => {
-        if (!a.src) await loadGoodtvFromCtx({ autoplay: false });
+        await primeGoodtvPlayback();
+        if (!a.src) {
+          const url = getGoodtvUrlFromCtx();
+          if (url) {
+            goodtvAudio.lastUrl = url;
+            a.src = url;
+            try {
+              a.load();
+            } catch (_) {}
+            loadGoodtvFromCtx({ autoplay: false, preserve: true }).catch(() => {});
+          } else {
+            await loadGoodtvFromCtx({ autoplay: false });
+          }
+        }
         if (!a.src) return;
 
         if (!goodtvAudio.playing) {
@@ -580,6 +644,7 @@
     qs("#goodtv-play-day")
       .off("click")
       .on("click", async () => {
+        await primeGoodtvPlayback();
         await playGoodtvDayQueue(state);
       });
 
