@@ -70,13 +70,20 @@
 
   const ensureGoodtvAudio = () => {
     if (goodtvAudio.el) return goodtvAudio.el;
-    const a = new Audio();
+    const a =
+      document.getElementById("goodtv-audio-el") ||
+      document.createElement("audio");
     a.preload = "metadata";
     a.playsInline = true;
     try {
       a.setAttribute("playsinline", "");
       a.setAttribute("webkit-playsinline", "");
     } catch (_) {}
+    if (!a.id) a.id = "goodtv-audio-el";
+    if (!a.isConnected) {
+      a.className = "sr-only";
+      document.body.appendChild(a);
+    }
     goodtvAudio.el = a;
     return a;
   };
