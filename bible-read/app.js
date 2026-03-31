@@ -68,9 +68,56 @@
   const ensureGoodtvAudio = () => {
     if (goodtvAudio.el) return goodtvAudio.el;
     const a = new Audio();
-    a.preload = "none";
+    a.preload = "metadata";
+    a.playsInline = true;
     goodtvAudio.el = a;
     return a;
+  };
+
+  const waitForGoodtvReady = (audio, timeoutMs = 10000) =>
+    new Promise((resolve) => {
+      if (!audio) return resolve(false);
+      if (audio.readyState >= 2) return resolve(true);
+
+      let done = false;
+      let timer = null;
+
+      const finish = (ok) => {
+        if (done) return;
+        done = true;
+        if (timer) clearTimeout(timer);
+        audio.removeEventListener("loadedmetadata", onReady);
+        audio.removeEventListener("loadeddata", onReady);
+        audio.removeEventListener("canplay", onReady);
+        audio.removeEventListener("canplaythrough", onReady);
+        audio.removeEventListener("error", onFail);
+        audio.removeEventListener("stalled", onFail);
+        audio.removeEventListener("abort", onFail);
+        resolve(ok);
+      };
+
+      const onReady = () => finish(true);
+      const onFail = () => finish(false);
+
+      audio.addEventListener("loadedmetadata", onReady, { once: true });
+      audio.addEventListener("loadeddata", onReady, { once: true });
+      audio.addEventListener("canplay", onReady, { once: true });
+      audio.addEventListener("canplaythrough", onReady, { once: true });
+      audio.addEventListener("error", onFail, { once: true });
+      audio.addEventListener("stalled", onFail, { once: true });
+      audio.addEventListener("abort", onFail, { once: true });
+
+      timer = setTimeout(() => finish(audio.readyState >= 1), timeoutMs);
+    });
+
+  const setGoodtvSource = async (audio, url, timeoutMs = 10000) => {
+    if (!audio || !url) return false;
+    const sameSrc = audio.src === url;
+    if (!sameSrc) audio.src = url;
+    try {
+      audio.load();
+    } catch (_) {}
+    return waitForGoodtvReady(audio, timeoutMs);
   };
 
   const fmtTime = (sec) => {
@@ -184,7 +231,7 @@
     }
 
     goodtvAudio.lastUrl = url; // ✅ 여기서만 갱신
-    a.src = url;
+    await setGoodtvSource(a, url, 10000);
 
     setGoodtvPanelText("GOOD TV 원음", await formatGoodtvRef(ctx));
 
@@ -489,28 +536,7 @@
 
       const url = buildGoodTvBibleAudioUrl(item.bookNum, item.chapter);
       goodtvAudio.lastUrl = url; // ✅ 큐 재생 중에도 마지막 URL 갱신 (패널 토글 재로딩 방지)
-      a.src = url;
-
-      // iOS/Safari 등에서 src 변경 직후 play()가 실패/끊김 나는 경우가 있어
-      // load() + canplay 대기 후 재생을 시도한다.
-      try {
-        a.load();
-        await new Promise((resolve) => {
-          let done = false;
-          const finish = () => {
-            if (done) return;
-            done = true;
-            a.removeEventListener("canplay", onCanPlay);
-            a.removeEventListener("error", onErr);
-            resolve();
-          };
-          const onCanPlay = () => finish();
-          const onErr = () => finish();
-          a.addEventListener("canplay", onCanPlay, { once: true });
-          a.addEventListener("error", onErr, { once: true });
-          setTimeout(finish, 1500); // 너무 오래 대기하지 않기
-        });
-      } catch (_) {}
+      await setGoodtvSource(a, url, 12000);
 
       // seek UI 리셋
       qs("#goodtv-seek").val(0);
