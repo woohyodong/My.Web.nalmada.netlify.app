@@ -280,6 +280,44 @@
       .join(", ");
   };
 
+  const formatNumberForTTS = (value) => {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return sanitizeForTTS(value);
+    if (num === 0) return "영";
+
+    const units = ["", "십", "백", "천"];
+    const bigUnits = ["", "만", "억"];
+    let n = Math.trunc(Math.abs(num));
+    const groups = [];
+
+    while (n > 0) {
+      groups.push(n % 10000);
+      n = Math.floor(n / 10000);
+    }
+
+    const parts = groups
+      .map((group, groupIndex) => {
+        if (!group) return "";
+
+        const digits = String(group).padStart(4, "0").split("").map(Number);
+        const groupText = digits
+          .map((digit, digitIndex) => {
+            if (!digit) return "";
+            const unit = units[3 - digitIndex];
+            const digitText = digit === 1 && unit ? "" : "일이삼사오육칠팔구"[digit - 1];
+            return `${digitText}${unit}`;
+          })
+          .join("");
+
+        return `${groupText}${bigUnits[groupIndex]}`;
+      })
+      .filter(Boolean)
+      .reverse()
+      .join("");
+
+    return num < 0 ? `마이너스 ${parts}` : parts;
+  };
+
   const formatVerseLabelForTTS = (versePart) => {
     const refs = splitVersePart(versePart);
     if (!refs.length) return sanitizeForTTS(versePart);
@@ -287,8 +325,8 @@
     return refs
       .map((part) => {
         if (part.raw) return sanitizeForTTS(part.raw);
-        if (part.start === part.end) return `${part.start}절`;
-        return `${part.start}절에서 ${part.end}절`;
+        if (part.start === part.end) return `${formatNumberForTTS(part.start)}절`;
+        return `${formatNumberForTTS(part.start)}절에서 ${formatNumberForTTS(part.end)}절`;
       })
       .join(", ");
   };
@@ -313,6 +351,12 @@
     return `${longBook} ${parsed.chapter}:${formatVerseLabel(parsed.versePart)}`;
   };
 
+  const isPsalmsRef = (parsed) => {
+    if (!parsed) return false;
+    const bookName = BIBLE_BOOK_NAMES[parsed.shortBook] || parsed.shortBook;
+    return parsed.shortBook === "시" || bookName === "시편";
+  };
+
   const formatTTSRef = (ref) => {
     const parsed = parseBibleRef(ref);
     if (!parsed) {
@@ -321,7 +365,8 @@
     }
 
     const longBook = BIBLE_BOOK_NAMES[parsed.shortBook] || parsed.shortBook;
-    return `${longBook} ${parsed.chapter}장 ${formatVerseLabelForTTS(parsed.versePart)} 말씀.`;
+    const chapterUnit = isPsalmsRef(parsed) ? "편" : "장";
+    return `${longBook} ${formatNumberForTTS(parsed.chapter)}${chapterUnit} ${formatVerseLabelForTTS(parsed.versePart)} 말씀.`;
   };
 
   const getRateByPreset = (preset) => {
