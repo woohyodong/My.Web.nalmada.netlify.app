@@ -330,7 +330,7 @@
     // ✅ 공유는 "실행"이 아니라 "전달"이 목적이므로:
     // TWA(앱)에서는 Play 링크 공유(가장 기대 동작이 명확)
     // 웹에서는 사이트 링크 공유
-    const shareUrl = (isTwa && isAndroid) ? PLAY_URL : siteUrl;
+    const shareUrl = window.SiteShare?.getDefaultShareUrl(siteUrl) || ((isTwa && isAndroid) ? PLAY_URL : siteUrl);
 
     const copyToClipboard = async (value) => {
       const v = String(value ?? "");

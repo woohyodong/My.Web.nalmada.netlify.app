@@ -144,6 +144,57 @@
   window.SiteTextSize = { get: getTextSize, set: setTextSize, apply: applyTextSize, bindButtons: bindTextSizeButtons };
 
   // =========================
+  // Share (Global)
+  // =========================
+  const SHARE_APP_PACKAGE = "app.netlify.nalmada.twa";
+  const SHARE_PLAY_URL = `https://play.google.com/store/apps/details?id=${encodeURIComponent(SHARE_APP_PACKAGE)}`;
+
+  const isAndroid = () => /Android/i.test(navigator.userAgent);
+
+  const isTwa = () => {
+    const ref = String(document.referrer || "");
+    if (ref.startsWith(`android-app://${SHARE_APP_PACKAGE}`)) return true;
+
+    const isStandalone = window.matchMedia?.("(display-mode: standalone)")?.matches ?? false;
+    const ua = navigator.userAgent;
+    const looksWebView = /\bwv\b/i.test(ua) || /Version\/\d+/i.test(ua);
+    return Boolean(isAndroid() && isStandalone && looksWebView);
+  };
+
+  const getDefaultShareUrl = (fallbackUrl) => {
+    if (isTwa()) return SHARE_PLAY_URL;
+    return String(fallbackUrl || `${location.origin}/`);
+  };
+
+  const copyText = async (value) => {
+    const text = String(value ?? "");
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    ta.style.top = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  };
+
+  window.SiteShare = {
+    APP_PACKAGE: SHARE_APP_PACKAGE,
+    PLAY_URL: SHARE_PLAY_URL,
+    isAndroid,
+    isTwa,
+    getDefaultShareUrl,
+    copyText,
+  };
+
+  // =========================
   // Overlay Back Manager
   // =========================
   const STACK = []; // [{ key, close }]

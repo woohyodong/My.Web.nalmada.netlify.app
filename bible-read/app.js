@@ -1209,17 +1209,18 @@
     const $share = qs("#share-btn");
     if ($share.length) {
       $share.off("click").on("click", async () => {
-        const url = new URL(location.href);
-        url.searchParams.set("day", String(state.selectedDay));
+        const pageUrl = new URL(location.href);
+        pageUrl.searchParams.set("day", String(state.selectedDay));
+        const shareUrl = window.SiteShare?.getDefaultShareUrl(pageUrl.toString()) || pageUrl.toString();
         const shareData = {
           title: "나의신앙생활 · 365일 일독",
           text: "오늘 분량을 확인해요",
-          url: url.toString(),
+          url: shareUrl,
         };
         try {
           if (navigator.share) await navigator.share(shareData);
           else {
-            await navigator.clipboard.writeText(url.toString());
+            await (window.SiteShare?.copyText?.(shareUrl) ?? navigator.clipboard.writeText(shareUrl));
             alert("링크를 복사했어요!");
           }
         } catch {}

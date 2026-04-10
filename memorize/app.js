@@ -180,14 +180,15 @@
   };
 
   const tryShare = async (week) => {
-    const url = buildShareUrl(week);
+    const pageUrl = buildShareUrl(week);
+    const url = window.SiteShare?.getDefaultShareUrl(pageUrl) || pageUrl;
     const title = "나의신앙생활 · 주간 암송";
 
     try {
       if (navigator.share) {
         await navigator.share({ title, url });
       } else {
-        await navigator.clipboard.writeText(url.toString());
+        await (window.SiteShare?.copyText?.(url.toString()) ?? navigator.clipboard.writeText(url.toString()));
         alert("링크를 복사했어요!");
       }
     } catch (_) {}
