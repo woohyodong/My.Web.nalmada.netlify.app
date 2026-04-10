@@ -148,17 +148,40 @@
   // =========================
   const SHARE_APP_PACKAGE = "app.netlify.nalmada.twa";
   const SHARE_PLAY_URL = `https://play.google.com/store/apps/details?id=${encodeURIComponent(SHARE_APP_PACKAGE)}`;
+  const SHARE_TWA_SESSION_KEY = "nalmada:share:twa-session";
 
   const isAndroid = () => /Android/i.test(navigator.userAgent);
 
+  const getPersistedTwaSession = () => {
+    try {
+      return sessionStorage.getItem(SHARE_TWA_SESSION_KEY) === "1";
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const persistTwaSession = (enabled) => {
+    try {
+      if (enabled) sessionStorage.setItem(SHARE_TWA_SESSION_KEY, "1");
+      else sessionStorage.removeItem(SHARE_TWA_SESSION_KEY);
+    } catch (_) {}
+  };
+
   const isTwa = () => {
     const ref = String(document.referrer || "");
-    if (ref.startsWith(`android-app://${SHARE_APP_PACKAGE}`)) return true;
+    if (ref.startsWith(`android-app://${SHARE_APP_PACKAGE}`)) {
+      persistTwaSession(true);
+      return true;
+    }
+
+    if (getPersistedTwaSession()) return true;
 
     const isStandalone = window.matchMedia?.("(display-mode: standalone)")?.matches ?? false;
     const ua = navigator.userAgent;
     const looksWebView = /\bwv\b/i.test(ua) || /Version\/\d+/i.test(ua);
-    return Boolean(isAndroid() && isStandalone && looksWebView);
+    const detected = Boolean(isAndroid() && isStandalone && looksWebView);
+    if (detected) persistTwaSession(true);
+    return detected;
   };
 
   const getDefaultShareUrl = (fallbackUrl) => {
