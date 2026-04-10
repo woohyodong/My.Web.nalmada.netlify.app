@@ -370,9 +370,15 @@
   };
 
   const getRateByPreset = (preset) => {
-    if (preset === "slow") return 0.95;
-    if (preset === "fast") return 1.05;
+    if (preset === "slow") return 0.8;
+    if (preset === "fast") return 1.3;
     return 1.0;
+  };
+
+  const getRatePresetLabel = (preset) => {
+    if (preset === "slow") return "느림 0.8x";
+    if (preset === "fast") return "빠름 1.3x";
+    return "보통 1.0x";
   };
 
   const getAllVoices = () => {
@@ -650,21 +656,24 @@
                 ${cfg.ratePreset === "slow"
                   ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-100 dark:border-blue-800"
                   : "bg-white dark:bg-gray-900/40 text-gray-800 dark:text-gray-100"
-                }">느림</button>
+                }">&#45712;&#47548;</button>
 
             <button data-rate="normal"
               class="rate-btn rounded-xl border border-gray-200 dark:border-gray-700 py-2 text-sm font-semibold
                 ${cfg.ratePreset === "normal"
                   ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-100 dark:border-blue-800"
                   : "bg-white dark:bg-gray-900/40 text-gray-800 dark:text-gray-100"
-                }">보통</button>
+                }">&#48372;&#53685;</button>
 
             <button data-rate="fast"
               class="rate-btn rounded-xl border border-gray-200 dark:border-gray-700 py-2 text-sm font-semibold
                 ${cfg.ratePreset === "fast"
                   ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-100 dark:border-blue-800"
                   : "bg-white dark:bg-gray-900/40 text-gray-800 dark:text-gray-100"
-                }">빠름</button>
+                }">&#48736;&#47492;</button>
+          </div>
+          <div class="mt-1 text-[11px] text-gray-400 dark:text-gray-500">
+            &#54788;&#51116; &#49549;&#46020;: ${getRatePresetLabel(cfg.ratePreset)}
           </div>
         </div>
 
@@ -732,6 +741,10 @@
         const cur = getTTS();
         setTTS({ ...cur, ratePreset: preset });
         renderTTS(state);
+        if (ttsRuntime.playing) {
+          stopTTS();
+          startTTS(state);
+        }
       });
 
     $q("#tts-voice")
