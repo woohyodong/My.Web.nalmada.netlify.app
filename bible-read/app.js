@@ -212,6 +212,20 @@
     qs("#goodtv-play").text(playing ? "❚❚" : "▶");
   };
 
+  const resetGoodtvAfterFailure = (audio) => {
+    const a = audio || goodtvAudio.el;
+    try {
+      if (a) {
+        a.pause();
+        a.removeAttribute("src");
+        a.load();
+      }
+    } catch (_) {}
+    goodtvAudio.playing = false;
+    goodtvAudio.lastUrl = null;
+    setGoodtvPlayBtn(false);
+  };
+
   const stopGoodtvAudio = () => {
     const a = ensureGoodtvAudio();
     try {
@@ -288,9 +302,20 @@
       return;
     }
 
-    goodtvAudio.lastUrl = url; // ✅ 여기서만 갱신
-    await setGoodtvSource(a, url, 10000);
+    const sourceReady = await setGoodtvSource(a, url, 10000);
+    if (!sourceReady) {
+      resetGoodtvAfterFailure(a);
+      setGoodtvPanelText("GOOD TV 원음", await formatGoodtvRef(ctx));
+      qs("#goodtv-seek").val(0);
+      qs("#goodtv-time").text("0:00");
+      qs("#goodtv-duration").text("0:00");
+      try {
+        window.__goodtvUpdateNav && window.__goodtvUpdateNav();
+      } catch (_) {}
+      return false;
+    }
 
+    goodtvAudio.lastUrl = url;
     setGoodtvPanelText("GOOD TV 원음", await formatGoodtvRef(ctx));
 
     // UI 리셋
@@ -304,8 +329,7 @@
         goodtvAudio.playing = true;
         setGoodtvPlayBtn(true);
       } catch (_) {
-        goodtvAudio.playing = false;
-        setGoodtvPlayBtn(false);
+        resetGoodtvAfterFailure(a);
       }
     } else {
       goodtvAudio.playing = false;
@@ -314,6 +338,7 @@
     try {
       window.__goodtvUpdateNav && window.__goodtvUpdateNav();
     } catch (_) {}
+    return true;
   };
 
   const toggleGoodtvPanel = async () => {
@@ -345,17 +370,7 @@
       .on("click", async () => {
         await primeGoodtvPlayback();
         if (!a.src) {
-          const url = getGoodtvUrlFromCtx();
-          if (url) {
-            goodtvAudio.lastUrl = url;
-            a.src = url;
-            try {
-              a.load();
-            } catch (_) {}
-            loadGoodtvFromCtx({ autoplay: false, preserve: true }).catch(() => {});
-          } else {
-            await loadGoodtvFromCtx({ autoplay: false });
-          }
+          await loadGoodtvFromCtx({ autoplay: false, preserve: false });
         }
         if (!a.src) return;
 
@@ -365,8 +380,7 @@
             goodtvAudio.playing = true;
             setGoodtvPlayBtn(true);
           } catch (_) {
-            goodtvAudio.playing = false;
-            setGoodtvPlayBtn(false);
+            resetGoodtvAfterFailure(a);
           }
         } else {
           a.pause();
@@ -376,6 +390,13 @@
       });
 
     // 이전/다음 장 (단순 ±1)
+    if (!a.__goodtvFailureBound) {
+      a.__goodtvFailureBound = true;
+      a.addEventListener("error", () => resetGoodtvAfterFailure(a));
+      a.addEventListener("stalled", () => resetGoodtvAfterFailure(a));
+      a.addEventListener("abort", () => resetGoodtvAfterFailure(a));
+    }
+
     const navCache = { day: null, queue: null };
 
     const getNavQueue = async () => {
@@ -606,8 +627,13 @@
       }); // ✅ (추가)
 
       const url = buildGoodTvBibleAudioUrl(item.bookNum, item.chapter);
-      goodtvAudio.lastUrl = url; // ✅ 큐 재생 중에도 마지막 URL 갱신 (패널 토글 재로딩 방지)
-      await setGoodtvSource(a, url, 12000);
+      const sourceReady = await setGoodtvSource(a, url, 12000);
+      if (!sourceReady) {
+        goodtvDayRuntime.playing = false;
+        resetGoodtvAfterFailure(a);
+        return;
+      }
+      goodtvAudio.lastUrl = url;
 
       // seek UI 리셋
       qs("#goodtv-seek").val(0);
@@ -619,8 +645,8 @@
         goodtvAudio.playing = true;
         setGoodtvPlayBtn(true);
       } catch (_) {
-        goodtvAudio.playing = false;
-        setGoodtvPlayBtn(false);
+        goodtvDayRuntime.playing = false;
+        resetGoodtvAfterFailure(a);
       }
     };
 

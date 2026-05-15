@@ -55,6 +55,15 @@ self.addEventListener("fetch", (e) => {
 
   // HTML / JS / JSON → network-first
   if (
+    req.destination === "audio" ||
+    req.url.includes("/online_bible/goodtvbible/Revision/") ||
+    req.url.endsWith(".mp3")
+  ) {
+    e.respondWith(fetch(req));
+    return;
+  }
+
+  if (
     req.mode === "navigate" ||
     req.destination === "script" ||
     req.destination === "document" ||
